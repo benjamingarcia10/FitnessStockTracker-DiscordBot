@@ -19,7 +19,7 @@ def send_startup_discord_webhook(items_being_tracked, interval):
             item_number += 1
 
         start_webhook = DiscordWebhook(username='Rogue Stock',
-                                       url=os.getenv('DISCORD_WEBHOOK_URL'),
+                                       url=os.getenv('ROGUE_FITNESS_WEBHOOK_URL'),
                                        avatar_url='https://i.imgur.com/LbZlRjA.png,',
                                        content='@everyone'
                                        )
@@ -42,7 +42,7 @@ def send_discord_webhook(product_tag, item_variations, item_link='', image_url='
         stock_description = f'**Time Checked:** {time_checked}\n\n{item_variations}'
 
         stock_webhook = DiscordWebhook(username='Rogue Stock',
-                                       url=os.getenv('DISCORD_WEBHOOK_URL'),
+                                       url=os.getenv('ROGUE_FITNESS_WEBHOOK_URL'),
                                        avatar_url='https://i.imgur.com/LbZlRjA.png',
                                        content='@everyone'
                                        )
