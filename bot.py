@@ -21,12 +21,16 @@ async def on_ready():
 @client.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
+        await ctx.message.delete()
         await ctx.send("You don't have the permissions to run this command!")
     elif isinstance(error, commands.MissingRole):
+        await ctx.message.delete()
         await ctx.send("You don't have the proper role(s) to run this command!")
     elif isinstance(error, commands.MissingRequiredArgument):
+        await ctx.message.delete()
         await ctx.send('Please pass in all required arguments.')
     elif isinstance(error, commands.CommandNotFound):
+        await ctx.message.delete()
         await ctx.send('Command not found.')
     else:
         print(error)
