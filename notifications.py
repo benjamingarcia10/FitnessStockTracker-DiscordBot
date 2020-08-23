@@ -51,8 +51,11 @@ def send_discord_webhook(product_tag, item_variations, item_link='', image_url='
                                    description=stock_description,
                                    url=item_link)
         stock_embed.set_footer(text=f'Checked: {time_checked}', icon_url='https://i.imgur.com/LbZlRjA.png')
-        # stock_embed.set_thumbnail(url=image_url)
-        stock_embed.set_image(url=image_url)
+        if image_url == '' or image_url == 'NOT FOUND':
+            pass
+        else:
+            # stock_embed.set_thumbnail(url=image_url)
+            stock_embed.set_image(url=image_url)
         stock_webhook.add_embed(stock_embed)
         response = stock_webhook.execute()
     except:
