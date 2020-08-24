@@ -1,5 +1,4 @@
-from items import search_urls
-# from getData import get_data_from_url
+from getData import get_data_from_url
 import threading
 from datetime import datetime
 from notifications import send_discord_webhook, send_text_notification
@@ -7,58 +6,45 @@ import json
 import concurrent.futures
 from playsound import playsound
 
-# FOR getData FUNCTIONS
-import requests
-import re
-from uselessItems import useless_items
-from bs4 import BeautifulSoup as soup
+import variables
 
-is_tracking_rogue = False
-items_to_check = {}
 check_counter = 0
 start_time = None
 longest_run_time = None
 average_run_time = None
 total_run_time = None
-checked_items = {}
 MAX_THREADS = 20
 
 
 # Reset all variables to initial state to run new instance of tracking
 def reset_rogue_variables():
-    global is_tracking_rogue, items_to_check, check_counter, \
-        start_time, longest_run_time, average_run_time, total_run_time, checked_items
-    is_tracking_rogue = False
-    items_to_check = {}
+    global check_counter, start_time, longest_run_time, average_run_time, total_run_time
+    variables.is_tracking_rogue = False
     check_counter = 0
     start_time = None
     longest_run_time = None
     average_run_time = None
     total_run_time = None
-    checked_items = {}
     clear_stock_status()
 
 
 # Start thread to track rogue
-def start_tracking_rogue(rogue_items_to_check):
-    global is_tracking_rogue
-    is_tracking_rogue = True
-    rogue_check_thread = threading.Thread(target=check_items, args=(rogue_items_to_check,))
+def start_tracking_rogue():
+    variables.is_tracking_rogue = True
+    rogue_check_thread = threading.Thread(target=check_items)
     rogue_check_thread.start()
 
 
 # Stop tracking rogue
 def stop_tracking_rogue():
-    global is_tracking_rogue
-    is_tracking_rogue = False
+    variables.is_tracking_rogue = False
 
 
-def check_items(rogue_items_to_check):
-    if not is_tracking_rogue:
+def check_items():
+    if not variables.is_tracking_rogue:
         return
 
-    global items_to_check, check_counter, start_time, longest_run_time, average_run_time, total_run_time
-    items_to_check = rogue_items_to_check
+    global check_counter, start_time, longest_run_time, average_run_time, total_run_time
     start_time = datetime.now()  # Set start time to calculate code execution length
     check_counter += 1
     print(f'Check #{check_counter}')
@@ -86,13 +72,12 @@ def check_items(rogue_items_to_check):
     # checked_items = {}
     # for item in items_to_check:
     #     checked_items[item], items_to_check[item]['image_url'] = get_data_from_url(items_to_check.get(item))
-
-    threads = min(MAX_THREADS, len(items_to_check))
+    threads = min(MAX_THREADS, len(variables.items_to_check))
     with concurrent.futures.ThreadPoolExecutor(max_workers=threads) as executor:
-        executor.map(get_data_from_url, items_to_check.keys())
+        executor.map(get_data_from_url, variables.items_to_check.keys())
         # executor.map(get_data_from_url, items_to_check.keys(), items_to_check.values())
 
-    for item in checked_items:
+    for item in variables.checked_items:
         print(f'\tCHECKED: {item}')
     print()
 
@@ -113,7 +98,7 @@ def check_items(rogue_items_to_check):
     #         'price': '$6.00'
     #     }
     # }
-    in_stock_items = get_in_stock(checked_items)
+    in_stock_items = get_in_stock(variables.checked_items)
 
     # If there are items in stock, play sound and print to console as well as send Discord webhook
     # If no items in stock, print no items in stock
@@ -130,14 +115,14 @@ def check_items(rogue_items_to_check):
                 notification_string += f'{item_variations}: ' \
                                        f'{in_stock_items.get(item).get(item_variations)["price"]}\n' \
                                        f'In Stock: ✅\n\n'
-            item_variations_string += f'\t\tLink: {items_to_check[item]["link"]}\n'
-            notification_string += f'Link: {items_to_check[item]["link"]}\n'
+            item_variations_string += f'\t\tLink: {variables.items_to_check[item]["link"]}\n'
+            notification_string += f'Link: {variables.items_to_check[item]["link"]}\n'
 
             # items_to_check[item]['image_url'][0] because extracting initial element from tuple
             # example: ('https://www.roguefitness.com/media/catalog/product/cache/1/rogue_header_2015/472321edac810f9b2465a359d8cdc0b5/c/a/cadillac-us-kettlebell-h2_revised_v2.jpg',)
-            send_discord_webhook(item, notification_string, item_link=items_to_check[item]["link"],
-                                 image_url=items_to_check[item]['image_url'][0])
-            send_text_notification(item, notification_string, item_link=items_to_check[item]["link"])
+            send_discord_webhook(item, notification_string, item_link=variables.items_to_check[item]["link"],
+                                 image_url=variables.items_to_check[item]['image_url'][0])
+            # send_text_notification(item, notification_string, item_link=variables.items_to_check[item]["link"])
             print(f'\tItem(s) in stock matching: "{item}"')
             print(item_variations_string)
     else:
@@ -162,7 +147,7 @@ def check_items(rogue_items_to_check):
     print(f'\tLongest Run Time: {longest_run_time}')
     print(f'\tAverage Run Time: {average_run_time}\n')
 
-    check_items(items_to_check)
+    check_items()
 
 
 # Return all in stock items based on passed in dict
@@ -208,137 +193,3 @@ def get_in_stock(items):
 def clear_stock_status():
     with open('./stock_status.json', 'w') as f:
         json.dump({}, f, indent=4)
-
-
-def get_data_from_url(item_name):
-    item_type = search_urls[item_name]['type']
-    full_item_name = search_urls[item_name]['product_name']
-    item_link = search_urls[item_name]['link']
-    item_category = search_urls[item_name]['category']
-    page_items = []
-
-    response = requests.get(item_link)
-    redirect_count = len(response.history)
-
-    page_soup = soup(response.text, 'html.parser')
-
-    if item_type == 'multi':
-        grouped_items = page_soup.find_all(class_='grouped-item')
-        for single_item in grouped_items:
-            if full_item_name in useless_items:
-                return
-            new_item = {
-                'name': try_except(lambda: single_item.find(class_='item-name').text.strip(), lambda: 'NOT FOUND'),
-                'price': try_except(lambda: single_item.find(class_='price').text.strip(), lambda: 'NOT FOUND'),
-                'in_stock': try_except(lambda: single_item.find(class_='bin-stock-availability').text.strip(),
-                                       lambda: 'NOT FOUND')
-            }
-            page_items.append(new_item)
-    elif item_type == 'bone':
-        if redirect_count == 0:
-            grouped_items = page_soup.find_all(class_='grouped-item')
-            for single_item in grouped_items:
-                if full_item_name in useless_items:
-                    return
-                new_item = {
-                    'name': try_except(lambda: single_item.find(class_='item-name').text.strip(), lambda: 'NOT FOUND'),
-                    'price': try_except(lambda: single_item.find(class_='price').text.strip(), lambda: 'NOT FOUND'),
-                    'in_stock': try_except(lambda: single_item.find(class_='bin-stock-availability').text.strip(),
-                                           lambda: 'NOT FOUND')
-                }
-                page_items.append(new_item)
-        else:
-            new_item = {
-                'in_stock': 'Notify Me'
-            }
-            page_items.append(new_item)
-    elif item_type == 'grab bag':
-        if redirect_count == 0:
-            page_items = get_data_from_js(page_soup, 'RogueColorSwatches')
-        else:
-            new_item = {
-                'in_stock': 'Notify Me'
-            }
-            page_items.append(new_item)
-    elif item_type == 'cerakote':
-        page_items = get_data_from_js(page_soup, 'relatedColorSwatches')
-    elif item_type == 'monster bench':
-        page_items = get_data_from_js(page_soup, 'RogueColorSwatches', 5)
-    elif item_type == 'rmlc':
-        page_items = get_data_from_js(page_soup, 'RogueColorSwatches', 11)
-    elif item_type == 'trolley':
-        page_items = get_data_from_js(page_soup, 'RogueColorSwatches', 4)
-    elif item_type == 'db15':
-        page_items = get_data_from_js(page_soup, 'RogueColorSwatches', 2)
-    elif item_type == 'custom2':
-        page_items = get_data_from_js(page_soup, 'RogueColorSwatches')
-    elif item_type == 'custom':
-        page_items = get_data_from_js(page_soup, 'ColorSwatches')
-    elif item_type == 'ironmaster':
-        new_item = {
-            'name': try_except(lambda: page_soup.find(class_='product_title').text.strip(), lambda: 'NOT FOUND'),
-            'price': 'N/A',
-            'in_stock': try_except(lambda: page_soup.find(class_='stock').text.strip(), lambda: 'NOT FOUND')
-        }
-        page_items.append(new_item)
-    else:
-        new_item = {
-            'name': try_except(lambda: page_soup.find(class_='product-title').text.strip(), lambda: 'NOT FOUND'),
-            'price': try_except(lambda: page_soup.find(class_='price').text.strip(), lambda: 'NOT FOUND'),
-            'in_stock': try_except(lambda: page_soup.select('.product-options-bottom button')[0].text.strip(),
-                                   lambda: 'NOT FOUND')
-        }
-        page_items.append(new_item)
-    image_url = try_except(lambda: page_soup.find('div', class_='prod-header-img').find('img')['src'],
-                           lambda: 'NOT FOUND'),
-    # return page_items, image_url
-    checked_items[item_name] = page_items
-    items_to_check[item_name]['image_url'] = image_url
-
-
-# Function to extract data from JavaScript script
-def get_data_from_js(page_soup, script_name, slice_amount=0):
-    info = []
-    page_items = []
-
-    scripts = page_soup.find_all(string=re.compile(script_name))
-    for script in scripts:
-        split_data = re.compile('[\[\]]{1,2}').split(script.strip())
-        for split in split_data:
-            if 'additional_options' in split:
-                stripped_str = split[split.index('{'): split.index('stockTitle') - 2]
-                info.append(json.loads(stripped_str + '}}'))
-
-    if slice_amount != 0:
-        info = info[0:slice_amount]
-
-    for item in info:
-        try:
-            if item.get(list(item)[0])['isInStock']:
-                stock_text = 'Add to Cart'
-            else:
-                stock_text = 'Notify Me'
-        except:
-            stock_text = 'NOT FOUND'
-
-        new_item = {
-            'name': try_except(lambda: item.get(list(item)[0])['label'], lambda: 'NOT FOUND'),
-            'price': try_except(lambda: page_soup.find(class_='price').text.strip(), lambda: 'NOT FOUND'),
-            'in_stock': stock_text
-        }
-        page_items.append(new_item)
-    return page_items
-
-
-# Try except function to simplify variable assignment
-def try_except(success, failure, *exceptions):
-    try:
-        return success()
-    except exceptions or Exception:
-        return failure() if callable(failure) else failure
-
-
-if __name__ == '__main__':
-    clear_stock_status()
-    reset_rogue_variables()
-    check_items()
