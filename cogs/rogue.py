@@ -1,8 +1,6 @@
-import os
 from items import search_urls
 import discord
 from discord.ext import commands
-from discord_webhook import DiscordWebhook, DiscordEmbed
 from datetime import datetime
 from threadedChecker import start_tracking_rogue, stop_tracking_rogue, reset_rogue_variables
 
@@ -18,6 +16,11 @@ class Rogue(commands.Cog):
     @commands.has_permissions(administrator=True)
     async def rogue(self, ctx):
         await ctx.message.delete()
+
+        if variables.is_tracking_rogue:
+            await ctx.send(f'Rogue is currently tracking {len(variables.items_to_check)} products. Stop checking '
+                           f'before starting a new task by running /stoprogue (admin command only).')
+            return
 
         variables.items_to_check = {}
         variables.checked_items = {}
@@ -78,6 +81,9 @@ class Rogue(commands.Cog):
     async def stoprogue(self, ctx):
         await ctx.message.delete()
 
+        variables.items_to_check = {}
+        variables.checked_items = {}
+
         if variables.is_tracking_rogue:
             stop_time = datetime.now().strftime('%m/%d/%Y %I:%M:%S %p')
 
@@ -96,7 +102,7 @@ class Rogue(commands.Cog):
             stop_tracking_message = await ctx.send(embed=embed_msg)
             stop_tracking_rogue()
         else:
-            await ctx.send('Rogue Stock is not currently being tracked.')
+            await ctx.send('Rogue stock is not currently being tracked.')
 
 
 def setup(client):

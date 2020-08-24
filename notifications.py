@@ -35,7 +35,8 @@ def send_discord_webhook(product_tag, item_variations, item_link='', image_url='
         print(f'\tCould not send Discord Webhook. Check that the Webhook URL is in your .env file.')
 
 
-def send_text_notification(product_tag, item_variations, item_link='',):
+# Send text notification to info provided in .env file
+def send_text_notification(product_tag, item_variations):
     try:
         time_checked = datetime.now().strftime('%m/%d/%Y %I:%M:%S %p')
         stock_description = f'Item(s) In Stock Matching Search: "{product_tag}"\n\n' \

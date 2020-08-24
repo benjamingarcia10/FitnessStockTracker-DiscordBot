@@ -28,6 +28,12 @@ def reset_rogue_variables():
     clear_stock_status()
 
 
+# Clear stock_status.json for tracking
+def clear_stock_status():
+    with open('./stock_status.json', 'w') as f:
+        json.dump({}, f, indent=4)
+
+
 # Start thread to track rogue
 def start_tracking_rogue():
     variables.is_tracking_rogue = True
@@ -40,6 +46,7 @@ def stop_tracking_rogue():
     variables.is_tracking_rogue = False
 
 
+# Main function call to check items
 def check_items():
     if not variables.is_tracking_rogue:
         return
@@ -188,8 +195,3 @@ def get_in_stock(items):
         json.dump(stock_status, f, indent=4)
 
     return in_stock_items
-
-
-def clear_stock_status():
-    with open('./stock_status.json', 'w') as f:
-        json.dump({}, f, indent=4)
