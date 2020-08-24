@@ -21,13 +21,13 @@ Check out the original version of this tracker from jonniechow that worked as a 
 0. Install [Python](https://www.python.org/downloads/) and be sure to install pip and add Python to PATH as well using the Python installer.
 1. Create a Discord server or use an existing one that you have Administrator permission to.
 2. Create a text channel of where you want the stock updates to be posted to.
-3. Create a Webhook to that text channel and save the Webhook URL for Step 3.
+3. Create a Webhook to that text channel and save the Webhook URL for step 5.
 	- You can view instructions on how to do that here: [Intro to Webhooks](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks)
-4. Create a Discord bot and invite the bot with the "Administrator" permission. Save the token from the created Discord bot for the next step.
+4. Create a Discord bot and invite the bot with the "Administrator" permission. Save the token from the created Discord bot for step 4.
 	- You can view instructions on how to do that here: [Creating a Bot Account](https://discordpy.readthedocs.io/en/latest/discord.html)
 5. Create a ".env" file in the root directory of the project and paste these lines in your .env file but replace the text after the "=" with your corresponding information:
-	- **DISCORD_TOKEN=** DISCORD BOT TOKEN FROM STEP 1
-	- **ROGUE_FITNESS_WEBHOOK_URL=** DISCORD WEBHOOK URL FOR ROGUE FITNESS STOCK INFO
+	- **DISCORD_TOKEN=** DISCORD BOT TOKEN FROM STEP 4
+	- **ROGUE_FITNESS_WEBHOOK_URL=** DISCORD WEBHOOK URL FOR ROGUE FITNESS STOCK INFO FROM STEP 3
 	- **PLIVO_SOURCE_PHONE_NUMBER=** PLIVO SOURCE NUMBER (in E.164 format, for example +15671234567)
 	- **PHONE_NUMBER_TO_NOTIFY=** DESTINATION PHONE NUMBER (in E.164 format, for example +15671234567)
 	- **PLIVO_AUTH_ID=** PLIVO AUTH ID
