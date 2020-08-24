@@ -81,9 +81,6 @@ class Rogue(commands.Cog):
     async def stoprogue(self, ctx):
         await ctx.message.delete()
 
-        variables.items_to_check = {}
-        variables.checked_items = {}
-
         if variables.is_tracking_rogue:
             stop_time = datetime.now().strftime('%m/%d/%Y %I:%M:%S %p')
 

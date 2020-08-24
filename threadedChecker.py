@@ -44,6 +44,8 @@ def start_tracking_rogue():
 # Stop tracking rogue
 def stop_tracking_rogue():
     variables.is_tracking_rogue = False
+    variables.items_to_check = {}
+    variables.checked_items = {}
 
 
 # Main function call to check items
@@ -84,6 +86,7 @@ def check_items():
         executor.map(get_data_from_url, variables.items_to_check.keys())
         # executor.map(get_data_from_url, items_to_check.keys(), items_to_check.values())
 
+    print(f'\t{datetime.now().strftime("%m/%d/%Y %I:%M:%S %p")}\n')
     for item in variables.checked_items:
         print(f'\tCHECKED: {item}')
     print()
@@ -129,7 +132,7 @@ def check_items():
             # example: ('https://www.roguefitness.com/media/catalog/product/cache/1/rogue_header_2015/472321edac810f9b2465a359d8cdc0b5/c/a/cadillac-us-kettlebell-h2_revised_v2.jpg',)
             send_discord_webhook(item, notification_string, item_link=variables.items_to_check[item]["link"],
                                  image_url=variables.items_to_check[item]['image_url'][0])
-            send_text_notification(item, notification_string)
+            # send_text_notification(item, notification_string)
             print(f'\tItem(s) in stock matching: "{item}"')
             print(item_variations_string)
     else:
@@ -154,7 +157,7 @@ def check_items():
     print(f'\tLongest Run Time: {longest_run_time}')
     print(f'\tAverage Run Time: {average_run_time}\n')
 
-    start_tracking_rogue()
+    threading.Thread(target=check_items).start()
 
 
 # Return all in stock items based on passed in dict
