@@ -35,7 +35,11 @@ Check out the original version of this tracker from jonniechow that worked as a 
 4. Run the bot.py file and you should see your bot come online in your Discord server.
 5. Use the following commands to track your items:
 	- ``/rogue`` When this command is run, it will prompt for all items you want tracked separated by a new line. Find all the available items here: [https://roguestockbot.com/current-items](https://roguestockbot.com/current-items) For each item you want tracked, type the corresponding text from the "Command" column and add a new line by pressing ``Shift + Enter``. Once started, you will see a confirmation that it is tracking the items you entered which looks like this:
-![result](/images/Start Tracking.png)
-Once any of the items you chose are in stock, it will send a Discord webhook that looks like this:
-![result](/images/InStock Webhook.png)
+	
+	![result](/images/Start Tracking.png)
+
+	Once any of the items you chose are in stock, it will send a Discord webhook that looks like this:
+
+	![result](/images/InStock Webhook.png)
+	
 	- ``/stoprogue`` When this command is run, it stops tracking the items if it is currently tracking and displays a confirmation for what items it is no longer tracking.
