@@ -21,7 +21,7 @@ def send_startup_discord_webhook(items_being_tracked, interval):
         start_webhook = DiscordWebhook(username='Rogue Stock',
                                        url=os.getenv('DISCORD_WEBHOOK_URL'),
                                        avatar_url='https://i.imgur.com/LbZlRjA.png,',
-                                       content='@everyone'
+                                       # content='@everyone'
                                        )
         start_embed = DiscordEmbed(color='16711680',
                                    title=f'Starting Rogue Stock Tracking',

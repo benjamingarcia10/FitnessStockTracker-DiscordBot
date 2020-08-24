@@ -129,7 +129,7 @@ def check_items():
             # example: ('https://www.roguefitness.com/media/catalog/product/cache/1/rogue_header_2015/472321edac810f9b2465a359d8cdc0b5/c/a/cadillac-us-kettlebell-h2_revised_v2.jpg',)
             send_discord_webhook(item, notification_string, item_link=variables.items_to_check[item]["link"],
                                  image_url=variables.items_to_check[item]['image_url'][0])
-            # send_text_notification(item, notification_string, item_link=variables.items_to_check[item]["link"])
+            send_text_notification(item, notification_string)
             print(f'\tItem(s) in stock matching: "{item}"')
             print(item_variations_string)
     else:
@@ -154,7 +154,7 @@ def check_items():
     print(f'\tLongest Run Time: {longest_run_time}')
     print(f'\tAverage Run Time: {average_run_time}\n')
 
-    check_items()
+    start_tracking_rogue()
 
 
 # Return all in stock items based on passed in dict
