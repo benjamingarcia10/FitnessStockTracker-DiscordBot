@@ -1,11 +1,11 @@
 from items import search_urls
-# from getData import get_data_from_url
+
 import threading
 from datetime import datetime
-from notifications import send_discord_webhook, send_text_notification
+from playsound import playsound
+from notifications import send_discord_webhook, send_startup_discord_webhook, send_text_notification
 import json
 import concurrent.futures
-from playsound import playsound
 
 # FOR getData FUNCTIONS
 import requests
@@ -13,9 +13,9 @@ import re
 from uselessItems import useless_items
 from bs4 import BeautifulSoup as soup
 
-is_tracking_rogue = False
+check_interval = ''
 items_to_check = {}
-check_counter = 0
+check_counter = 1
 start_time = None
 longest_run_time = None
 average_run_time = None
@@ -24,43 +24,53 @@ checked_items = {}
 MAX_THREADS = 20
 
 
-# Reset all variables to initial state to run new instance of tracking
-def reset_rogue_variables():
-    global is_tracking_rogue, items_to_check, check_counter, \
-        start_time, longest_run_time, average_run_time, total_run_time, checked_items
-    is_tracking_rogue = False
-    items_to_check = {}
-    check_counter = 0
-    start_time = None
-    longest_run_time = None
-    average_run_time = None
-    total_run_time = None
-    checked_items = {}
-    clear_stock_status()
+# Initialize program
+def setup():
+    global check_interval
+    global items_to_check
+
+    # Get items to check for from check.txt file
+    try:
+        with open('./check.txt', 'r') as file:
+            for line in file:
+                item = line.strip()
+                try:
+                    if len(item) <= 0 or item[0] == '#' or item[0:2] == '//':
+                        continue
+                    elif item not in items_to_check:
+                        items_to_check[item] = search_urls[item]
+                        print(f'Tracking stock for "{item}": {items_to_check[item]["product_name"]}')
+                    else:
+                        print(f'Found "{item}" in check.txt which has already been added.')
+                except KeyError:
+                    print(f'Found "{item}" in check.txt which is not a valid product item. Skipping this item.')
+    except FileNotFoundError:
+        input('Item file not found. Please create a "check.txt" file in the same directory as this program with what '
+              'items you want tracked separated by new lines. Press ENTER to close this window.')
+        exit('check.txt file not found.')
+    print(f'\nTracking stock for {len(items_to_check)} item(s).\n')
+
+    # Set a tracking interval for how often to recheck once code completes
+    check_interval = input('What interval would you like to check items at (in seconds)? ').strip()
+    while not isinstance(check_interval, int):
+        try:
+            check_interval = int(check_interval)
+        except:
+            print('Invalid interval.')
+            check_interval = input('What interval would you like to check items at (excludes code execution time) '
+                                   'in seconds? ').strip()
+    if check_interval < 0:
+        check_interval = 0
+    print(f'Tracking {len(items_to_check)} item(s) with an interval of {check_interval} second(s).\n')
+
+    # Send Discord webhook announcing program is starting and what items are being checked
+    send_startup_discord_webhook(items_to_check, check_interval)
 
 
-# Start thread to track rogue
-def start_tracking_rogue(rogue_items_to_check):
-    global is_tracking_rogue
-    is_tracking_rogue = True
-    rogue_check_thread = threading.Thread(target=check_items, args=(rogue_items_to_check,))
-    rogue_check_thread.start()
-
-
-# Stop tracking rogue
-def stop_tracking_rogue():
-    global is_tracking_rogue
-    is_tracking_rogue = False
-
-
-def check_items(rogue_items_to_check):
-    if not is_tracking_rogue:
-        return
-
-    global items_to_check, check_counter, start_time, longest_run_time, average_run_time, total_run_time
-    items_to_check = rogue_items_to_check
-    start_time = datetime.now()  # Set start time to calculate code execution length
-    check_counter += 1
+# Check items from items received in setup() function
+def check_items():
+    global check_interval, items_to_check, check_counter, start_time, longest_run_time, average_run_time, total_run_time
+    start_time = datetime.now()                 # Set start time to calculate code execution length
     print(f'Check #{check_counter}')
 
     # Check all items and store them in checked_items
@@ -162,7 +172,9 @@ def check_items(rogue_items_to_check):
     print(f'\tLongest Run Time: {longest_run_time}')
     print(f'\tAverage Run Time: {average_run_time}\n')
 
-    check_items(items_to_check)
+    # Increase counter and restart function
+    check_counter += 1
+    threading.Timer(check_interval, check_items).start()
 
 
 # Return all in stock items based on passed in dict
@@ -340,5 +352,5 @@ def try_except(success, failure, *exceptions):
 
 if __name__ == '__main__':
     clear_stock_status()
-    reset_rogue_variables()
+    setup()
     check_items()

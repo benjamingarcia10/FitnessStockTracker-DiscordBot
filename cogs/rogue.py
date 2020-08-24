@@ -4,11 +4,10 @@ import discord
 from discord.ext import commands
 from discord_webhook import DiscordWebhook, DiscordEmbed
 from datetime import datetime
-from threadedChecker import start_tracking_rogue, stop_tracking_rogue, reset_rogue_variables, check_items
+from threadedChecker import start_tracking_rogue, stop_tracking_rogue, reset_rogue_variables
 
 is_tracking_rogue = False
 items_to_check = {}
-rogue_check_thread = None
 
 
 class Rogue(commands.Cog):
@@ -20,7 +19,7 @@ class Rogue(commands.Cog):
     @commands.has_permissions(administrator=True)
     async def rogue(self, ctx):
         await ctx.message.delete()
-        global is_tracking_rogue, items_to_check, rogue_check_thread
+        global is_tracking_rogue, items_to_check
 
         items_to_check = {}
         timeout_time = 30
@@ -79,7 +78,7 @@ class Rogue(commands.Cog):
     @commands.has_permissions(administrator=True)
     async def stoprogue(self, ctx):
         await ctx.message.delete()
-        global is_tracking_rogue, items_to_check, rogue_check_thread
+        global is_tracking_rogue, items_to_check
 
         if is_tracking_rogue:
             stop_time = datetime.now().strftime('%m/%d/%Y %I:%M:%S %p')

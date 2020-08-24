@@ -6,11 +6,12 @@ from discord.ext import commands
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 COMMAND_PREFIX = '/'
-DO_NOT_LOAD_COGS_AT_STARTUP = ['setup']
+DO_NOT_LOAD_COGS_AT_STARTUP = []
 
 client = commands.Bot(command_prefix=COMMAND_PREFIX)
 
 
+# When bot is loaded and ready
 @client.event
 async def on_ready():
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching,
@@ -18,6 +19,7 @@ async def on_ready():
     print(f'{client.user} has connected to Discord and is ready!')
 
 
+# Command error handler
 @client.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
@@ -36,6 +38,7 @@ async def on_command_error(ctx, error):
         print(error)
 
 
+# Load cogs
 @client.command(brief='Loads specified extension (ADMIN)')
 @commands.has_permissions(administrator=True)
 async def load(ctx, extension):
@@ -49,6 +52,7 @@ async def load(ctx, extension):
         print(f'{extension.capitalize()} cog has been loaded.')
 
 
+# Unload cogs
 @client.command(brief='Unloads specified extension (ADMIN)')
 @commands.has_permissions(administrator=True)
 async def unload(ctx, extension):
@@ -62,6 +66,7 @@ async def unload(ctx, extension):
         print(f'{extension.capitalize()} cog has been unloaded.')
 
 
+# Reload cogs
 @client.command(brief='Reloads specified extension (ADMIN)')
 @commands.has_permissions(administrator=True)
 async def reload(ctx, extension=None):
@@ -93,6 +98,7 @@ async def reload(ctx, extension=None):
             print(f'{extension.capitalize()} cog has been reloaded.')
 
 
+# Load all cogs except those in the DO_NOT_LOAD_COGS_AT_STARTUP list
 for filename in os.listdir('./cogs'):
     if f'{filename.split(".", 1)[0]}' in DO_NOT_LOAD_COGS_AT_STARTUP:
         continue

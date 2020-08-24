@@ -1,0 +1,25 @@
+# On a new line for each item, put the command that corresponds to the item you want.
+# Find all the available commands here: https://roguestockbot.com/current-items
+
+plate echo color
+plate echo v2
+plate echo v1
+plate hg2
+plate mil spec echo
+
+#plate mil spec
+#plate hi-temp
+
+barbell echo 2.0
+
+barbell opb cerakote
+barbell opb ecoat
+barbell opb ss
+barbell opb steel
+barbell opb zinc
+
+barbell op cerakote
+barbell op ecoat
+barbell op oxide
+barbell op ss
+barbell op zinc
