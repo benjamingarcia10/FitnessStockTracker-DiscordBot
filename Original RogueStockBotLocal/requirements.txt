@@ -1,6 +1,0 @@
-discord_webhook==0.8.0
-plivo==4.9.0
-playsound==1.2.2
-requests==2.24.0
-beautifulsoup4==4.9.1
-python-dotenv==0.14.0
