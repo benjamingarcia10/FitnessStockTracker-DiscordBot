@@ -33,7 +33,8 @@ def send_discord_webhook(product_tag, item_variations, item_link='', image_url='
         response = stock_webhook.execute()
     except Exception as e:
         print(f'\tCould not send Discord Webhook: {e}')
-        print(f"\tFound webhook URL: {os.getenv('ROGUE_FITNESS_WEBHOOK_URL')}")
+        print(f"\tFound webhook URL: {os.getenv('ROGUE_FITNESS_WEBHOOK_URL')}. If that is incorrect, check your "
+              f"environment variables.")
 
 
 # Send text notification to info provided in .env file
