@@ -36,12 +36,8 @@ class Rogue(commands.Cog):
         embed_msg.set_image(url='https://i.imgur.com/LbZlRjA.png')
         rogue_items_to_track_message = await ctx.send(embed=embed_msg)
 
-        def check_author(author):
-            return ctx.message.author == author
-
         try:
-            items_response = await self.client.wait_for('message', check=check_author(ctx.message.author),
-                                                        timeout=timeout_time)
+            items_response = await self.client.wait_for('message', timeout=timeout_time)
         except:
             await ctx.send(timeout_msg)
             await rogue_items_to_track_message.delete()
