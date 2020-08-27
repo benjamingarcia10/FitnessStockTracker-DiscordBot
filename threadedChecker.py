@@ -114,7 +114,8 @@ def check_items():
     # If no items in stock, print no items in stock
     # Also prints code execution time
     if len(in_stock_items) != 0:
-        playsound('alert.mp3')
+        if variables.play_notification_sound:
+            playsound('alert.mp3')
         for item in in_stock_items:
             item_variations_string = ''
             notification_string = ''
@@ -132,7 +133,8 @@ def check_items():
             # example: ('https://www.roguefitness.com/media/catalog/product/cache/1/rogue_header_2015/472321edac810f9b2465a359d8cdc0b5/c/a/cadillac-us-kettlebell-h2_revised_v2.jpg',)
             send_discord_webhook(item, notification_string, item_link=variables.items_to_check[item]["link"],
                                  image_url=variables.items_to_check[item]['image_url'][0])
-            # send_text_notification(item, notification_string)
+            if variables.send_text_notification:
+                send_text_notification(item, notification_string)
             print(f'\tItem(s) in stock matching: "{item}"')
             print(item_variations_string)
     else:
