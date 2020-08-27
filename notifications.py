@@ -31,8 +31,8 @@ def send_discord_webhook(product_tag, item_variations, item_link='', image_url='
             stock_embed.set_image(url=image_url)
         stock_webhook.add_embed(stock_embed)
         response = stock_webhook.execute()
-    except:
-        print(f'\tCould not send Discord Webhook. Check that the Webhook URL is in your .env file.')
+    except Exception as e:
+        print(f'\tCould not send Discord Webhook: {e}')
 
 
 # Send text notification to info provided in .env file
