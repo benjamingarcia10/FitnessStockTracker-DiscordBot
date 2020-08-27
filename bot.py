@@ -17,7 +17,6 @@ async def on_ready():
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching,
                                                            name='Fitness Stock | /help'))
     print(f'{client.user} has connected to Discord and is ready!')
-    print(f'Discord Token Found: {os.getenv("DISCORD_TOKEN")}')
 
 
 # Command error handler
