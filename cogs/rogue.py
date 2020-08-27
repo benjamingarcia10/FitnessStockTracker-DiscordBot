@@ -3,6 +3,7 @@ import discord
 from discord.ext import commands
 from datetime import datetime
 from threadedChecker import start_tracking_rogue, stop_tracking_rogue, reset_rogue_variables
+from notifications import send_test_discord_webhook
 
 import variables
 
@@ -12,7 +13,7 @@ class Rogue(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command(aliases=['startrogue'])
+    @commands.command(aliases=['startrogue'], brief='Start tracking Rogue items.')
     @commands.has_permissions(administrator=True)
     async def rogue(self, ctx):
         await ctx.message.delete()
@@ -76,7 +77,7 @@ class Rogue(commands.Cog):
                 reset_rogue_variables()
                 start_tracking_rogue()
 
-    @commands.command()
+    @commands.command(brief='Stop tracking Rogue items.')
     @commands.has_permissions(administrator=True)
     async def stoprogue(self, ctx):
         await ctx.message.delete()
@@ -100,6 +101,12 @@ class Rogue(commands.Cog):
             stop_tracking_rogue()
         else:
             await ctx.send('Rogue stock is not currently being tracked.')
+
+    @commands.command(brief='Send a test Rogue stock webhook.')
+    @commands.has_permissions(administrator=True)
+    async def testwebhook(self, ctx):
+        await ctx.message.delete()
+        send_test_discord_webhook()
 
 
 def setup(client):
