@@ -104,7 +104,7 @@ class Rogue(commands.Cog):
 
     @commands.command(brief='Send a test Rogue stock webhook.')
     @commands.has_permissions(administrator=True)
-    async def testwebhook(self, ctx):
+    async def testrogue(self, ctx):
         await ctx.message.delete()
         send_test_discord_webhook()
 
