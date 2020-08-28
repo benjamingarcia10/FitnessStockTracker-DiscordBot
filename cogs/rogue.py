@@ -13,7 +13,7 @@ class Rogue(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command(aliases=['startrogue'], brief='Start tracking Rogue items.')
+    @commands.command(aliases=['startrogue'], brief='Start tracking Rogue items. (ADMIN)')
     @commands.has_permissions(administrator=True)
     async def rogue(self, ctx):
         await ctx.message.delete()
@@ -77,7 +77,7 @@ class Rogue(commands.Cog):
                 reset_rogue_variables()
                 start_tracking_rogue()
 
-    @commands.command(brief='Stop tracking Rogue items.')
+    @commands.command(brief='Stop tracking Rogue items. (ADMIN)')
     @commands.has_permissions(administrator=True)
     async def stoprogue(self, ctx):
         await ctx.message.delete()
@@ -102,7 +102,7 @@ class Rogue(commands.Cog):
         else:
             await ctx.send('Rogue stock is not currently being tracked.')
 
-    @commands.command(brief='Send a test Rogue stock webhook.')
+    @commands.command(brief='Send a test Rogue stock webhook. (ADMIN)')
     @commands.has_permissions(administrator=True)
     async def testrogue(self, ctx):
         await ctx.message.delete()
