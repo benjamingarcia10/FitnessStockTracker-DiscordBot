@@ -1,4 +1,17 @@
 # Item url dictionary
+
+# Next Plates to Add:
+# https://www.roguefitness.com/rogue-color-kg-training-2-0-plates-iwf
+# https://www.roguefitness.com/rogue-kg-training-2-0-plates
+# https://www.roguefitness.com/rogue-12-sided-urethane-grip-plates
+# https://www.roguefitness.com/gorilla-bumpers
+# https://www.roguefitness.com/rogue-technique-plates
+# https://www.roguefitness.com/rogue-wagon-wheel-pairs
+# https://www.roguefitness.com/rogue-friction-grip-kg-change-plates-iwf
+# https://www.roguefitness.com/rogue-add-on-change-plate-pair
+# https://www.roguefitness.com/york-legacy-iron-plates
+# https://www.roguefitness.com/rogue-kg-fractional-plates
+
 search_urls = {
     # Plate URLs
     'plate hi-temp': {
@@ -25,13 +38,13 @@ search_urls = {
         'link': 'https://www.roguefitness.com/rogue-competition-plates',
         'category': 'plate',
     },
-    # 'plate comp white lb': {
-    #     'type': 'multi',
-    #     'product_name': 'Rogue LB Training 2.0 Plates (White Print)',
-    #     'link':
-    #         'https://www.roguefitness.com/rogue-lb-training-2-0-plates-white-print',
-    #     'category': 'plate',
-    # },
+    'plate comp white lb': {
+        'type': 'multi',
+        'product_name': 'Rogue LB Training 2.0 Plates (White Print)',
+        'link':
+            'https://www.roguefitness.com/rogue-lb-training-2-0-plates-white-print',
+        'category': 'plate',
+    },
     'plate comp kg': {
         'type': 'multi',
         'product_name': 'Rogue KG Competition Plates (IWF)',
