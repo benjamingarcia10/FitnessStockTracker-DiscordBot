@@ -15,7 +15,12 @@ def get_data_from_url(item_name):
     item_category = search_urls[item_name]['category']
     page_items = []
 
-    response = requests.get(item_link)
+    headers = {
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36',
+        # ':authority:': 'www.roguefitness.com'
+    }
+
+    response = requests.get(item_link, headers=headers)
     redirect_count = len(response.history)
 
     page_soup = soup(response.text, 'html.parser')
