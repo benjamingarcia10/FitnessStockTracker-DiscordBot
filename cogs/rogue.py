@@ -16,6 +16,7 @@ class Rogue(commands.Cog):
     @commands.command(aliases=['startrogue'], brief='Start tracking Rogue items. (ADMIN)')
     @commands.has_permissions(administrator=True)
     async def rogue(self, ctx):
+        command_author = ctx.message.author
         await ctx.message.delete()
 
         if variables.is_tracking_rogue:
@@ -37,8 +38,11 @@ class Rogue(commands.Cog):
         embed_msg.set_image(url='https://i.imgur.com/LbZlRjA.png')
         rogue_items_to_track_message = await ctx.send(embed=embed_msg)
 
+        def check_author(message):
+            return message.author == command_author
+
         try:
-            items_response = await self.client.wait_for('message', timeout=timeout_time)
+            items_response = await self.client.wait_for('message', check=check_author, timeout=timeout_time)
         except:
             await ctx.send(timeout_msg)
             await rogue_items_to_track_message.delete()
