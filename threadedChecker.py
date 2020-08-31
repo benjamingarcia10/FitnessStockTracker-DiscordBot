@@ -5,6 +5,7 @@ from notifications import send_discord_webhook, send_text_notification
 import json
 import concurrent.futures
 from playsound import playsound
+import multiprocessing
 
 import variables
 
@@ -13,7 +14,6 @@ start_time = None
 longest_run_time = None
 average_run_time = None
 total_run_time = None
-MAX_THREADS = 20
 
 
 # Reset all variables to initial state to run new instance of tracking
@@ -56,7 +56,8 @@ def check_items():
     global check_counter, start_time, longest_run_time, average_run_time, total_run_time
     start_time = datetime.now()  # Set start time to calculate code execution length
     check_counter += 1
-    print(f'Check #{check_counter}')
+    threads = min(variables.max_threads, len(variables.items_to_check))
+    print(f'Check #{check_counter} ({threads} Threads, {multiprocessing.cpu_count()} Cores)')
 
     # Check all items and store them in checked_items
     # Each key in checked_items corresponds to the item tag in items.py
@@ -81,14 +82,18 @@ def check_items():
     # checked_items = {}
     # for item in items_to_check:
     #     checked_items[item], items_to_check[item]['image_url'] = get_data_from_url(items_to_check.get(item))
-    threads = min(MAX_THREADS, len(variables.items_to_check))
     with concurrent.futures.ThreadPoolExecutor(max_workers=threads) as executor:
         executor.map(get_data_from_url, variables.items_to_check.keys())
         # executor.map(get_data_from_url, items_to_check.keys(), items_to_check.values())
 
     print(f'\t{datetime.now().strftime("%m/%d/%Y %I:%M:%S %p")}\n')
+
     for item in variables.checked_items:
         print(f'\tCHECKED: {item}')
+
+    if variables.debug_mode:
+        print(f'\t{variables.checked_items}')
+    
     print()
 
     # Get any items that are in stock from checking items
