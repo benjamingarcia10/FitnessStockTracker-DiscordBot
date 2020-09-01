@@ -42,7 +42,7 @@ def send_discord_webhook(product_tag, item_variations, item_link='', image_url='
 def send_test_discord_webhook():
     try:
         current_time = datetime.now().strftime('%m/%d/%Y %I:%M:%S %p')
-        test_description = f'**Current Time:** {current_time}\n\n'
+        test_description = f'**Current Time:** {current_time}'
 
         stock_webhook = DiscordWebhook(username='Rogue Stock',
                                        url=os.getenv('ROGUE_FITNESS_WEBHOOK_URL'),
@@ -52,7 +52,30 @@ def send_test_discord_webhook():
                                    title=f'Item(s) In Stock Matching Search: "TEST WEBHOOK"',
                                    description=test_description
                                    )
-        stock_embed.set_footer(text=f'Checked: {current_time}', icon_url='https://i.imgur.com/LbZlRjA.png')
+        stock_embed.set_footer(text=f'Current Time: {current_time}', icon_url='https://i.imgur.com/LbZlRjA.png')
+        stock_webhook.add_embed(stock_embed)
+        response = stock_webhook.execute()
+    except Exception as e:
+        print(f'\tCould not send Discord Webhook: {e}')
+        print(f"\tFound webhook URL: {os.getenv('ROGUE_FITNESS_WEBHOOK_URL')}. If that is incorrect, check your "
+              f"environment variables.")
+
+
+# Send Discord Webhook to show that Rogue tracking stopped due to captcha using url from .env file and data arguments
+def send_captcha_error_webhook():
+    try:
+        current_time = datetime.now().strftime('%m/%d/%Y %I:%M:%S %p')
+        error_description = f'**Current Time:** {current_time}\n\nCAPTCHA FOUND - Stopping tracking'
+
+        stock_webhook = DiscordWebhook(username='Rogue Stock',
+                                       url=os.getenv('ROGUE_FITNESS_WEBHOOK_URL'),
+                                       avatar_url='https://i.imgur.com/LbZlRjA.png'
+                                       )
+        stock_embed = DiscordEmbed(color='5111552',
+                                   title=f'Rogue Stock Bot Error',
+                                   description=error_description
+                                   )
+        stock_embed.set_footer(text=f'Current Time: {current_time}', icon_url='https://i.imgur.com/LbZlRjA.png')
         stock_webhook.add_embed(stock_embed)
         response = stock_webhook.execute()
     except Exception as e:

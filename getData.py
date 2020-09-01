@@ -8,6 +8,8 @@ import time
 from items import search_urls
 import variables
 
+from notifications import send_captcha_error_webhook
+
 current_session = requests.Session()
 session_cookies = None
 
@@ -78,7 +80,10 @@ def get_data_from_url(item_name):
         print(f'\tRequest: {current_session.headers}')
         print(f'\tResponse: {response.headers}')
         print(f'\tCookies: {current_session.cookies}')
-        time.sleep(5)
+        send_captcha_error_webhook()
+        variables.is_tracking_rogue = False
+        variables.items_to_check = {}
+        variables.checked_items = {}
 
     if variables.debug_mode:
         print(page_soup)
