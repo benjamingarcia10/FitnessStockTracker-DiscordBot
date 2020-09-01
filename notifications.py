@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from datetime import datetime
 import traceback
 import plivo
+import variables
 
 load_dotenv(override=True)
 
@@ -62,10 +63,13 @@ def send_test_discord_webhook():
 
 
 # Send Discord Webhook to show that Rogue tracking stopped due to captcha using url from .env file and data arguments
-def send_captcha_error_webhook():
+def send_captcha_error_webhook(error_message):
+    variables.is_tracking_rogue = False
+    variables.items_to_check = {}
+    variables.checked_items = {}
     try:
         current_time = datetime.now().strftime('%m/%d/%Y %I:%M:%S %p')
-        error_description = f'**Current Time:** {current_time}\n\nCAPTCHA FOUND - Stopping tracking'
+        error_description = f'**Current Time:** {current_time}\n\n{error_message}'
 
         stock_webhook = DiscordWebhook(username='Rogue Stock',
                                        url=os.getenv('ROGUE_FITNESS_WEBHOOK_URL'),
