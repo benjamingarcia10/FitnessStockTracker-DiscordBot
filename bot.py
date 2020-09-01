@@ -2,13 +2,13 @@ import os
 from dotenv import load_dotenv
 import discord
 from discord.ext import commands
+from variables import command_prefix
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
-COMMAND_PREFIX = '/'
 DO_NOT_LOAD_COGS_AT_STARTUP = []
 
-client = commands.Bot(command_prefix=COMMAND_PREFIX)
+client = commands.Bot(command_prefix=command_prefix)
 
 
 # When bot is loaded and ready

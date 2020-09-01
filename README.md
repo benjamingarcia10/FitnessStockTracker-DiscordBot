@@ -49,5 +49,5 @@ Check out the original version of this tracker from jonniechow that worked as a 
 
 	![result](/images/InStock-Webhook.png)
 	
-	- ``/stoprogue`` When this command is run, it stops tracking the items if it is currently tracking and displays a confirmation for what items it is no longer tracking.
-	- ``/testrogue`` When this command is run, it will send a test webhook to the assigned webhook URL to ensure it is working properly.
+	- ``/roguestop`` When this command is run, it stops tracking the items if it is currently tracking and displays a confirmation for what items it is no longer tracking.
+	- ``/roguetest`` When this command is run, it will send a test webhook to the assigned webhook URL to ensure it is working properly.

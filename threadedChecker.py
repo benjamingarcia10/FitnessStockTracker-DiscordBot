@@ -25,7 +25,8 @@ def reset_rogue_variables():
     longest_run_time = None
     average_run_time = None
     total_run_time = None
-    clear_stock_status()
+    if not variables.rogue_persist:
+        clear_stock_status()
 
 
 # Clear stock_status.json for tracking
@@ -92,7 +93,7 @@ def check_items():
     for item in variables.checked_items:
         print(f'\tCHECKED: {item}')
 
-    if variables.debug_mode:
+    if variables.rogue_debug_mode:
         print(f'\t{variables.checked_items}')
     
     print()
