@@ -3,27 +3,86 @@ import re
 from uselessItems import useless_items
 from bs4 import BeautifulSoup as soup
 import json
+import time
 
 from items import search_urls
 import variables
 
+current_session = requests.Session()
+session_cookies = None
+
+
+def create_new_session():
+    global current_session, session_cookies
+    current_session.close()
+    current_session = requests.Session()
+    print(f'\tCreated new session.')
+
+    current_session.headers.update({
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36',
+        # 'authority': 'www.roguefitness.com',
+        # ':authority:': 'www.roguefitness.com',
+    })
+
+    current_session.get('https://www.roguefitness.com/')
+
+    print(f'\t{len(current_session.cookies)} Cookie(s): {current_session.cookies}')
+
+    # # Run Chrome selenium in headless mode
+    # options = Options()
+    # options.headless = True
+    # driver = webdriver.Chrome(executable_path='./chromedriver.exe', options=options)
+    # driver.delete_all_cookies()
+    # driver.get('https://www.roguefitness.com/')
+    # print(f'\tCreated new session.')
+    # cfduid_cookie = driver.get_cookie('__cfduid')
+    # cfruid_cookie = driver.get_cookie('__cfruid')
+    # session_cookies = [cfduid_cookie, cfruid_cookie]
+    # print(f'\t{len(session_cookies)} Cookie(s): {session_cookies}')
+    # driver.close()
+    #
+    # current_session.close()
+    # current_session = requests.Session()
+    #
+    # current_session.headers.update({
+    #     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36',
+    #     # 'authority': 'www.roguefitness.com',
+    #     # ':authority:': 'www.roguefitness.com',
+    # })
+    #
+    # for cookie in session_cookies:
+    #     try:
+    #         expiry = cookie['expiry']
+    #     except KeyError:
+    #         expiry = None
+    #     current_session.cookies.set(cookie['name'], cookie['value'], domain=cookie['domain'], path=cookie['path'],
+    #                                 secure=cookie['secure'], expires=expiry)
+    # print(f'\t{len(current_session.cookies)} Cookie(s): {current_session.cookies}')
+
 
 def get_data_from_url(item_name):
+    global current_session, session_cookies
     item_type = search_urls[item_name]['type']
     full_item_name = search_urls[item_name]['product_name']
     item_link = search_urls[item_name]['link']
     item_category = search_urls[item_name]['category']
     page_items = []
 
-    headers = {
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36',
-        # ':authority:': 'www.roguefitness.com'
-    }
-
-    response = requests.get(item_link, headers=headers)
+    response = current_session.get(item_link)
     redirect_count = len(response.history)
 
     page_soup = soup(response.text, 'html.parser')
+
+    if page_soup.find(id='cfRayId') is not None:
+        print(f'\tFound Captcha')
+        print(f'\tRequest: {current_session.headers}')
+        print(f'\tResponse: {response.headers}')
+        print(f'\tCookies: {current_session.cookies}')
+        time.sleep(5)
+
+    if variables.debug_mode:
+        print(page_soup)
+        time.sleep(5)
 
     if item_type == 'multi':
         grouped_items = page_soup.find_all(class_='grouped-item')

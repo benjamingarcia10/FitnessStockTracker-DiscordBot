@@ -1,4 +1,4 @@
-from getData import get_data_from_url
+from getData import get_data_from_url, create_new_session
 import threading
 from datetime import datetime
 from notifications import send_discord_webhook, send_text_notification
@@ -82,6 +82,7 @@ def check_items():
     # checked_items = {}
     # for item in items_to_check:
     #     checked_items[item], items_to_check[item]['image_url'] = get_data_from_url(items_to_check.get(item))
+    create_new_session()
     with concurrent.futures.ThreadPoolExecutor(max_workers=threads) as executor:
         executor.map(get_data_from_url, variables.items_to_check.keys())
         # executor.map(get_data_from_url, items_to_check.keys(), items_to_check.values())
