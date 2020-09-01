@@ -112,6 +112,17 @@ class Rogue(commands.Cog):
         await ctx.message.delete()
         send_test_discord_webhook()
 
+    @commands.command(brief='Toggles Rogue debug mode. (ADMIN)')
+    @commands.has_permissions(administrator=True)
+    async def roguedebug(self, ctx):
+        await ctx.message.delete()
+        if variables.debug_mode:
+            variables.debug_mode = False
+            await ctx.send('Rogue Debug Mode turned off.')
+        else:
+            variables.debug_mode = True
+            await ctx.send('Rogue Debug Mode turned on. Enabling additional console output.')
+
 
 def setup(client):
     client.add_cog(Rogue(client))
