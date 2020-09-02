@@ -37,6 +37,15 @@ async def on_command_error(ctx, error):
         print(f'{type(error)} - {error}')
 
 
+# Logout and close all bot connections to Discord
+@client.command(aliases=['logout', 'close', 'disconnect', 'exit'],
+                brief='Take bot offline for maintenance and send message.')
+async def maintenance(ctx):
+    await ctx.message.delete()
+    await ctx.send(f'Bot going offline for maintenance and updates.')
+    await client.close()
+
+
 # Authorize role by id or name to use bot commands
 @client.command(brief='Gets or sets authorized bot manager role. (ADMIN)')
 async def authrole(ctx, role: discord.Role = None):
