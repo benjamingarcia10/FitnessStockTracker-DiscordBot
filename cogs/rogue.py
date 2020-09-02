@@ -34,6 +34,7 @@ class Rogue(commands.Cog):
                             f'https://roguestockbot.com/current-items. {timeout_time} second timeout.'
         embed_msg = discord.Embed(title='Rogue Stock Tracker', color=5111552, description=embed_description)
         # embed_msg.set_thumbnail(url='https://i.imgur.com/LbZlRjA.png')
+        embed_msg.set_footer(text=f'Developer: Benjamin#9229', icon_url='https://i.imgur.com/LbZlRjA.png')
         embed_msg.set_image(url='https://i.imgur.com/LbZlRjA.png')
         rogue_items_to_track_message = await ctx.send(embed=embed_msg)
 
@@ -96,7 +97,7 @@ class Rogue(commands.Cog):
 
             embed_msg = discord.Embed(title='Stopping Rogue Stock Tracking', color=16711680,
                                       description=embed_description)
-            embed_msg.set_footer(text=f'Stopped: {stop_time}', icon_url='https://i.imgur.com/LbZlRjA.png')
+            embed_msg.set_footer(text=f'Developer: Benjamin#9229', icon_url='https://i.imgur.com/LbZlRjA.png')
             # embed_msg.set_thumbnail(url='https://i.imgur.com/LbZlRjA.png')
             embed_msg.set_image(url='https://i.imgur.com/LbZlRjA.png')
             stop_tracking_message = await ctx.send(embed=embed_msg)
@@ -140,7 +141,7 @@ class Rogue(commands.Cog):
 
         embed_msg = discord.Embed(title='Rogue Bot Status', color=16711680,
                                   description=embed_description)
-        embed_msg.set_footer(text=f'Current Time: {current_time}', icon_url='https://i.imgur.com/LbZlRjA.png')
+        embed_msg.set_footer(text=f'Developer: Benjamin#9229', icon_url='https://i.imgur.com/LbZlRjA.png')
         # embed_msg.set_thumbnail(url='https://i.imgur.com/LbZlRjA.png')
         embed_msg.set_image(url='https://i.imgur.com/LbZlRjA.png')
         status_message = await ctx.send(embed=embed_msg)
