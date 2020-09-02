@@ -39,7 +39,7 @@ async def on_command_error(ctx, error):
 
 # Logout and close all bot connections to Discord
 @client.command(aliases=['logout', 'close', 'disconnect', 'exit'],
-                brief='Take bot offline for maintenance and send message.')
+                brief='Take bot offline for maintenance and send message. (ADMIN)')
 async def maintenance(ctx):
     await ctx.message.delete()
     await ctx.send(f'Bot going offline for maintenance and updates.')
