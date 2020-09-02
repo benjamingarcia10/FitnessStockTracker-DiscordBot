@@ -1,5 +1,5 @@
 command_prefix = '/'
-bot_manager = 'Developer'
+bot_manager = None
 max_threads = 50
 play_notification_sound = False
 send_text_notification = False

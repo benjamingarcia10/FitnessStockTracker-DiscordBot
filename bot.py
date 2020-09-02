@@ -10,6 +10,7 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 DO_NOT_LOAD_COGS_AT_STARTUP = []
 
 client = commands.Bot(command_prefix=variables.command_prefix)
+client.add_check(is_authorized)
 
 
 # When bot is loaded and ready
@@ -36,22 +37,32 @@ async def on_command_error(ctx, error):
         await ctx.message.delete()
         await ctx.send('Command not found.')
     else:
-        print(error)
+        print(f'{type(error)} - {error}')
 
 
-# Load cogs
-@client.command(brief='Sets authorized bot manager role. (ADMIN)')
-@commands.has_permissions(administrator=True)
-async def authrole(ctx, role):
+# Authorize role by id or name to use bot commands
+@client.command(brief='Gets or sets authorized bot manager role. (ADMIN)')
+async def authrole(ctx, role: discord.Role = None):
     await ctx.message.delete()
-    variables.bot_manager = role
-    await ctx.send(f'Set the authorized bot manager role to: {variables.bot_manager}')
+    if role is None:
+        if variables.bot_manager is None:
+            await ctx.send(f'No authorized bot manager role is currently assigned.')
+        else:
+            await ctx.send(f'Current authorized bot manager role set to: {variables.bot_manager.mention}')
+    else:
+        variables.bot_manager = role
+        await ctx.send(f'Set the authorized bot manager role to: {role.mention}')
+
+
+@authrole.error
+async def role_error(ctx, error):
+    if isinstance(error, discord.ext.commands.BadArgument):
+        await ctx.message.delete()
+        await ctx.send('Could not find that role.')
 
 
 # Load cogs
 @client.command(brief='Loads specified extension (ADMIN)')
-# @commands.has_permissions(administrator=True)
-@commands.check(is_authorized)
 async def load(ctx, extension):
     await ctx.message.delete()
     try:
@@ -65,8 +76,6 @@ async def load(ctx, extension):
 
 # Unload cogs
 @client.command(brief='Unloads specified extension (ADMIN)')
-# @commands.has_permissions(administrator=True)
-@commands.check(is_authorized)
 async def unload(ctx, extension):
     await ctx.message.delete()
     try:
@@ -80,8 +89,6 @@ async def unload(ctx, extension):
 
 # Reload cogs
 @client.command(brief='Reloads specified extension (ADMIN)')
-# @commands.has_permissions(administrator=True)
-@commands.check(is_authorized)
 async def reload(ctx, extension=None):
     await ctx.message.delete()
     if extension is None:

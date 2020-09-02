@@ -40,7 +40,8 @@ Check out the original version of this tracker from jonniechow that worked as a 
 		- ``pip install -r requirements.txt``
 		- Ensure there are no errors when running the command.
 8. Run the bot.py file and you should see your bot come online in your Discord server.
-9. Use the following commands to track your items:
+9. Create a role that you would like to authorize to use the bot and run the following command (you can change this at any time by rerunning the command): ``/authrole {role}``
+10. Use the following commands to track your items:
 	- ``/rogue`` When this command is run, it will prompt for all items you want tracked separated by a new line. Find all the available items here: [https://roguestockbot.com/current-items](https://roguestockbot.com/current-items) For each item you want tracked, type the corresponding text from the "Command" column and add a new line by pressing ``Shift + Enter``. Once started, you will see a confirmation that it is tracking the items you entered which looks like this:
 	
 	![result](/images/Start-Tracking.png)

@@ -1,6 +1,5 @@
 from discord.ext import commands
 import asyncio
-from helpers.auth import is_authorized
 
 
 class Tools(commands.Cog):
@@ -9,8 +8,6 @@ class Tools(commands.Cog):
         self.client = client
 
     @commands.command(aliases=['purge', 'clear'], brief='Clear previous amount of messages. (ADMIN)')
-    # @commands.has_permissions(administrator=True)
-    @commands.check(is_authorized)
     async def clean(self, ctx, limit: int = 100):
         await ctx.channel.purge(limit=limit + 1)
         clear_message = await ctx.send(f'Cleared by {ctx.author.mention}')
