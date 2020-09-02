@@ -58,7 +58,8 @@ def check_items():
     start_time = datetime.now()  # Set start time to calculate code execution length
     check_counter += 1
     threads = min(variables.max_threads, len(variables.items_to_check))
-    print(f'Check #{check_counter} ({threads} Threads, {multiprocessing.cpu_count()} Cores)')
+    print(f'Check #{check_counter} ({threads} Threads, {multiprocessing.cpu_count()} Cores): '
+          f'{datetime.now().strftime("%m/%d/%Y %I:%M:%S %p")}')
 
     # Check all items and store them in checked_items
     # Each key in checked_items corresponds to the item tag in items.py
@@ -88,15 +89,10 @@ def check_items():
         executor.map(get_data_from_url, variables.items_to_check.keys())
         # executor.map(get_data_from_url, items_to_check.keys(), items_to_check.values())
 
-    print(f'\t{datetime.now().strftime("%m/%d/%Y %I:%M:%S %p")}\n')
-
-    for item in variables.checked_items:
-        print(f'\tCHECKED: {item}')
-
     if variables.rogue_debug_mode:
-        print(f'\t{variables.checked_items}')
-    
-    print()
+        for item in variables.checked_items:
+            print(f'\tCHECKED: {item}')
+        print(f'\t{variables.checked_items}\n')
 
     # Get any items that are in stock from checking items
     # Each key in in_stock_items corresponds to the item tag in items.py
