@@ -5,9 +5,6 @@ developer_id = 433083891109330945
 
 
 async def is_authorized(ctx):
-    print(f'Member ID: {ctx.author.id}')
-    print(f'Member Roles: {ctx.author.roles}')
-    print(f'Current Authorized Role: {variables.bot_manager}')
     is_developer = False
     has_bot_manager_role = False
     if ctx.author.id == developer_id:
