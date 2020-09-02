@@ -25,7 +25,7 @@ def send_discord_webhook(product_tag, item_variations, item_link='', image_url='
                                    description=stock_description,
                                    url=item_link
                                    )
-        stock_embed.set_footer(text=f'Developer: Benjamin#9229', icon_url='https://i.imgur.com/LbZlRjA.png')
+        stock_embed.set_footer(text=f'Developer: Benjamin#9229', icon_url='https://i.imgur.com/1lNJjf3.png')
         if image_url == '' or image_url == 'NOT FOUND':
             pass
         else:
@@ -53,7 +53,7 @@ def send_test_discord_webhook():
                                    title=f'Item(s) In Stock Matching Search: "TEST WEBHOOK"',
                                    description=test_description
                                    )
-        stock_embed.set_footer(text=f'Developer: Benjamin#9229', icon_url='https://i.imgur.com/LbZlRjA.png')
+        stock_embed.set_footer(text=f'Developer: Benjamin#9229', icon_url='https://i.imgur.com/1lNJjf3.png')
         stock_webhook.add_embed(stock_embed)
         response = stock_webhook.execute()
     except Exception as e:
@@ -79,7 +79,7 @@ def send_captcha_error_webhook(error_message):
                                    title=f'Rogue Stock Bot Error',
                                    description=error_description
                                    )
-        stock_embed.set_footer(text=f'Developer: Benjamin#9229', icon_url='https://i.imgur.com/LbZlRjA.png')
+        stock_embed.set_footer(text=f'Developer: Benjamin#9229', icon_url='https://i.imgur.com/1lNJjf3.png')
         stock_webhook.add_embed(stock_embed)
         response = stock_webhook.execute()
     except Exception as e:
