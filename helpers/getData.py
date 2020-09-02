@@ -7,7 +7,7 @@ import json
 from data.items import search_urls
 import variables
 
-from helpers.notifications import send_captcha_error_webhook
+from helpers.notifications import send_rogue_error_webhook
 
 current_session = requests.Session()
 
@@ -47,7 +47,7 @@ def get_data_from_url(item_name):
         print(f'\tRequest: {current_session.headers}')
         print(f'\tResponse: {response.headers}')
         print(f'\tCookies: {current_session.cookies}')
-        send_captcha_error_webhook('CAPTCHA FOUND - Stopping tracking')
+        send_rogue_error_webhook('CAPTCHA FOUND - Stopping tracking')
         return
 
     if item_type == 'multi':

@@ -1,7 +1,7 @@
 from helpers.getData import get_data_from_url, create_new_session
 import threading
 from datetime import datetime
-from helpers.notifications import send_discord_webhook, send_text_notification
+from helpers.notifications import send_rogue_stock_webhook, send_text_notification
 import json
 import concurrent.futures
 from playsound import playsound
@@ -138,8 +138,8 @@ def check_items():
 
             # items_to_check[item]['image_url'][0] because extracting initial element from tuple
             # example: ('https://www.roguefitness.com/media/catalog/product/cache/1/rogue_header_2015/472321edac810f9b2465a359d8cdc0b5/c/a/cadillac-us-kettlebell-h2_revised_v2.jpg',)
-            send_discord_webhook(item, notification_string, item_link=variables.items_to_check[item]["link"],
-                                 image_url=variables.items_to_check[item]['image_url'][0])
+            send_rogue_stock_webhook(item, notification_string, item_link=variables.items_to_check[item]["link"],
+                                     image_url=variables.items_to_check[item]['image_url'][0])
             if variables.send_text_notification:
                 send_text_notification(item, notification_string)
             print(f'\tItem(s) in stock matching: "{item}"')

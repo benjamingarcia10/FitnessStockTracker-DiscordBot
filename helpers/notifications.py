@@ -9,8 +9,8 @@ import variables
 load_dotenv(override=True)
 
 
-# Send Discord Webhook using url from .env file and data arguments
-def send_discord_webhook(product_tag, item_variations, item_link='', image_url=''):
+# Send Discord Webhook for in stock Rogue items using url from .env file and data arguments
+def send_rogue_stock_webhook(product_tag, item_variations, item_link='', image_url=''):
     try:
         time_checked = datetime.now().strftime('%m/%d/%Y %I:%M:%S %p')
         stock_description = f'**Time Checked:** {time_checked}\n\n{item_variations}'
@@ -18,8 +18,9 @@ def send_discord_webhook(product_tag, item_variations, item_link='', image_url='
         stock_webhook = DiscordWebhook(username='Rogue Stock',
                                        url=os.getenv('ROGUE_FITNESS_WEBHOOK_URL'),
                                        avatar_url='https://i.imgur.com/LbZlRjA.png',
-                                       content='@everyone'
                                        )
+        if variables.rogue_notify:
+            stock_webhook.content = '@everyone'
         stock_embed = DiscordEmbed(color='5111552',
                                    title=f'Item(s) In Stock Matching Search: "{product_tag}"',
                                    description=stock_description,
@@ -39,8 +40,8 @@ def send_discord_webhook(product_tag, item_variations, item_link='', image_url='
               f"environment variables.")
 
 
-# Send Test Discord Webhook to verify it is functional using url from .env file and data arguments
-def send_test_discord_webhook():
+# Send Test Discord Webhook for Rogue items to verify it is functional using url from .env file and data arguments
+def send_test_rogue_webhook():
     try:
         current_time = datetime.now().strftime('%m/%d/%Y %I:%M:%S %p')
         test_description = f'**Current Time:** {current_time}'
@@ -62,8 +63,8 @@ def send_test_discord_webhook():
               f"environment variables.")
 
 
-# Send Discord Webhook to show that Rogue tracking stopped due to captcha using url from .env file and data arguments
-def send_captcha_error_webhook(error_message):
+# Send Discord Webhook to show that Rogue tracking stopped due to error using url from .env file and data arguments
+def send_rogue_error_webhook(error_message):
     variables.is_tracking_rogue = False
     variables.items_to_check = {}
     variables.checked_items = {}

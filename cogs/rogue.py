@@ -3,7 +3,7 @@ import discord
 from discord.ext import commands
 from datetime import datetime
 from helpers.threadedChecker import start_tracking_rogue, stop_tracking_rogue, reset_rogue_variables
-from helpers.notifications import send_test_discord_webhook
+from helpers.notifications import send_test_rogue_webhook
 
 import variables
 
@@ -108,7 +108,27 @@ class Rogue(commands.Cog):
     @commands.command(brief='Send a test Rogue stock webhook. (ADMIN)')
     async def roguetest(self, ctx):
         await ctx.message.delete()
-        send_test_discord_webhook()
+        send_test_rogue_webhook()
+
+    @commands.command(brief='Toggles Rogue Notify mode. (ADMIN)')
+    async def roguenotify(self, ctx):
+        await ctx.message.delete()
+        if variables.rogue_notify:
+            variables.rogue_notify = False
+            await ctx.send('Rogue will no longer tag everyone when item stock notification is sent.')
+        else:
+            variables.rogue_notify = True
+            await ctx.send('Rogue will tag everyone when item stock notification is sent.')
+
+    @commands.command(brief='Toggles Rogue debug mode. (ADMIN)')
+    async def roguedebug(self, ctx):
+        await ctx.message.delete()
+        if variables.rogue_debug_mode:
+            variables.rogue_debug_mode = False
+            await ctx.send('Rogue Debug Mode turned off.')
+        else:
+            variables.rogue_debug_mode = True
+            await ctx.send('Rogue Debug Mode turned on. Enabling additional console output.')
 
     @commands.command(brief='Toggle Rogue persist logging. (ADMIN)')
     async def roguepersist(self, ctx):
@@ -135,6 +155,7 @@ class Rogue(commands.Cog):
 - Play sound on stock notification? {variables.play_notification_sound}
 - Send text on stock notification? {variables.send_text_notification}
 - Currently tracking Rogue? {variables.is_tracking_rogue}
+- Tagging everyone on stock notifications? {variables.rogue_notify}
 - Rogue Debug Mode enabled? {variables.rogue_debug_mode}
 - Rogue Persist Mode enabled? {variables.rogue_persist}
 '''
@@ -145,16 +166,6 @@ class Rogue(commands.Cog):
         # embed_msg.set_thumbnail(url='https://i.imgur.com/LbZlRjA.png')
         embed_msg.set_image(url='https://i.imgur.com/LbZlRjA.png')
         status_message = await ctx.send(embed=embed_msg)
-
-    @commands.command(brief='Toggles Rogue debug mode. (ADMIN)')
-    async def roguedebug(self, ctx):
-        await ctx.message.delete()
-        if variables.rogue_debug_mode:
-            variables.rogue_debug_mode = False
-            await ctx.send('Rogue Debug Mode turned off.')
-        else:
-            variables.rogue_debug_mode = True
-            await ctx.send('Rogue Debug Mode turned on. Enabling additional console output.')
 
 
 def setup(client):
