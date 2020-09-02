@@ -49,5 +49,7 @@ Check out the original version of this tracker from jonniechow that worked as a 
 
 	![result](/images/InStock-Webhook.png)
 	
-	- ``/roguestop`` When this command is run, it stops tracking the items if it is currently tracking and displays a confirmation for what items it is no longer tracking.
-	- ``/roguetest`` When this command is run, it will send a test webhook to the assigned webhook URL to ensure it is working properly.
+	- ``/roguestop`` This stops tracking Rogue items if it is currently tracking and displays a confirmation for what items it is no longer tracking.
+	- ``/roguetest`` This sends a test webhook to the assigned webhook URL to ensure it is working properly.
+	- ``/roguepersist`` This toggles Rogue persistant logging which means if you were to start checking Rogue and stop it, it will maintain the status of the items previously so when you restart it, it will not notify items that were already notified as in stock.
+	- ``/roguedebug`` This toggles Rogue debug mode which adds additional printout in the console.
