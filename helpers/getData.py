@@ -1,14 +1,13 @@
 import requests
 import re
-from uselessItems import useless_items
+from data.uselessItems import useless_items
 from bs4 import BeautifulSoup as soup
 import json
-import time
 
-from items import search_urls
+from data.items import search_urls
 import variables
 
-from notifications import send_captcha_error_webhook
+from helpers.notifications import send_captcha_error_webhook
 
 current_session = requests.Session()
 

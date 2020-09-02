@@ -1,7 +1,7 @@
-from getData import get_data_from_url, create_new_session
+from helpers.getData import get_data_from_url, create_new_session
 import threading
 from datetime import datetime
-from notifications import send_discord_webhook, send_text_notification
+from helpers.notifications import send_discord_webhook, send_text_notification
 import json
 import concurrent.futures
 from playsound import playsound
@@ -31,7 +31,7 @@ def reset_rogue_variables():
 
 # Clear stock_status.json for tracking
 def clear_stock_status():
-    with open('./stock_status.json', 'w') as f:
+    with open('data/stock_status.json', 'w') as f:
         json.dump({}, f, indent=4)
 
 
@@ -174,7 +174,7 @@ def get_in_stock(items):
     out_of_stock_text = ['Notify Me', 'Out of Stock', 'OUT OF STOCK', 'notify me', 'out of stock']
     in_stock_items = {}
 
-    with open('./stock_status.json') as f:
+    with open('data/stock_status.json') as f:
         stock_status = json.load(f)
 
     for item in items:
@@ -203,7 +203,7 @@ def get_in_stock(items):
         if len(item_variations_in_stock) != 0:
             in_stock_items[item] = item_variations_in_stock
 
-    with open('./stock_status.json', 'w') as f:
+    with open('data/stock_status.json', 'w') as f:
         json.dump(stock_status, f, indent=4)
 
     return in_stock_items

@@ -2,13 +2,14 @@ import os
 from dotenv import load_dotenv
 import discord
 from discord.ext import commands
-from variables import command_prefix
+import variables
+from helpers.auth import is_authorized
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 DO_NOT_LOAD_COGS_AT_STARTUP = []
 
-client = commands.Bot(command_prefix=command_prefix)
+client = commands.Bot(command_prefix=variables.command_prefix)
 
 
 # When bot is loaded and ready
@@ -39,8 +40,18 @@ async def on_command_error(ctx, error):
 
 
 # Load cogs
-@client.command(brief='Loads specified extension (ADMIN)')
+@client.command(brief='Sets authorized bot manager role. (ADMIN)')
 @commands.has_permissions(administrator=True)
+async def authrole(ctx, role):
+    await ctx.message.delete()
+    variables.bot_manager = role
+    await ctx.send(f'Set the authorized bot manager role to: {variables.bot_manager}')
+
+
+# Load cogs
+@client.command(brief='Loads specified extension (ADMIN)')
+# @commands.has_permissions(administrator=True)
+@commands.check(is_authorized)
 async def load(ctx, extension):
     await ctx.message.delete()
     try:
@@ -54,7 +65,8 @@ async def load(ctx, extension):
 
 # Unload cogs
 @client.command(brief='Unloads specified extension (ADMIN)')
-@commands.has_permissions(administrator=True)
+# @commands.has_permissions(administrator=True)
+@commands.check(is_authorized)
 async def unload(ctx, extension):
     await ctx.message.delete()
     try:
@@ -68,7 +80,8 @@ async def unload(ctx, extension):
 
 # Reload cogs
 @client.command(brief='Reloads specified extension (ADMIN)')
-@commands.has_permissions(administrator=True)
+# @commands.has_permissions(administrator=True)
+@commands.check(is_authorized)
 async def reload(ctx, extension=None):
     await ctx.message.delete()
     if extension is None:

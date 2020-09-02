@@ -1,9 +1,10 @@
-from items import search_urls
+from data.items import search_urls
 import discord
 from discord.ext import commands
 from datetime import datetime
 from threadedChecker import start_tracking_rogue, stop_tracking_rogue, reset_rogue_variables
-from notifications import send_test_discord_webhook
+from helpers.notifications import send_test_discord_webhook
+from helpers.auth import is_authorized
 
 import variables
 
@@ -14,7 +15,8 @@ class Rogue(commands.Cog):
         self.client = client
 
     @commands.command(aliases=['startrogue'], brief='Start tracking Rogue items. (ADMIN)')
-    @commands.has_permissions(administrator=True)
+    # @commands.has_permissions(administrator=True)
+    @commands.check(is_authorized)
     async def rogue(self, ctx):
         command_author = ctx.message.author
         await ctx.message.delete()
@@ -82,7 +84,8 @@ class Rogue(commands.Cog):
                 start_tracking_rogue()
 
     @commands.command(brief='Stop tracking Rogue items. (ADMIN)')
-    @commands.has_permissions(administrator=True)
+    # @commands.has_permissions(administrator=True)
+    @commands.check(is_authorized)
     async def roguestop(self, ctx):
         await ctx.message.delete()
 
@@ -107,13 +110,15 @@ class Rogue(commands.Cog):
             await ctx.send('Rogue stock is not currently being tracked.')
 
     @commands.command(brief='Send a test Rogue stock webhook. (ADMIN)')
-    @commands.has_permissions(administrator=True)
+    # @commands.has_permissions(administrator=True)
+    @commands.check(is_authorized)
     async def roguetest(self, ctx):
         await ctx.message.delete()
         send_test_discord_webhook()
 
     @commands.command(brief='Toggle Rogue persist logging. (ADMIN)')
-    @commands.has_permissions(administrator=True)
+    # @commands.has_permissions(administrator=True)
+    @commands.check(is_authorized)
     async def roguepersist(self, ctx):
         await ctx.message.delete()
         if variables.rogue_persist:
@@ -125,7 +130,8 @@ class Rogue(commands.Cog):
                            'notified if they are still in stock upon next startup.')
 
     @commands.command(brief='Toggle Rogue persist logging. (ADMIN)')
-    @commands.has_permissions(administrator=True)
+    # @commands.has_permissions(administrator=True)
+    @commands.check(is_authorized)
     async def roguestatus(self, ctx):
         await ctx.message.delete()
 
@@ -151,7 +157,8 @@ class Rogue(commands.Cog):
         status_message = await ctx.send(embed=embed_msg)
 
     @commands.command(brief='Toggles Rogue debug mode. (ADMIN)')
-    @commands.has_permissions(administrator=True)
+    # @commands.has_permissions(administrator=True)
+    @commands.check(is_authorized)
     async def roguedebug(self, ctx):
         await ctx.message.delete()
         if variables.rogue_debug_mode:
