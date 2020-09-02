@@ -13,7 +13,7 @@ class Rogue(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @commands.command(aliases=['startrogue'], brief='Start tracking Rogue items. (ADMIN)')
+    @commands.command(aliases=['startrogue', 'roguestart'], brief='Start tracking Rogue items. (ADMIN)')
     async def rogue(self, ctx):
         command_author = ctx.message.author
         await ctx.message.delete()
@@ -81,7 +81,7 @@ class Rogue(commands.Cog):
                 reset_rogue_variables()
                 start_tracking_rogue()
 
-    @commands.command(brief='Stop tracking Rogue items. (ADMIN)')
+    @commands.command(aliases=['stop', 'stoprogue'], brief='Stop tracking Rogue items. (ADMIN)')
     async def roguestop(self, ctx):
         await ctx.message.delete()
 
@@ -105,12 +105,12 @@ class Rogue(commands.Cog):
         else:
             await ctx.send('Rogue stock is not currently being tracked.')
 
-    @commands.command(brief='Send a test Rogue stock webhook. (ADMIN)')
+    @commands.command(aliases=['test', 'testrogue'], brief='Send a test Rogue stock webhook. (ADMIN)')
     async def roguetest(self, ctx):
         await ctx.message.delete()
         send_test_rogue_webhook()
 
-    @commands.command(brief='Toggles Rogue Notify mode. (ADMIN)')
+    @commands.command(aliases=['notify', 'notifyrogue'], brief='Toggles Rogue Notify mode. (ADMIN)')
     async def roguenotify(self, ctx):
         await ctx.message.delete()
         if variables.rogue_notify:
@@ -120,7 +120,7 @@ class Rogue(commands.Cog):
             variables.rogue_notify = True
             await ctx.send('Rogue will tag everyone when item stock notification is sent.')
 
-    @commands.command(brief='Toggles Rogue debug mode. (ADMIN)')
+    @commands.command(aliases=['debug', 'debugrogue'], brief='Toggles Rogue debug mode. (ADMIN)')
     async def roguedebug(self, ctx):
         await ctx.message.delete()
         if variables.rogue_debug_mode:
@@ -130,7 +130,7 @@ class Rogue(commands.Cog):
             variables.rogue_debug_mode = True
             await ctx.send('Rogue Debug Mode turned on. Enabling additional console output.')
 
-    @commands.command(brief='Toggle Rogue persist logging. (ADMIN)')
+    @commands.command(aliases=['persist', 'persistrogue'], brief='Toggle Rogue persist logging. (ADMIN)')
     async def roguepersist(self, ctx):
         await ctx.message.delete()
         if variables.rogue_persist:
@@ -141,7 +141,7 @@ class Rogue(commands.Cog):
             await ctx.send('Rogue Persist Mode turned on. Bot will not notify items that were previously '
                            'notified if they are still in stock upon next startup.')
 
-    @commands.command(brief='Toggle Rogue persist logging. (ADMIN)')
+    @commands.command(aliases=['status', 'statusrogue'], brief='Toggle Rogue persist logging. (ADMIN)')
     async def roguestatus(self, ctx):
         await ctx.message.delete()
 
