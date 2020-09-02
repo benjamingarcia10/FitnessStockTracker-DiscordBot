@@ -33,9 +33,6 @@ async def on_command_error(ctx, error):
     elif isinstance(error, commands.MissingRequiredArgument):
         await ctx.message.delete()
         await ctx.send('Please pass in all required arguments.')
-    elif isinstance(error, commands.CommandNotFound):
-        await ctx.message.delete()
-        await ctx.send('Command not found.')
     else:
         print(f'{type(error)} - {error}')
 
