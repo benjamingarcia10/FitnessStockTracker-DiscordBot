@@ -2,7 +2,7 @@ from data.items import search_urls
 import discord
 from discord.ext import commands
 from datetime import datetime
-from threadedChecker import start_tracking_rogue, stop_tracking_rogue, reset_rogue_variables
+from helpers.threadedChecker import start_tracking_rogue, stop_tracking_rogue, reset_rogue_variables
 from helpers.notifications import send_test_discord_webhook
 from helpers.auth import is_authorized
 
