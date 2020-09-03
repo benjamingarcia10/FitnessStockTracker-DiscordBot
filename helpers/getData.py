@@ -31,7 +31,7 @@ def create_new_session():
         print(f'\t{len(current_session.cookies)} Cookie(s): {current_session.cookies}')
 
 
-def get_data_from_url(item_name):
+def get_data_from_item(item_name):
     global current_session
     item_type = search_urls[item_name]['type']
     full_item_name = search_urls[item_name]['product_name']
