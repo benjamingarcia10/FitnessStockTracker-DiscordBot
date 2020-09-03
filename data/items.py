@@ -83,13 +83,13 @@ search_urls = {
             'https://www.roguefitness.com/rogue-echo-bumper-plates-with-white-text',
         'category': 'plate',
     },
-    'plate echo v1': {
-        'type': 'multi',
-        'product_name': 'Rogue Echo Bumper Plates V1',
-        'link':
-            'https://www.roguefitness.com/rogue-echo-bumper-plates-with-white-text-v1',
-        'category': 'plate',
-    },
+    # 'plate echo v1': {
+    #     'type': 'multi',
+    #     'product_name': 'Rogue Echo Bumper Plates V1',
+    #     'link':
+    #         'https://www.roguefitness.com/rogue-echo-bumper-plates-with-white-text-v1',
+    #     'category': 'plate',
+    # },
     'plate echo color': {
         'type': 'multi',
         'product_name': 'Rogue Color Echo Bumper Plates',
