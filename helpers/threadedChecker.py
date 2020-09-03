@@ -123,7 +123,7 @@ def check_items():
                                        f'{in_stock_items.get(item).get(item_variations)["price"]}\n' \
                                        f'In Stock: ✅\n\n'
             item_variations_string += f'\t\tLink: {variables.items_to_check[item]["link"]}\n'
-            notification_string += f'Link: {variables.items_to_check[item]["link"]}\n'
+            notification_string += f'Link: {variables.items_to_check[item]["link"]}'
 
             # items_to_check[item]['image_url'][0] because extracting initial element from tuple
             # example: ('https://www.roguefitness.com/media/catalog/product/cache/1/rogue_header_2015/472321edac810f9b2465a359d8cdc0b5/c/a/cadillac-us-kettlebell-h2_revised_v2.jpg',)

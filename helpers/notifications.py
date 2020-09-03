@@ -14,6 +14,8 @@ def send_rogue_stock_webhook(product_tag, item_variations, item_link='', image_u
     try:
         time_checked = datetime.now().strftime('%m/%d/%Y %I:%M:%S %p')
         stock_description = f'**Time Checked:** {time_checked}\n\n{item_variations}'
+        support_description = f'Did this help you? Support the Project Here: https://www.buymeacoffee.com/benjamingarcia'
+        description = f'{stock_description}\n\n{support_description}'
 
         stock_webhook = DiscordWebhook(username='Rogue Stock',
                                        url=os.getenv('ROGUE_FITNESS_WEBHOOK_URL'),
@@ -23,7 +25,7 @@ def send_rogue_stock_webhook(product_tag, item_variations, item_link='', image_u
             stock_webhook.content = '@everyone'
         stock_embed = DiscordEmbed(color='5111552',
                                    title=f'Item(s) In Stock Matching Search: "{product_tag}"',
-                                   description=stock_description,
+                                   description=description,
                                    url=item_link
                                    )
         stock_embed.set_footer(text=f'Developer: Benjamin#9229', icon_url='https://i.imgur.com/1lNJjf3.png')
@@ -95,11 +97,13 @@ def send_text_notification(product_tag, item_variations):
         time_checked = datetime.now().strftime('%m/%d/%Y %I:%M:%S %p')
         stock_description = f'Item(s) In Stock Matching Search: "{product_tag}"\n\n' \
                             f'**Time Checked:** {time_checked}\n\n{item_variations}'
+        support_description = f'Did this help you? Support the Project Here: https://www.buymeacoffee.com/benjamingarcia'
+        description = f'{stock_description}\n\n{support_description}'
 
         client = plivo.RestClient(os.getenv('PLIVO_AUTH_ID'), os.getenv('PLIVO_AUTH_TOKEN'))
 
         message_created = client.messages.create(src=os.getenv('PLIVO_SOURCE_PHONE_NUMBER'),
-                                                 dst=os.getenv('PHONE_NUMBER_TO_NOTIFY'), text=stock_description)
+                                                 dst=os.getenv('PHONE_NUMBER_TO_NOTIFY'), text=description)
     except plivo.exceptions.ValidationError as e:
         traceback.print_exc()
         print('Both numbers should be in E.164 format, for example +15671234567.')
