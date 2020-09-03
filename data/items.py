@@ -12,6 +12,9 @@
 # https://www.roguefitness.com/york-legacy-iron-plates
 # https://www.roguefitness.com/rogue-kg-fractional-plates
 
+categories = ['acc', 'au', 'barbell', 'bench', 'boneyard', 'cardio', 'cond', 'inf', 'ironmaster', 'm', 'ml',
+              'other', 'plate', 'rack', 'spec_bar', 'squat stand', 'storage', 'uk']
+
 search_urls = {
     # Plate URLs
     'plate hi-temp': {
