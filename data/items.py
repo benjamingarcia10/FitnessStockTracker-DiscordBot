@@ -1224,6 +1224,36 @@ search_urls = {
         'link': 'https://www.roguefitness.com/rogue-lb-fractional-plates',
         'category': 'plate',
     },
+    'conversion s1 s2': {
+        'type': 'multi',
+        'product_name': 'S-1 to S-2 Conversion Kit',
+        'link': 'https://www.roguefitness.com/s-1-to-s-2-conversion-kit',
+        'category': 'rack',
+    },
+    'barbell castro': {
+        'type': 'single',
+        'product_name': 'The Castro Bar',
+        'link': 'https://www.roguefitness.com/the-castro-bar',
+        'category': 'barbell',
+    },
+    'm knurled knob': {
+        'type': 'custom2',
+        'product_name': 'Monster Knurled Knob',
+        'link': 'https://www.roguefitness.com/monster-knurled-knob',
+        'category': 'm',
+    },
+    'plate york': {
+        'type': 'multi',
+        'product_name': 'York Legacy Iron Plates',
+        'link': 'https://www.roguefitness.com/york-legacy-iron-plates',
+        'category': 'plate',
+    },
+    'plate tree york': {
+        'type': 'single',
+        'product_name': 'York Olympic A-Frame Plate Tree',
+        'link': 'https://www.roguefitness.com/york-olympic-a-frame-plate-tree',
+        'category': 'acc',
+    },
     'uk echo color': {
         'type': 'multi',
         'product_name': 'UK Rogue Color Echo Bumper Plates',
