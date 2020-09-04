@@ -14,21 +14,25 @@ current_session = requests.Session()
 
 def create_new_session():
     global current_session
-    current_session.close()
-    current_session = requests.Session()
-    if variables.rogue_debug_mode:
-        print(f'\tCreated new session.')
+    try:
+        current_session.close()
+        current_session = requests.Session()
+        if variables.rogue_debug_mode:
+            print(f'\tCreated new session.')
 
-    current_session.headers.update({
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36',
-        # 'authority': 'www.roguefitness.com',
-        # ':authority:': 'www.roguefitness.com',
-    })
+        current_session.headers.update({
+            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36',
+            # 'authority': 'www.roguefitness.com',
+            # ':authority:': 'www.roguefitness.com',
+        })
 
-    current_session.get('https://www.roguefitness.com/')
+        current_session.get('https://www.roguefitness.com/')
 
-    if variables.rogue_debug_mode:
-        print(f'\t{len(current_session.cookies)} Cookie(s): {current_session.cookies}')
+        if variables.rogue_debug_mode:
+            print(f'\t{len(current_session.cookies)} Cookie(s): {current_session.cookies}')
+    except:
+        send_rogue_error_webhook('Cloud Server connection error. '
+                                 'Bot managers or server admins please restart Rogue tracking (/rogue).')
 
 
 def get_data_from_item(item_name):
@@ -39,10 +43,14 @@ def get_data_from_item(item_name):
     item_category = search_urls[item_name]['category']
     page_items = []
 
-    response = current_session.get(item_link)
-    redirect_count = len(response.history)
-
-    page_soup = soup(response.text, 'html.parser')
+    try:
+        response = current_session.get(item_link)
+        redirect_count = len(response.history)
+        page_soup = soup(response.text, 'html.parser')
+    except:
+        send_rogue_error_webhook('Cloud Server connection error. '
+                                 'Bot managers or server admins please restart Rogue tracking (/rogue).')
+        return
 
     if page_soup.find(id='cfRayId') is not None:
         print(f'\tFound Captcha')

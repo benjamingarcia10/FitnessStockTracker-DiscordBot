@@ -4,6 +4,7 @@ import discord
 from discord.ext import commands
 import variables
 from helpers.auth import is_authorized
+from helpers.notifications import send_rogue_error_webhook
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -19,6 +20,9 @@ async def on_ready():
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching,
                                                            name='Fitness Stock | /help'))
     print(f'{client.user} has connected to Discord and is ready!')
+    if variables.is_tracking_rogue:
+        send_rogue_error_webhook('Cloud Server connection error. '
+                                 'Bot managers or server admins please restart Rogue tracking (/rogue).')
 
 
 # Command error handler
