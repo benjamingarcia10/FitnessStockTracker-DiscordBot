@@ -54,4 +54,4 @@ Check out the original version of this tracker from jonniechow that worked as a 
 	- ``/roguetest`` This sends a test webhook to the assigned webhook URL to ensure it is working properly.
 	- ``/roguenotify`` (Default: Off) This toggles Rogue notifications which tags @everyone when an item stock notification is sent via the Discord webhook.
 	- ``/roguedebug`` (Default: Off) This toggles Rogue debug mode which adds additional printout in the console.
-	- ``/roguepersist`` (Default: Off) This toggles Rogue persistant logging which means if you were to start checking Rogue and stop it, it will maintain the status of the items previously so when you restart it, it will not notify items that were already notified as in stock.
+	- ``/roguepersist`` (Default: Off) This toggles Rogue persistent logging which means if you were to start checking Rogue and stop it, it will maintain the status of the items previously so when you restart it, it will not notify items that were already notified as in stock.
