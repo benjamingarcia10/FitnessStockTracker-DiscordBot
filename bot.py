@@ -6,7 +6,7 @@ import variables
 from helpers.auth import is_authorized
 from helpers.notifications import send_rogue_error_webhook
 
-load_dotenv()
+load_dotenv(override=True)
 TOKEN = os.getenv('DISCORD_TOKEN')
 DO_NOT_LOAD_COGS_AT_STARTUP = []
 
