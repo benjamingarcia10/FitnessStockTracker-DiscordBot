@@ -183,10 +183,6 @@ class Rogue(commands.Cog):
 
         current_time = datetime.now().strftime('%m/%d/%Y %I:%M:%S %p')
 
-        amount_of_items_tracking = 0
-        if variables.is_tracking_rogue:
-            amount_of_items_tracking = len(variables.is_tracking_rogue)
-
         embed_description = f'''
 **Current Time:** {current_time}
 
@@ -194,7 +190,7 @@ class Rogue(commands.Cog):
 - Max Threads for checking: {variables.max_threads}
 - Play sound on stock notification? {variables.play_notification_sound}
 - Send text on stock notification? {variables.send_text_notification}
-- Currently tracking Rogue? {variables.is_tracking_rogue} - {amount_of_items_tracking} items
+- Currently tracking Rogue? {variables.is_tracking_rogue} - {len(variables.items_to_check)} item(s)
 - Tagging everyone on stock notifications? {variables.rogue_notify}
 - Rogue Debug Mode enabled? {variables.rogue_debug_mode}
 - Rogue Persist Mode enabled? {variables.rogue_persist}
