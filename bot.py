@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import discord
 from discord.ext import commands
 import variables
+from data.items import categories
 from helpers.auth import is_authorized
 from helpers.notifications import send_rogue_error_webhook
 
@@ -23,6 +24,16 @@ async def on_ready():
     if variables.is_tracking_rogue:
         send_rogue_error_webhook(f'Cloud Server connection error. Bot managers or server admins '
                                  f'please restart Rogue tracking ({variables.command_prefix}rogue).')
+    for category in categories:
+        try:
+            role_id = int(os.getenv(f'{category}-role-id'))
+        except:
+            role_id = None
+        variables.rogue_category_data[category] = {
+            'notify_role': discord.utils.find(lambda m: m.id == role_id, client.guilds[0].roles),
+            'webhook_url': os.getenv(f'{category}-webhook')
+        }
+    print(variables.rogue_category_data)
 
 
 # Command error handler
