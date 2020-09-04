@@ -18,11 +18,11 @@ client.add_check(is_authorized)
 @client.event
 async def on_ready():
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching,
-                                                           name='Fitness Stock | /help'))
+                                                           name=f'Fitness Stock | {variables.command_prefix}help'))
     print(f'{client.user} has connected to Discord and is ready!')
     if variables.is_tracking_rogue:
-        send_rogue_error_webhook('Cloud Server connection error. '
-                                 'Bot managers or server admins please restart Rogue tracking (/rogue).')
+        send_rogue_error_webhook(f'Cloud Server connection error. Bot managers or server admins '
+                                 f'please restart Rogue tracking ({variables.command_prefix}rogue).')
 
 
 # Command error handler

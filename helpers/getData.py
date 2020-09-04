@@ -31,8 +31,8 @@ def create_new_session():
         if variables.rogue_debug_mode:
             print(f'\t{len(current_session.cookies)} Cookie(s): {current_session.cookies}')
     except:
-        send_rogue_error_webhook('Cloud Server connection error. '
-                                 'Bot managers or server admins please restart Rogue tracking (/rogue).')
+        send_rogue_error_webhook(f'Cloud Server connection error. Bot managers or server admins '
+                                 f'please restart Rogue tracking ({variables.command_prefix}rogue).')
 
 
 def get_data_from_item(item_name):
@@ -48,8 +48,8 @@ def get_data_from_item(item_name):
         redirect_count = len(response.history)
         page_soup = soup(response.text, 'html.parser')
     except:
-        send_rogue_error_webhook('Cloud Server connection error. '
-                                 'Bot managers or server admins please restart Rogue tracking (/rogue).')
+        send_rogue_error_webhook(f'Cloud Server connection error. Bot managers or server admins '
+                                 f'please restart Rogue tracking ({variables.command_prefix}rogue).')
         return
 
     if page_soup.find(id='cfRayId') is not None:
