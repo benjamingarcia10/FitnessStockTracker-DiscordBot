@@ -1,10 +1,9 @@
-from data.items import search_urls
+from data.items import search_urls, get_items_by_category
 import discord
 from discord.ext import commands
 from datetime import datetime
 from helpers.threadedChecker import start_tracking_rogue, stop_tracking_rogue, reset_rogue_variables
 from helpers.notifications import send_test_rogue_webhook
-
 import variables
 
 
@@ -55,6 +54,20 @@ class Rogue(commands.Cog):
                 try:
                     if len(formatted_item) <= 0 or formatted_item[0] == '#' or formatted_item[0:2] == '//':
                         continue
+                    elif formatted_item.split(':')[0].strip() == 'category':
+                        category_items = get_items_by_category(formatted_item.split(':')[1].strip())
+                        if len(category_items) > 0:
+                            if len(embed_description) > 0:
+                                embed_description += '\n'
+                            embed_description += f'**Category: {formatted_item.split(":")[1].strip()}**\n'
+                            for category_item in category_items:
+                                if category_item not in variables.items_to_check:
+                                    variables.items_to_check[category_item] = search_urls[category_item]
+                                    embed_description += f'{item_number}: {variables.items_to_check[category_item]["product_name"]}\n'
+                                    print(
+                                        f'Tracking stock for "{category_item}": {variables.items_to_check[category_item]["product_name"]}')
+                                    item_number += 1
+                            embed_description += '\n'
                     elif formatted_item not in variables.items_to_check:
                         variables.items_to_check[formatted_item] = search_urls[formatted_item]
                         embed_description += f'{item_number}: {variables.items_to_check[formatted_item]["product_name"]}\n'
@@ -63,8 +76,8 @@ class Rogue(commands.Cog):
                         item_number += 1
                     else:
                         print(f'Found "{formatted_item}" which has already been added.')
-                except KeyError:
-                    print(f'Found "{formatted_item}" which is not a valid product item. Skipping this item.')
+                except KeyError as e:
+                    print(f'Found "{e}" which is not a valid product item. Skipping this item.')
 
             await items_response.delete()
 
@@ -159,6 +172,18 @@ class Rogue(commands.Cog):
 - Rogue Debug Mode enabled? {variables.rogue_debug_mode}
 - Rogue Persist Mode enabled? {variables.rogue_persist}
 '''
+        category_tracking_description = ''
+        for category in variables.rogue_category_data:
+            category_data = variables.rogue_category_data[category]
+            if category_data['notify_role'] is not None or category_data['webhook_url'] is not None:
+                category_tracking_description += f'{category}:\n- Role: {category_data["notify_role"]}\n'
+                if category_data['webhook_url'] is not None:
+                    category_tracking_description += f'- Webhook Set: ✅\n\n'
+
+        if len(category_tracking_description) > 0:
+            embed_description += f'\n**Category Specific Tracking (ENABLED):**\n{category_tracking_description}'
+        else:
+            embed_description += f'\n**Category Specific Tracking (DISABLED)**'
 
         embed_msg = discord.Embed(title='Rogue Bot Status', color=16711680,
                                   description=embed_description)

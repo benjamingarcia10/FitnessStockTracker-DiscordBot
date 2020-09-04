@@ -21,11 +21,33 @@ def send_rogue_stock_webhook(product_tag, item_variations, item_link='', image_u
                                        url=os.getenv('ROGUE_FITNESS_WEBHOOK_URL'),
                                        avatar_url='https://i.imgur.com/LbZlRjA.png')
 
+        custom_webhook_url = False
+        try:
+            item_category = variables.items_to_check[product_tag]['category']
+            webhook_url = variables.rogue_category_data[item_category]['webhook_url']
+            if webhook_url is not None:
+                stock_webhook.url = webhook_url
+                custom_webhook_url = True
+        except:
+            pass
+
         if variables.rogue_notify:
             try:
-                stock_webhook.content = f'{variables.items_to_check[product_tag]["product_name"]} @everyone'
+                item_category = variables.items_to_check[product_tag]['category']
+                notify_role = variables.rogue_category_data[item_category]['notify_role']
+                if notify_role is not None:
+                    stock_webhook.content = f'{variables.items_to_check[product_tag]["product_name"]} ' \
+                                            f'{notify_role.mention}'
+                else:
+                    try:
+                        stock_webhook.content = f'{variables.items_to_check[product_tag]["product_name"]} @everyone'
+                    except:
+                        stock_webhook.content = f'@everyone'
             except:
-                stock_webhook.content = f'@everyone'
+                try:
+                    stock_webhook.content = f'{variables.items_to_check[product_tag]["product_name"]} @everyone'
+                except:
+                    stock_webhook.content = f'@everyone'
 
         stock_embed = DiscordEmbed(color='5111552',
                                    title=f'Item(s) In Stock Matching Search: "{product_tag}"',
@@ -40,9 +62,21 @@ def send_rogue_stock_webhook(product_tag, item_variations, item_link='', image_u
         stock_webhook.add_embed(stock_embed)
         response = stock_webhook.execute()
     except Exception as e:
-        print(f'\tCould not send Discord Webhook: {e}')
-        print(f"\tFound webhook URL: {os.getenv('ROGUE_FITNESS_WEBHOOK_URL')}. If that is incorrect, check your "
-              f"environment variables.")
+        if custom_webhook_url:
+            try:
+                stock_webhook.url = os.getenv('ROGUE_FITNESS_WEBHOOK_URL')
+            except:
+                print(f'\t{type(e)} Could not send Discord Webhook: {e}')
+                print(f"\tFound webhook URL: {stock_webhook.url}. If that is incorrect, check your "
+                          f"environment variables.")
+                send_rogue_error_webhook('Unable to trigger stock Discord notification. Please check webhook URLs and view '
+                                         'console output for more information.')
+        else:
+            print(f'\t{type(e)} Could not send Discord Webhook: {e}')
+            print(f"\tFound webhook URL: {stock_webhook.url}. If that is incorrect, check your "
+                  f"environment variables.")
+            send_rogue_error_webhook('Unable to trigger stock Discord notification. Please check webhook URLs and view '
+                                     'console output for more information.')
 
 
 # Send Test Discord Webhook for Rogue items to verify it is functional using url from .env file and data arguments
@@ -61,9 +95,30 @@ def send_test_rogue_webhook():
         stock_webhook.add_embed(stock_embed)
         response = stock_webhook.execute()
     except Exception as e:
-        print(f'\tCould not send Discord Webhook: {e}')
-        print(f"\tFound webhook URL: {os.getenv('ROGUE_FITNESS_WEBHOOK_URL')}. If that is incorrect, check your "
+        print(f'\t{type(e)} Could not send Discord Webhook: {e}')
+        print(f"\tFound webhook URL: {stock_webhook.url}. If that is incorrect, check your "
               f"environment variables.")
+
+    for category in variables.rogue_category_data:
+        if variables.rogue_category_data[category]['webhook_url'] is not None:
+            try:
+                current_time = datetime.now().strftime('%m/%d/%Y %I:%M:%S %p')
+                test_description = f'**Current Time:** {current_time}\n\nNotify Role Set To: ' \
+                                   f'{variables.rogue_category_data[category]["notify_role"]}'
+
+                stock_webhook = DiscordWebhook(username='Rogue Stock',
+                                               url=variables.rogue_category_data[category]['webhook_url'],
+                                               avatar_url='https://i.imgur.com/LbZlRjA.png')
+                stock_embed = DiscordEmbed(color='5111552',
+                                           title=f'Test Webhook for Item Category: {category}',
+                                           description=test_description)
+                stock_embed.set_footer(text=f'Developer: Benjamin#9229', icon_url='https://i.imgur.com/1lNJjf3.png')
+                stock_webhook.add_embed(stock_embed)
+                response = stock_webhook.execute()
+            except Exception as e:
+                print(f'\t{type(e)} Could not send Discord Webhook: {e}')
+                print(f"\tFound webhook URL: {stock_webhook.url}. If that is incorrect, check your "
+                      f"environment variables.")
 
 
 # Send Discord Webhook to show that Rogue tracking stopped due to error using url from .env file and data arguments
@@ -85,8 +140,8 @@ def send_rogue_error_webhook(error_message):
         stock_webhook.add_embed(stock_embed)
         response = stock_webhook.execute()
     except Exception as e:
-        print(f'\tCould not send Discord Webhook: {e}')
-        print(f"\tFound webhook URL: {os.getenv('ROGUE_FITNESS_WEBHOOK_URL')}. If that is incorrect, check your "
+        print(f'\t{type(e)} Could not send Discord Webhook: {e}')
+        print(f"\tFound webhook URL: {stock_webhook.url}. If that is incorrect, check your "
               f"environment variables.")
 
 

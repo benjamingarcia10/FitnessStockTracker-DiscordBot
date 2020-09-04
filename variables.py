@@ -9,3 +9,4 @@ rogue_debug_mode = False
 rogue_persist = False
 items_to_check = {}
 checked_items = {}
+rogue_category_data = {}

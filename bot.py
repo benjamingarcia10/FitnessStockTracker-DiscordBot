@@ -20,7 +20,6 @@ client.add_check(is_authorized)
 async def on_ready():
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching,
                                                            name=f'Fitness Stock | {variables.command_prefix}help'))
-    print(f'{client.user} has connected to Discord and is ready!')
     if variables.is_tracking_rogue:
         send_rogue_error_webhook(f'Cloud Server connection error. Bot managers or server admins '
                                  f'please restart Rogue tracking ({variables.command_prefix}rogue).')
@@ -33,7 +32,8 @@ async def on_ready():
             'notify_role': discord.utils.find(lambda m: m.id == role_id, client.guilds[0].roles),
             'webhook_url': os.getenv(f'{category}-webhook')
         }
-    print(variables.rogue_category_data)
+    print(f'Category Tracking: {variables.rogue_category_data}')
+    print(f'{client.user} has connected to Discord and is ready!')
 
 
 # Command error handler
