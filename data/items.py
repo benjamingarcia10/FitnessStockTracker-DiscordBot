@@ -512,8 +512,7 @@ search_urls = {
     "bone oso pro": {
         "type": "bone",
         "product_name": "Boneyard OSO Pro Collars",
-        # "link": "https://www.roguefitness.com/boneyard-oso-pro-collars-closeout",
-        "link": "https://www.roguefitness.com/rogue-oso-barbell-collars",
+        "link": "https://www.roguefitness.com/boneyard-oso-pro-collars-closeout",
         "category": "boneyard"
     },
     "bike echo": {
