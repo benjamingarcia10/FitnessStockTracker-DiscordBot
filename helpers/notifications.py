@@ -19,15 +19,15 @@ def send_rogue_stock_webhook(product_tag, item_variations, item_link='', image_u
 
         stock_webhook = DiscordWebhook(username='Rogue Stock',
                                        url=os.getenv('ROGUE_FITNESS_WEBHOOK_URL'),
-                                       avatar_url='https://i.imgur.com/LbZlRjA.png',
-                                       )
+                                       avatar_url='https://i.imgur.com/LbZlRjA.png')
+
         if variables.rogue_notify:
-            stock_webhook.content = '@everyone'
+            stock_webhook.content = f'{variables.items_to_check[product_tag]["product_name"]} @everyone'
+
         stock_embed = DiscordEmbed(color='5111552',
                                    title=f'Item(s) In Stock Matching Search: "{product_tag}"',
                                    description=description,
-                                   url=item_link
-                                   )
+                                   url=item_link)
         stock_embed.set_footer(text=f'Developer: Benjamin#9229', icon_url='https://i.imgur.com/1lNJjf3.png')
         if image_url == '' or image_url == 'NOT FOUND':
             pass
@@ -50,12 +50,10 @@ def send_test_rogue_webhook():
 
         stock_webhook = DiscordWebhook(username='Rogue Stock',
                                        url=os.getenv('ROGUE_FITNESS_WEBHOOK_URL'),
-                                       avatar_url='https://i.imgur.com/LbZlRjA.png'
-                                       )
+                                       avatar_url='https://i.imgur.com/LbZlRjA.png')
         stock_embed = DiscordEmbed(color='5111552',
                                    title=f'Item(s) In Stock Matching Search: "TEST WEBHOOK"',
-                                   description=test_description
-                                   )
+                                   description=test_description)
         stock_embed.set_footer(text=f'Developer: Benjamin#9229', icon_url='https://i.imgur.com/1lNJjf3.png')
         stock_webhook.add_embed(stock_embed)
         response = stock_webhook.execute()
@@ -76,12 +74,10 @@ def send_rogue_error_webhook(error_message):
 
         stock_webhook = DiscordWebhook(username='Rogue Stock',
                                        url=os.getenv('ROGUE_FITNESS_WEBHOOK_URL'),
-                                       avatar_url='https://i.imgur.com/LbZlRjA.png'
-                                       )
+                                       avatar_url='https://i.imgur.com/LbZlRjA.png')
         stock_embed = DiscordEmbed(color='5111552',
                                    title=f'Rogue Stock Bot Error',
-                                   description=error_description
-                                   )
+                                   description=error_description)
         stock_embed.set_footer(text=f'Developer: Benjamin#9229', icon_url='https://i.imgur.com/1lNJjf3.png')
         stock_webhook.add_embed(stock_embed)
         response = stock_webhook.execute()
