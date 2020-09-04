@@ -9,21 +9,18 @@ import multiprocessing
 
 import variables
 
-check_counter = 0
 start_time = None
-longest_run_time = None
-average_run_time = None
 total_run_time = None
 
 
 # Reset all variables to initial state to run new instance of tracking
 def reset_rogue_variables():
-    global check_counter, start_time, longest_run_time, average_run_time, total_run_time
+    global start_time, total_run_time
     variables.is_tracking_rogue = False
-    check_counter = 0
+    variables.check_counter = 0
     start_time = None
-    longest_run_time = None
-    average_run_time = None
+    variables.longest_run_time = None
+    variables.average_run_time = None
     total_run_time = None
     if not variables.rogue_persist:
         clear_stock_status()
@@ -54,11 +51,11 @@ def check_items():
     if not variables.is_tracking_rogue:
         return
 
-    global check_counter, start_time, longest_run_time, average_run_time, total_run_time
+    global start_time, total_run_time
     start_time = datetime.now()  # Set start time to calculate code execution length
-    check_counter += 1
+    variables.check_counter += 1
     threads = min(variables.max_threads, len(variables.items_to_check))
-    print(f'Check #{check_counter} ({threads} Threads, {multiprocessing.cpu_count()} Cores): '
+    print(f'Check #{variables.check_counter} ({threads} Threads, {multiprocessing.cpu_count()} Cores): '
           f'{datetime.now().strftime("%m/%d/%Y %I:%M:%S %p")}')
 
     # Check all items and store them in checked_items
@@ -138,22 +135,23 @@ def check_items():
 
     code_execution_time = datetime.now() - start_time
 
-    if longest_run_time is None or code_execution_time > longest_run_time:
-        longest_run_time = code_execution_time
+    if variables.longest_run_time is None or code_execution_time > variables.longest_run_time:
+        variables.longest_run_time = code_execution_time
 
     if total_run_time is None:
         total_run_time = code_execution_time
     else:
         total_run_time += code_execution_time
 
-    if average_run_time is None:
-        average_run_time = code_execution_time
+    if variables.average_run_time is None:
+        variables.average_run_time = code_execution_time
     else:
-        average_run_time = total_run_time / check_counter
+        variables.average_run_time = total_run_time / variables.check_counter
 
     print(f'\tCode Execution Time: {code_execution_time}')
-    print(f'\tLongest Run Time: {longest_run_time}')
-    print(f'\tAverage Run Time: {average_run_time}\n')
+    print(f'\tLongest Run Time: {variables.longest_run_time}')
+    print(f'\tAverage Run Time: {variables.average_run_time}\n')
+    variables.last_successful_check = datetime.now().strftime("%m/%d/%Y %I:%M:%S %p")
 
     threading.Thread(target=check_items).start()
 

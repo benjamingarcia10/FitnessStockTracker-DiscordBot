@@ -24,20 +24,22 @@ def create_new_session():
         current_session.headers.update({
             'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36',
             # 'authority': 'www.roguefitness.com',
-            # ':authority:': 'www.roguefitness.com',
         })
 
         current_session.get('https://www.roguefitness.com/')
 
         if variables.rogue_debug_mode:
             print(f'\t{len(current_session.cookies)} Cookie(s): {current_session.cookies}')
-    except:
-        send_rogue_error_webhook(f'Cloud Server connection error. Bot managers or server admins '
+    except Exception as e:
+        send_rogue_error_webhook(f'{type(e)} - {e} Cloud Server connection error. Bot managers or server admins '
                                  f'please restart Rogue tracking ({variables.command_prefix}rogue).')
 
 
 # Extract data from item based on item_name and item type
 def get_data_from_item(item_name):
+    if variables.rogue_debug_mode:
+        print(f'\tChecking {item_name}')
+
     global current_session
     item_type = search_urls[item_name]['type']
     full_item_name = search_urls[item_name]['product_name']
@@ -50,18 +52,20 @@ def get_data_from_item(item_name):
         response = current_session.get(item_link)
         redirect_count = len(response.history)
         page_soup = soup(response.text, 'html.parser')
-    except:
-        send_rogue_error_webhook(f'Cloud Server connection error. Bot managers or server admins '
+    except Exception as e:
+        send_rogue_error_webhook(f'{type(e)} - {e} Cloud Server connection error. Bot managers or server admins '
                                  f'please restart Rogue tracking ({variables.command_prefix}rogue).')
         return
 
     # Stop tracking and send error notification if captcha is found
     if page_soup.find(id='cfRayId') is not None:
-        print(f'\tFound Captcha')
+        print(f'\tFound Captcha When Checking {item_name}')
+        print(f'\tLink: {item_link}')
         print(f'\tRequest: {current_session.headers}')
         print(f'\tResponse: {response.headers}')
         print(f'\tCookies: {current_session.cookies}')
-        send_rogue_error_webhook('CAPTCHA FOUND - Stopping tracking')
+        # print(page_soup)
+        send_rogue_error_webhook(f'CAPTCHA FOUND on {item_name} - Stopping tracking')
         return
 
     if item_type == 'multi':
@@ -90,18 +94,20 @@ def get_data_from_item(item_name):
                 }
                 page_items.append(new_item)
         else:
-            new_item = {
-                'in_stock': 'Notify Me'
-            }
-            page_items.append(new_item)
+            pass
+            # new_item = {
+            #     'in_stock': 'Notify Me'
+            # }
+            # page_items.append(new_item)
     elif item_type == 'grab bag':
         if redirect_count == 0:
             page_items = get_data_from_js(page_soup, 'RogueColorSwatches')
         else:
-            new_item = {
-                'in_stock': 'Notify Me'
-            }
-            page_items.append(new_item)
+            pass
+            # new_item = {
+            #     'in_stock': 'Notify Me'
+            # }
+            # page_items.append(new_item)
     elif item_type == 'cerakote':
         page_items = get_data_from_js(page_soup, 'relatedColorSwatches')
     elif item_type == 'monster bench':

@@ -74,10 +74,10 @@ def send_rogue_stock_webhook(product_tag, item_variations, item_link='', image_u
             try:
                 stock_webhook.url = os.getenv('ROGUE_FITNESS_WEBHOOK_URL')
                 response = stock_webhook.execute()
-            except:
-                print(f'\t{type(e)} Could not send Discord Webhook: {e}')
+            except Exception as e1:
+                print(f'\t{type(e1)} Could not send Discord Webhook: {e1}')
                 print(f"\tFound webhook URL: {stock_webhook.url}. If that is incorrect, check your "
-                          f"environment variables.")
+                      f"environment variables.")
                 send_rogue_error_webhook('Unable to trigger stock Discord notification. '
                                          'Please check webhook URLs and view console output for more information.')
         else:
