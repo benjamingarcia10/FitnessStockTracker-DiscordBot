@@ -1,4 +1,4 @@
-from data.items import search_urls, get_items_by_category
+from data.items import search_urls, categories, get_items_by_category
 import discord
 from discord.ext import commands
 from datetime import datetime
@@ -34,7 +34,9 @@ class Rogue(commands.Cog):
         # Prompt for what items to track
         embed_description = f'Please enter all Rogue items you want tracked separated by line breaks. ' \
                             f'Find all available items here (use the name in the command column): ' \
-                            f'https://roguestockbot.com/current-items. {timeout_time} second timeout.'
+                            f'https://roguestockbot.com/current-items. {timeout_time} second timeout. If you would ' \
+                            f'like to track an entire category, on a new line, type "category:" followed by the ' \
+                            f'category name you want to track. Available categories: {categories}'
         embed_msg = discord.Embed(title='Rogue Stock Tracker', color=5111552, description=embed_description)
         # embed_msg.set_thumbnail(url='https://i.imgur.com/LbZlRjA.png')
         embed_msg.set_footer(text=f'Developer: Benjamin#9229', icon_url='https://i.imgur.com/1lNJjf3.png')
