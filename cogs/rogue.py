@@ -12,22 +12,26 @@ class Rogue(commands.Cog):
     def __init__(self, client):
         self.client = client
 
+    # Start Rogue tracking
     @commands.command(aliases=['startrogue', 'roguestart'], brief='Start tracking Rogue items. (ADMIN)')
     async def rogue(self, ctx):
         command_author = ctx.message.author
         await ctx.message.delete()
 
+        # Check if bot is already tracking Rogue
         if variables.is_tracking_rogue:
             await ctx.send(f'Rogue is currently tracking {len(variables.items_to_check)} products. Stop checking '
                            f'before starting a new task by running /roguestop (admin command only).')
             return
 
+        # Reset variables to prevent overlap from previous instance
         variables.items_to_check = {}
         variables.checked_items = {}
 
         timeout_time = 30
         timeout_msg = 'Timed Out or Invalid Input.'
 
+        # Prompt for what items to track
         embed_description = f'Please enter all Rogue items you want tracked separated by line breaks. ' \
                             f'Find all available items here (use the name in the command column): ' \
                             f'https://roguestockbot.com/current-items. {timeout_time} second timeout.'
@@ -40,6 +44,7 @@ class Rogue(commands.Cog):
         def check(message):
             return message.author == command_author and message.content.strip()[0] != variables.command_prefix
 
+        # Add all items separated by new lines to items_to_check and set embed description
         try:
             items_response = await self.client.wait_for('message', check=check, timeout=timeout_time)
         except:
@@ -63,16 +68,19 @@ class Rogue(commands.Cog):
                             for category_item in category_items:
                                 if category_item not in variables.items_to_check:
                                     variables.items_to_check[category_item] = search_urls[category_item]
-                                    embed_description += f'{item_number}: {variables.items_to_check[category_item]["product_name"]}\n'
+                                    embed_description += f'{item_number}: ' \
+                                                         f'{variables.items_to_check[category_item]["product_name"]}\n'
                                     print(
-                                        f'Tracking stock for "{category_item}": {variables.items_to_check[category_item]["product_name"]}')
+                                        f'Tracking stock for "{category_item}": '
+                                        f'{variables.items_to_check[category_item]["product_name"]}')
                                     item_number += 1
                             embed_description += '\n'
                     elif formatted_item not in variables.items_to_check:
                         variables.items_to_check[formatted_item] = search_urls[formatted_item]
-                        embed_description += f'{item_number}: {variables.items_to_check[formatted_item]["product_name"]}\n'
-                        print(
-                            f'Tracking stock for "{formatted_item}": {variables.items_to_check[formatted_item]["product_name"]}')
+                        embed_description += f'{item_number}: ' \
+                                             f'{variables.items_to_check[formatted_item]["product_name"]}\n'
+                        print(f'Tracking stock for "{formatted_item}": '
+                              f'{variables.items_to_check[formatted_item]["product_name"]}')
                         item_number += 1
                     else:
                         print(f'Found "{formatted_item}" which has already been added.')
@@ -81,6 +89,7 @@ class Rogue(commands.Cog):
 
             await items_response.delete()
 
+            # Send message if no items are found. Otherwise, start tracking Rogue
             if len(variables.items_to_check) <= 0:
                 await ctx.send('No valid items found.')
                 await rogue_items_to_track_message.delete()
@@ -94,10 +103,13 @@ class Rogue(commands.Cog):
                 reset_rogue_variables()
                 start_tracking_rogue()
 
+    # Stop tracking Rogue
     @commands.command(aliases=['stop', 'stoprogue'], brief='Stop tracking Rogue items. (ADMIN)')
     async def roguestop(self, ctx):
         await ctx.message.delete()
 
+        # Check if Rogue is being tracked
+        # If so, send stop confirmation and stop Rogue tracking. Otherwise, indicate Rogue is not being tracked.
         if variables.is_tracking_rogue:
             stop_time = datetime.now().strftime('%m/%d/%Y %I:%M:%S %p')
 
@@ -118,11 +130,13 @@ class Rogue(commands.Cog):
         else:
             await ctx.send('Rogue stock is not currently being tracked.')
 
+    # Test all webhooks set to various categories
     @commands.command(aliases=['test', 'testrogue'], brief='Send a test Rogue stock webhook. (ADMIN)')
     async def roguetest(self, ctx):
         await ctx.message.delete()
         send_test_rogue_webhook()
 
+    # Enable notifying roles on item restock webhook
     @commands.command(aliases=['notify', 'notifyrogue'], brief='Toggles Rogue Notify mode. (ADMIN)')
     async def roguenotify(self, ctx):
         await ctx.message.delete()
@@ -133,6 +147,7 @@ class Rogue(commands.Cog):
             variables.rogue_notify = True
             await ctx.send('Rogue will tag everyone when item stock notification is sent.')
 
+    # Enable debug print out in console
     @commands.command(aliases=['debug', 'debugrogue'], brief='Toggles Rogue debug mode. (ADMIN)')
     async def roguedebug(self, ctx):
         await ctx.message.delete()
@@ -143,6 +158,7 @@ class Rogue(commands.Cog):
             variables.rogue_debug_mode = True
             await ctx.send('Rogue Debug Mode turned on. Enabling additional console output.')
 
+    # Enable persistent data whenever restarting Rogue tracking
     @commands.command(aliases=['persist', 'persistrogue'], brief='Toggle Rogue persist logging. (ADMIN)')
     async def roguepersist(self, ctx):
         await ctx.message.delete()
@@ -154,6 +170,7 @@ class Rogue(commands.Cog):
             await ctx.send('Rogue Persist Mode turned on. Bot will not notify items that were previously '
                            'notified if they are still in stock upon next startup.')
 
+    # Get status of Rogue tracker
     @commands.command(aliases=['status', 'statusrogue'], brief='Toggle Rogue persist logging. (ADMIN)')
     async def roguestatus(self, ctx):
         await ctx.message.delete()
