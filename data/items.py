@@ -491,6 +491,12 @@ search_urls = {
         "link": "https://www.roguefitness.com/rogue-boneyard-curl-bar",
         "category": "boneyard"
     },
+    "bone rackable curl": {
+        "type": "bone",
+        "product_name": "Boneyard Rackable Curl Bars",
+        "link": "https://www.roguefitness.com/boneyard-rogue-rackable-curl-bar",
+        "category": "boneyard"
+    },
     "bone 25": {
         "type": "bone",
         "product_name": "Rogue 25MM Boneyard Bars",
@@ -506,7 +512,8 @@ search_urls = {
     "bone oso pro": {
         "type": "bone",
         "product_name": "Boneyard OSO Pro Collars",
-        "link": "https://www.roguefitness.com/boneyard-oso-pro-collars-closeout",
+        # "link": "https://www.roguefitness.com/boneyard-oso-pro-collars-closeout",
+        "link": "https://www.roguefitness.com/rogue-oso-barbell-collars",
         "category": "boneyard"
     },
     "bike echo": {
