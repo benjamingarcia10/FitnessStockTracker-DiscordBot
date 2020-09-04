@@ -79,6 +79,9 @@ def get_data_from_item(item_name):
                 'in_stock': try_except(lambda: single_item.find(class_='bin-stock-availability').text.strip(),
                                        lambda: 'NOT FOUND')
             }
+            item_quantity = single_item.find(class_='item-qty')
+            if item_quantity is None:
+                new_item['in_stock'] = 'Out of Stock'
             page_items.append(new_item)
     elif item_type == 'bone':
         if redirect_count == 0:
@@ -136,6 +139,9 @@ def get_data_from_item(item_name):
             'in_stock': try_except(lambda: page_soup.select('.product-options-bottom button')[0].text.strip(),
                                    lambda: 'NOT FOUND')
         }
+        item_quantity = page_soup.find(class_='qty-wrapper')
+        if item_quantity is None:
+            new_item['in_stock'] = 'Out of Stock'
         page_items.append(new_item)
     image_url = try_except(lambda: page_soup.find('div', class_='prod-header-img').find('img')['src'],
                            lambda: 'NOT FOUND'),
