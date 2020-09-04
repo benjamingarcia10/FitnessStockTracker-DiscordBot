@@ -18,7 +18,7 @@ Check out the original version of this tracker from jonniechow that worked as a 
 * Checks items as often as you'd like so
 
 # How to Use
-0. Install [Python](https://www.python.org/downloads/) and be sure to install pip and add Python to PATH as well using the Python installer.
+0. Install [Python3](https://www.python.org/downloads/) and be sure to install pip and add Python to PATH as well using the Python installer.
 1. Create a Discord server or use an existing one that you have Administrator permission to.
 2. Create a text channel of where you want the stock updates to be posted to.
 3. Create a Webhook to that text channel and save the Webhook URL for step 5.
@@ -37,7 +37,7 @@ Check out the original version of this tracker from jonniechow that worked as a 
 	    - Then open the variables.py file in a text editor and change the line that says ``send_text_notification = False`` to ``send_text_notification = True``
 7. Install all dependencies for this project
 	- Open a CMD/Powershell window in the root directory of the project and run the following command:
-		- ``pip install -r requirements.txt``
+		- ``pip3 install -r requirements.txt``
 		- Ensure there are no errors when running the command.
 8. Run the bot.py file and you should see your bot come online in your Discord server.
 9. Create a role that you would like to authorize to use the bot and run the following command (you can change this at any time by rerunning the command): ``/authrole {role}``
