@@ -152,6 +152,7 @@ def check_items():
     print(f'\tLongest Run Time: {variables.longest_run_time}')
     print(f'\tAverage Run Time: {variables.average_run_time}\n')
     variables.last_successful_check = datetime.now().strftime("%m/%d/%Y %I:%M:%S %p")
+    variables.last_successful_check_runtime = code_execution_time
 
     threading.Thread(target=check_items).start()
 

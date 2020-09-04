@@ -3,6 +3,7 @@ bot_manager = None
 max_threads = 50
 check_counter = 0
 last_successful_check = None
+last_successful_check_runtime = None
 longest_run_time = None
 average_run_time = None
 play_notification_sound = False
