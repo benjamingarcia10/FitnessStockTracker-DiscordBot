@@ -22,7 +22,10 @@ def send_rogue_stock_webhook(product_tag, item_variations, item_link='', image_u
                                        avatar_url='https://i.imgur.com/LbZlRjA.png')
 
         if variables.rogue_notify:
-            stock_webhook.content = f'{variables.items_to_check[product_tag]["product_name"]} @everyone'
+            try:
+                stock_webhook.content = f'{variables.items_to_check[product_tag]["product_name"]} @everyone'
+            except:
+                stock_webhook.content = f'@everyone'
 
         stock_embed = DiscordEmbed(color='5111552',
                                    title=f'Item(s) In Stock Matching Search: "{product_tag}"',
