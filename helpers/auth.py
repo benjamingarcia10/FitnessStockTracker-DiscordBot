@@ -5,6 +5,8 @@ developer_id = 433083891109330945
 allowed_commands = ['help']
 
 
+# Global command check to see if user is authorized to use command
+# Commands in the allowed_commands list will be authorized by anyone
 async def is_authorized(ctx):
     if ctx.command.name in allowed_commands:
         return True

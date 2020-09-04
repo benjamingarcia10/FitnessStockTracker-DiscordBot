@@ -79,7 +79,7 @@ def send_rogue_stock_webhook(product_tag, item_variations, item_link='', image_u
                                      'console output for more information.')
 
 
-# Send Test Discord Webhook for Rogue items to verify it is functional using url from .env file and data arguments
+# Send Test Discord Webhooks for Rogue tracker to verify it is functional using urls from .env file and data arguments
 def send_test_rogue_webhook():
     try:
         current_time = datetime.now().strftime('%m/%d/%Y %I:%M:%S %p')

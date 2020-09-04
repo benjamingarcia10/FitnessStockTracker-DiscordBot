@@ -7,6 +7,7 @@ class Tools(commands.Cog):
     def __init__(self, client):
         self.client = client
 
+    # Clear last messages (default is 100 messages unless otherwise set)
     @commands.command(aliases=['purge', 'clear'], brief='Clear previous amount of messages. (ADMIN)')
     async def clean(self, ctx, limit: int = 100):
         await ctx.channel.purge(limit=limit + 1)

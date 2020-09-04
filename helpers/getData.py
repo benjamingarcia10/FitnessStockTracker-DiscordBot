@@ -12,6 +12,7 @@ from helpers.notifications import send_rogue_error_webhook
 current_session = requests.Session()
 
 
+# Create new session with cookies from www.roguefitness.com
 def create_new_session():
     global current_session
     try:
@@ -35,6 +36,7 @@ def create_new_session():
                                  f'please restart Rogue tracking ({variables.command_prefix}rogue).')
 
 
+# Extract data from item based on item_name and item type
 def get_data_from_item(item_name):
     global current_session
     item_type = search_urls[item_name]['type']
@@ -43,6 +45,7 @@ def get_data_from_item(item_name):
     item_category = search_urls[item_name]['category']
     page_items = []
 
+    # If connection error, stop tracking and send error notification
     try:
         response = current_session.get(item_link)
         redirect_count = len(response.history)
@@ -52,6 +55,7 @@ def get_data_from_item(item_name):
                                  f'please restart Rogue tracking ({variables.command_prefix}rogue).')
         return
 
+    # Stop tracking and send error notification if captcha is found
     if page_soup.find(id='cfRayId') is not None:
         print(f'\tFound Captcha')
         print(f'\tRequest: {current_session.headers}')
