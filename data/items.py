@@ -15,6 +15,19 @@
 categories = ['acc', 'au', 'barbell', 'bench', 'boneyard', 'cardio', 'cond', 'inf', 'ironmaster', 'm', 'ml',
               'other', 'plate', 'rack', 'spec_bar', 'squat stand', 'storage', 'uk']
 
+
+# Return all items from search_urls that match passed in category value
+def get_items_by_category(category):
+    if category not in categories:
+        return []
+    else:
+        items = []
+        for item in search_urls:
+            if search_urls[item]['category'] == category:
+                items.append(item)
+        return items
+
+
 search_urls = {
     "parallel landmine handle": {
         "type": "multi",
