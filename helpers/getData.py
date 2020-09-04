@@ -59,14 +59,17 @@ def get_data_from_item(item_name):
 
     # Stop tracking and send error notification if captcha is found
     if page_soup.find(id='cfRayId') is not None:
-        print(f'\tFound Captcha When Checking {item_name}')
-        print(f'\tLink: {item_link}')
-        print(f'\tRequest: {current_session.headers}')
-        print(f'\tResponse: {response.headers}')
-        print(f'\tCookies: {current_session.cookies}')
-        # print(page_soup)
-        send_rogue_error_webhook(f'CAPTCHA FOUND on {item_name} - Stopping tracking')
-        return
+        if item_type == 'bone' or item_type == 'grab bag':
+            pass
+        else:
+            print(f'\tFound Captcha When Checking {item_name}')
+            print(f'\tLink: {item_link}')
+            print(f'\tRequest: {current_session.headers}')
+            print(f'\tResponse: {response.headers}')
+            print(f'\tCookies: {current_session.cookies}')
+            # print(page_soup)
+            send_rogue_error_webhook(f'CAPTCHA FOUND on {item_name} - Stopping tracking')
+            return
 
     if item_type == 'multi':
         grouped_items = page_soup.find_all(class_='grouped-item')

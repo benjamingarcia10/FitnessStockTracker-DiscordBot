@@ -2,7 +2,7 @@ import variables
 from discord.ext import commands
 
 developer_id = 433083891109330945
-allowed_commands = ['help']
+allowed_commands = ['help', 'donate', 'roguestatus']
 
 
 # Global command check to see if user is authorized to use command

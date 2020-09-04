@@ -177,7 +177,7 @@ class Rogue(commands.Cog):
                            'notified if they are still in stock upon next startup.')
 
     # Get status of Rogue tracker
-    @commands.command(aliases=['status', 'statusrogue'], brief='Toggle Rogue persist logging. (ADMIN)')
+    @commands.command(aliases=['status', 'statusrogue'], brief='View current Rogue bot status.')
     async def roguestatus(self, ctx):
         await ctx.message.delete()
 
