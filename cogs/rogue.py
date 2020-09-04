@@ -62,11 +62,12 @@ class Rogue(commands.Cog):
                     if len(formatted_item) <= 0 or formatted_item[0] == '#' or formatted_item[0:2] == '//':
                         continue
                     elif formatted_item.split(':')[0].strip() == 'category':
-                        category_items = get_items_by_category(formatted_item.split(':')[1].strip())
+                        category_name = formatted_item.split(':')[1].strip()
+                        category_items = get_items_by_category(category_name)
                         if len(category_items) > 0:
                             if len(embed_description) > 0:
                                 embed_description += '\n'
-                            embed_description += f'**Category: {formatted_item.split(":")[1].strip()}**\n'
+                            embed_description += f'**Category: {category_name}**\n'
                             for category_item in category_items:
                                 if category_item not in variables.items_to_check:
                                     variables.items_to_check[category_item] = search_urls[category_item]
@@ -76,7 +77,6 @@ class Rogue(commands.Cog):
                                         f'Tracking stock for "{category_item}": '
                                         f'{variables.items_to_check[category_item]["product_name"]}')
                                     item_number += 1
-                            embed_description += '\n'
                     elif formatted_item not in variables.items_to_check:
                         variables.items_to_check[formatted_item] = search_urls[formatted_item]
                         embed_description += f'{item_number}: ' \
@@ -100,6 +100,8 @@ class Rogue(commands.Cog):
                 embed_msg.title = 'Starting Rogue Stock Tracking'
                 start_time = datetime.now().strftime('%m/%d/%Y %I:%M:%S %p')
                 embed_msg.description = f'**Start Time:** {start_time}\n\n{embed_description}'
+                if len(embed_msg.description) >= 2048:
+                    embed_msg.description = f'{embed_msg.description[0:2036]}\n**more...**'
                 embed_msg.set_footer(text=f'Developer: Benjamin#9229', icon_url='https://i.imgur.com/1lNJjf3.png')
                 await rogue_items_to_track_message.edit(embed=embed_msg)
                 reset_rogue_variables()
@@ -124,6 +126,8 @@ class Rogue(commands.Cog):
 
             embed_msg = discord.Embed(title='Stopping Rogue Stock Tracking', color=16711680,
                                       description=embed_description)
+            if len(embed_msg.description) >= 2048:
+                embed_msg.description = f'{embed_msg.description[0:2036]}\n**more...**'
             embed_msg.set_footer(text=f'Developer: Benjamin#9229', icon_url='https://i.imgur.com/1lNJjf3.png')
             # embed_msg.set_thumbnail(url='https://i.imgur.com/LbZlRjA.png')
             embed_msg.set_image(url='https://i.imgur.com/LbZlRjA.png')
@@ -206,6 +210,8 @@ class Rogue(commands.Cog):
 
         embed_msg = discord.Embed(title='Rogue Bot Status', color=16711680,
                                   description=embed_description)
+        if len(embed_msg.description) >= 2048:
+            embed_msg.description = f'{embed_msg.description[0:2036]}\n**more...**'
         embed_msg.set_footer(text=f'Developer: Benjamin#9229', icon_url='https://i.imgur.com/1lNJjf3.png')
         # embed_msg.set_thumbnail(url='https://i.imgur.com/LbZlRjA.png')
         embed_msg.set_image(url='https://i.imgur.com/LbZlRjA.png')

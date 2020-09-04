@@ -53,6 +53,10 @@ def send_rogue_stock_webhook(product_tag, item_variations, item_link='', image_u
                                    title=f'Item(s) In Stock Matching Search: "{product_tag}"',
                                    description=description,
                                    url=item_link)
+
+        if len(stock_embed.description) >= 2048:
+            stock_embed.description = f'{stock_embed.description[0:2036]}\n**more...**'
+
         stock_embed.set_footer(text=f'Developer: Benjamin#9229', icon_url='https://i.imgur.com/1lNJjf3.png')
         if image_url == '' or image_url == 'NOT FOUND':
             pass
@@ -63,14 +67,19 @@ def send_rogue_stock_webhook(product_tag, item_variations, item_link='', image_u
         response = stock_webhook.execute()
     except Exception as e:
         if custom_webhook_url:
+            print(f'\t{type(e)} Could not send Discord Webhook: {e}')
+            print(f"\tFound webhook URL: {stock_webhook.url}. If that is incorrect, check your "
+                  f"environment variables.")
+            print(f'\tAttempting to send webhook to main URL.')
             try:
                 stock_webhook.url = os.getenv('ROGUE_FITNESS_WEBHOOK_URL')
+                response = stock_webhook.execute()
             except:
                 print(f'\t{type(e)} Could not send Discord Webhook: {e}')
                 print(f"\tFound webhook URL: {stock_webhook.url}. If that is incorrect, check your "
                           f"environment variables.")
-                send_rogue_error_webhook('Unable to trigger stock Discord notification. Please check webhook URLs and view '
-                                         'console output for more information.')
+                send_rogue_error_webhook('Unable to trigger stock Discord notification. '
+                                         'Please check webhook URLs and view console output for more information.')
         else:
             print(f'\t{type(e)} Could not send Discord Webhook: {e}')
             print(f"\tFound webhook URL: {stock_webhook.url}. If that is incorrect, check your "
