@@ -13,7 +13,7 @@ current_session = requests.Session()
 
 
 # Create new session with cookies from www.roguefitness.com
-def create_new_session():
+def create_new_session(url):
     global current_session
     try:
         current_session.close()
@@ -26,7 +26,7 @@ def create_new_session():
             # 'authority': 'www.roguefitness.com',
         })
 
-        current_session.get('https://www.roguefitness.com/')
+        current_session.get(url)
 
         if variables.rogue_debug_mode:
             print(f'\t{len(current_session.cookies)} Cookie(s): {current_session.cookies}')

@@ -74,7 +74,7 @@ def check_items():
     #     'in_stock': STOCK TEXT
     # },
     # ...}]
-    create_new_session()
+    create_new_session('https://www.roguefitness.com/')
     with concurrent.futures.ThreadPoolExecutor(max_workers=threads) as executor:
         executor.map(get_data_from_item, variables.items_to_check.keys())
         # executor.map(get_data_from_item, variables.items_to_check.keys(), variables.items_to_check.values())
