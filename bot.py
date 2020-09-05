@@ -23,6 +23,7 @@ async def on_ready():
     if variables.is_tracking_rogue:
         send_rogue_error_webhook(f'Cloud Server connection error. Bot managers or server admins '
                                  f'please restart Rogue tracking ({variables.command_prefix}rogue).')
+        # TODO Restart Rogue tracking if bot was previously tracking before being shut down.
     for category in categories:
         try:
             role_id = int(os.getenv(f'{category}-role-id'))
