@@ -31,8 +31,9 @@ def create_new_session(url):
         if variables.rogue_debug_mode:
             print(f'\t{len(current_session.cookies)} Cookie(s): {current_session.cookies}')
     except Exception as e:
-        send_rogue_error_webhook(f'{type(e)} - {e} Cloud Server connection error. Bot managers or server admins '
-                                 f'please restart Rogue tracking ({variables.command_prefix}rogue).')
+        send_rogue_error_webhook(f'{type(e)} - {e} Could not create new session. Cloud Server connection error. '
+                                 f'Bot managers or server admins  please restart Rogue tracking '
+                                 f'({variables.command_prefix}rogue).')
 
 
 # Extract data from item based on item_name and item type
@@ -53,8 +54,9 @@ def get_data_from_item(item_name):
         redirect_count = len(response.history)
         page_soup = soup(response.text, 'html.parser')
     except Exception as e:
-        send_rogue_error_webhook(f'{type(e)} - {e} Cloud Server connection error. Bot managers or server admins '
-                                 f'please restart Rogue tracking ({variables.command_prefix}rogue).')
+        send_rogue_error_webhook(f'{type(e)} - {e} Could not connect to page when tracking {item_name}. Cloud Server '
+                                 f'connection error. Bot managers or server admins please restart Rogue tracking '
+                                 f'({variables.command_prefix}rogue).')
         return
 
     # Stop tracking and send error notification if captcha is found
