@@ -218,8 +218,8 @@ class Rogue(commands.Cog):
         if len(embed_msg.description) >= 2048:
             embed_msg.description = f'{embed_msg.description[0:2036]}\n**more...**'
         embed_msg.set_footer(text=f'Developer: Benjamin#9229', icon_url='https://i.imgur.com/1lNJjf3.png')
-        # embed_msg.set_thumbnail(url='https://i.imgur.com/LbZlRjA.png')
-        embed_msg.set_image(url='https://i.imgur.com/LbZlRjA.png')
+        embed_msg.set_thumbnail(url='https://i.imgur.com/LbZlRjA.png')
+        # embed_msg.set_image(url='https://i.imgur.com/LbZlRjA.png')
         status_message = await ctx.send(embed=embed_msg)
 
 
