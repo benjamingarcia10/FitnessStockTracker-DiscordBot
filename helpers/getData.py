@@ -32,7 +32,7 @@ def create_new_session(url):
             print(f'\t{len(current_session.cookies)} Cookie(s): {current_session.cookies}')
     except Exception as e:
         send_rogue_error_webhook(f'{type(e)} - {e} Could not create new session. Cloud Server connection error. '
-                                 f'Bot managers or server admins  please restart Rogue tracking '
+                                 f'Bot managers or server admins please restart Rogue tracking '
                                  f'({variables.command_prefix}rogue).')
 
 
