@@ -21,20 +21,6 @@ client.add_check(is_authorized)
 async def on_ready():
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching,
                                                            name=f'Fitness Stock | {variables.command_prefix}help'))
-    if variables.is_tracking_rogue:
-        send_rogue_error_webhook(f'Cloud Server connection error. Attempting to restart Rogue tracking.',
-                                 stop_tracking=False)
-        try:
-            variables.rogue_persist = True
-            reset_rogue_variables()
-            start_tracking_rogue()
-        except Exception as e:
-            send_rogue_error_webhook(f'Unable to automatically restart: {type(e)} - {e}. Bot managers or server admins '
-                                     f'please restart Rogue tracking ({variables.command_prefix}rogue).')
-        else:
-            send_rogue_error_webhook(f'Rogue tracking has been successfully restarted with persist mode enabled.',
-                                     stop_tracking=False)
-        # TODO Restart Rogue tracking if bot was previously tracking before being shut down.
     for category in categories:
         try:
             role_id = int(os.getenv(f'{category}-role-id'))
@@ -45,6 +31,23 @@ async def on_ready():
             'webhook_url': os.getenv(f'{category}-webhook')
         }
     print(f'Category Tracking: {variables.rogue_category_data}')
+
+    if variables.is_tracking_rogue and len(variables.items_to_check) > 0:
+        send_rogue_error_webhook(f'Cloud Server connection error. Attempting to restart Rogue tracking.',
+                                 stop_tracking=False)
+        try:
+            variables.rogue_persist = True
+            reset_rogue_variables()
+            start_tracking_rogue()
+        except Exception as e:
+            send_rogue_error_webhook(f'Unable to automatically restart: {type(e)} - {e}. Bot managers or server admins '
+                                     f'please restart Rogue tracking ({variables.command_prefix}rogue).')
+        else:
+            send_rogue_error_webhook(f'Rogue tracking has been successfully restarted with persist mode enabled. Now '
+                                     f'tracking {len(variables.items_to_check)} items.', stop_tracking=False)
+    elif variables.is_tracking_rogue:
+        send_rogue_error_webhook(f'Cloud Server connection error. Bot managers or server admins please restart Rogue '
+                                 f'tracking ({variables.command_prefix}rogue).')
     print(f'{client.user} has connected to Discord and is ready!')
 
 
