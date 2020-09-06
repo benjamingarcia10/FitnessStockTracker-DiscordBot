@@ -6,6 +6,7 @@ import variables
 from data.items import categories
 from helpers.auth import is_authorized
 from helpers.notifications import send_rogue_error_webhook
+from helpers.threadedChecker import reset_rogue_variables, start_tracking_rogue
 
 load_dotenv(override=True)
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -21,8 +22,18 @@ async def on_ready():
     await client.change_presence(activity=discord.Activity(type=discord.ActivityType.watching,
                                                            name=f'Fitness Stock | {variables.command_prefix}help'))
     if variables.is_tracking_rogue:
-        send_rogue_error_webhook(f'Cloud Server connection error. Bot managers or server admins '
-                                 f'please restart Rogue tracking ({variables.command_prefix}rogue).')
+        send_rogue_error_webhook(f'Cloud Server connection error. Attempting to restart Rogue tracking.',
+                                 stop_tracking=False)
+        try:
+            variables.rogue_persist = True
+            reset_rogue_variables()
+            start_tracking_rogue()
+        except Exception as e:
+            send_rogue_error_webhook(f'Unable to automatically restart: {type(e)} - {e}. Bot managers or server admins '
+                                     f'please restart Rogue tracking ({variables.command_prefix}rogue).')
+        else:
+            send_rogue_error_webhook(f'Rogue tracking has been successfully restarted with persist mode enabled.',
+                                     stop_tracking=False)
         # TODO Restart Rogue tracking if bot was previously tracking before being shut down.
     for category in categories:
         try:

@@ -131,10 +131,11 @@ def send_test_rogue_webhook():
 
 
 # Send Discord Webhook to show that Rogue tracking stopped due to error using url from .env file and data arguments
-def send_rogue_error_webhook(error_message):
-    variables.is_tracking_rogue = False
-    variables.items_to_check = {}
-    variables.checked_items = {}
+def send_rogue_error_webhook(error_message, stop_tracking: bool = True):
+    if stop_tracking:
+        variables.is_tracking_rogue = False
+        variables.items_to_check = {}
+        variables.checked_items = {}
     try:
         current_time = datetime.now().strftime('%m/%d/%Y %I:%M:%S %p')
         error_description = f'**Current Time:** {current_time}\n\n{error_message}'
