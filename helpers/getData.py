@@ -18,6 +18,7 @@ def create_new_session(url):
     try:
         current_session.close()
         current_session = requests.Session()
+
         if variables.rogue_debug_mode:
             print(f'\tCreated new session.')
 
@@ -54,9 +55,15 @@ def get_data_from_item(item_name):
         redirect_count = len(response.history)
         page_soup = soup(response.text, 'html.parser')
     except Exception as e:
-        send_rogue_error_webhook(f'{type(e)} - {e} Could not connect to page when tracking {item_name}. Cloud Server '
-                                 f'connection error. Bot managers or server admins please restart Rogue tracking '
-                                 f'({variables.command_prefix}rogue).')
+        try:
+            create_new_session('https://www.roguefitness.com/')
+            response = current_session.get(item_link)
+            redirect_count = len(response.history)
+            page_soup = soup(response.text, 'html.parser')
+        except:
+            send_rogue_error_webhook(f'{type(e)} - {e} Could not connect to page when tracking {item_name}. Cloud '
+                                     f'Server connection error. Bot managers or server admins please restart Rogue '
+                                     f'tracking ({variables.command_prefix}rogue).')
         return
 
     # Stop tracking and send error notification if captcha is found
@@ -64,14 +71,23 @@ def get_data_from_item(item_name):
         if item_type == 'bone' or item_type == 'grab bag':
             pass
         else:
-            print(f'\tFound Captcha When Checking {item_name}')
-            print(f'\tLink: {item_link}')
-            print(f'\tRequest: {current_session.headers}')
-            print(f'\tResponse: {response.headers}')
-            print(f'\tCookies: {current_session.cookies}')
-            # print(page_soup)
-            send_rogue_error_webhook(f'CAPTCHA FOUND on {item_name} - Stopping tracking')
-            return
+            create_new_session('https://www.roguefitness.com/')
+            response = current_session.get(item_link)
+            redirect_count = len(response.history)
+            page_soup = soup(response.text, 'html.parser')
+
+            if page_soup.find(id='cfRayId') is not None:
+                if item_type == 'bone' or item_type == 'grab bag':
+                    pass
+                else:
+                    print(f'\tFound Captcha When Checking {item_name}')
+                    print(f'\tLink: {item_link}')
+                    print(f'\tRequest: {current_session.headers}')
+                    print(f'\tResponse: {response.headers}')
+                    print(f'\tCookies: {current_session.cookies}')
+                    # print(page_soup)
+                    send_rogue_error_webhook(f'CAPTCHA FOUND on {item_name} - Stopping tracking')
+                    return
 
     if item_type == 'multi':
         grouped_items = page_soup.find_all(class_='grouped-item')

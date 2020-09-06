@@ -45,9 +45,10 @@ async def on_ready():
         else:
             send_rogue_error_webhook(f'Rogue tracking has been successfully restarted with persist mode enabled. Now '
                                      f'tracking {len(variables.items_to_check)} items.', stop_tracking=False)
-    elif variables.is_tracking_rogue:
+    elif variables.is_tracking_rogue or (not variables.is_tracking_rogue and len(variables.items_to_check) > 0):
         send_rogue_error_webhook(f'Cloud Server connection error. Bot managers or server admins please restart Rogue '
                                  f'tracking ({variables.command_prefix}rogue).')
+
     print(f'{client.user} has connected to Discord and is ready!')
 
 
