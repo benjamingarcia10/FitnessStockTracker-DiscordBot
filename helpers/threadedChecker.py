@@ -42,8 +42,8 @@ def start_tracking_rogue():
 # Stop tracking rogue
 def stop_tracking_rogue():
     variables.is_tracking_rogue = False
-    variables.items_to_check = {}
-    variables.checked_items = {}
+    # variables.items_to_check = {}
+    # variables.checked_items = {}
 
 
 # Main function call to check items
@@ -75,6 +75,10 @@ def check_items():
     # },
     # ...}]
     create_new_session('https://www.roguefitness.com/')
+
+    if variables.rogue_debug_mode:
+        print(f'\tITEMS TO CHECK: {variables.items_to_check}')
+
     with concurrent.futures.ThreadPoolExecutor(max_workers=threads) as executor:
         executor.map(get_data_from_item, variables.items_to_check.keys())
         # executor.map(get_data_from_item, variables.items_to_check.keys(), variables.items_to_check.values())
