@@ -10,31 +10,68 @@ import variables
 from helpers.notifications import send_rogue_error_webhook
 
 current_session = requests.Session()
+item_retry_data = {}
+max_session_retries = 10
 
 
 # Create new session with cookies from www.roguefitness.com
-def create_new_session(url):
-    global current_session
-    try:
-        current_session.close()
-        current_session = requests.Session()
+def create_new_session(url, item_name=None):
+    global current_session, item_retry_data, max_session_retries
+    if item_name is None:
+        try:
+            current_session.close()
+            current_session = requests.Session()
 
-        if variables.rogue_debug_mode:
-            print(f'\tCreated new session.')
+            if variables.rogue_debug_mode:
+                print(f'\tCreated new session.')
 
-        current_session.headers.update({
-            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36',
-            # 'authority': 'www.roguefitness.com',
-        })
+            current_session.headers.update({
+                'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36',
+                # 'authority': 'www.roguefitness.com',
+            })
 
-        current_session.get(url)
+            current_session.get(url)
 
-        if variables.rogue_debug_mode:
-            print(f'\t{len(current_session.cookies)} Cookie(s): {current_session.cookies}')
-    except Exception as e:
-        send_rogue_error_webhook(f'{type(e)} - {e} Could not create new session. Cloud Server connection error. '
-                                 f'Bot managers or server admins please restart Rogue tracking '
-                                 f'({variables.command_prefix}rogue).')
+            if variables.rogue_debug_mode:
+                print(f'\t{len(current_session.cookies)} Cookie(s): {current_session.cookies}')
+        except Exception as e:
+            send_rogue_error_webhook(f'{type(e)} - {e} Could not create new session. Cloud Server connection error. '
+                                     f'Bot managers or server admins please restart Rogue tracking '
+                                     f'({variables.command_prefix}rogue).')
+    else:
+        try:
+            if item_retry_data[item_name]['current_session'] is not None:
+                item_retry_data[item_name]['current_session'].close()
+            new_session = requests.Session()
+
+            if variables.rogue_debug_mode:
+                print(f'\tCreated new session for item: {item_name}.')
+
+            new_session.headers.update({
+                'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36',
+                # 'authority': 'www.roguefitness.com',
+            })
+
+            new_session.get(url)
+
+            if variables.rogue_debug_mode:
+                print(f'\tITEM SESSION ({item_name}) - {len(new_session.cookies)} Cookie(s): {new_session.cookies}')
+            item_retry_data[item_name]['retry_count'] = 0
+            item_retry_data[item_name]['current_session'] = new_session
+            return new_session
+        except Exception as e:
+            if item_name in item_retry_data:
+                item_retry_data[item_name]['retry_count'] += 1
+            else:
+                item_retry_data[item_name]['retry_count'] = 1
+            if item_retry_data[item_name]['retry_count'] > max_session_retries:
+                send_rogue_error_webhook(
+                    f'{type(e)} - {e} Could not create new session for {item_name} after '
+                    f'{item_retry_data[item_name]["retry_count"]} retries. Cloud Server connection error. '
+                    f'Bot managers or server admins please restart Rogue tracking ({variables.command_prefix}rogue).')
+                return None
+            else:
+                return create_new_session(url, item_name)
 
 
 # Extract data from item based on item_name and item type
@@ -56,30 +93,28 @@ def get_data_from_item(item_name):
         page_soup = soup(response.text, 'html.parser')
     except Exception as e:
         try:
-            create_new_session('https://www.roguefitness.com/')
-            response = current_session.get(item_link)
+            new_session = create_new_session('https://www.roguefitness.com/', item_name)
+            response = new_session.get(item_link)
             redirect_count = len(response.history)
             page_soup = soup(response.text, 'html.parser')
         except:
             send_rogue_error_webhook(f'{type(e)} - {e} Could not connect to page when tracking {item_name}. Cloud '
                                      f'Server connection error. Bot managers or server admins please restart Rogue '
                                      f'tracking ({variables.command_prefix}rogue).')
-        return
+            return
 
     # Stop tracking and send error notification if captcha is found
     if page_soup.find(id='cfRayId') is not None:
         if item_type == 'bone' or item_type == 'grab bag':
             pass
         else:
-            create_new_session('https://www.roguefitness.com/')
-            response = current_session.get(item_link)
-            redirect_count = len(response.history)
-            page_soup = soup(response.text, 'html.parser')
+            try:
+                new_session = create_new_session('https://www.roguefitness.com/', item_name)
+                response = new_session.get(item_link)
+                redirect_count = len(response.history)
+                page_soup = soup(response.text, 'html.parser')
 
-            if page_soup.find(id='cfRayId') is not None:
-                if item_type == 'bone' or item_type == 'grab bag':
-                    pass
-                else:
+                if page_soup.find(id='cfRayId') is not None:
                     print(f'\tFound Captcha When Checking {item_name}')
                     print(f'\tLink: {item_link}')
                     print(f'\tRequest: {current_session.headers}')
@@ -87,7 +122,11 @@ def get_data_from_item(item_name):
                     print(f'\tCookies: {current_session.cookies}')
                     # print(page_soup)
                     send_rogue_error_webhook(f'CAPTCHA FOUND on {item_name} - Stopping tracking')
-                    return
+            except Exception as e1:
+                send_rogue_error_webhook(f'{type(e1)} - {e1} Could not connect to page when tracking {item_name}. '
+                                         f'Cloud Server connection error. Bot managers or server admins please '
+                                         f'restart Rogue tracking ({variables.command_prefix}rogue).')
+                return
 
     if item_type == 'multi':
         grouped_items = page_soup.find_all(class_='grouped-item')
