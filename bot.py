@@ -6,7 +6,8 @@ import variables
 from data.items import categories
 from helpers.auth import is_authorized
 from helpers.notifications import send_rogue_error_webhook
-from helpers.threadedChecker import reset_rogue_variables, start_tracking_rogue
+from helpers.threadedChecker import reset_rogue_variables, start_tracking_rogue, stop_tracking_rogue
+import asyncio
 
 load_dotenv(override=True)
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -41,22 +42,26 @@ async def on_ready():
     print(f'Set Bot Manager to: {variables.bot_manager.name} (Role ID: {variables.bot_manager.id})')
 
     if variables.is_tracking_rogue and len(variables.items_to_check) > 0:
-        send_rogue_error_webhook(f'Cloud Server connection error. Attempting to restart Rogue tracking.',
-                                 stop_tracking=False)
+        restart_delay = 5
+        send_rogue_error_webhook(f'ERROR #1: Cloud Server connection error. Attempting to restart Rogue tracking in '
+                                 f'{restart_delay} seconds.', stop_tracking=False)
         try:
+            stop_tracking_rogue()
+            await asyncio.sleep(restart_delay)
             variables.rogue_persist = True
             variables.checked_items = {}
             reset_rogue_variables()
             start_tracking_rogue()
         except Exception as e:
-            send_rogue_error_webhook(f'Unable to automatically restart: {type(e)} - {e}. Bot managers or server admins '
-                                     f'please restart Rogue tracking ({variables.command_prefix}rogue).')
+            send_rogue_error_webhook(f'ERROR #2: Unable to automatically restart: {type(e)} - {e}. Bot managers or '
+                                     f'server admins please restart Rogue tracking ({variables.command_prefix}rogue).')
         else:
-            send_rogue_error_webhook(f'Rogue tracking has been successfully restarted with persist mode enabled. Now '
-                                     f'tracking {len(variables.items_to_check)} items.', stop_tracking=False)
+            send_rogue_error_webhook(f'ERROR #3: Rogue tracking has been successfully restarted with persist mode '
+                                     f'enabled. Now tracking {len(variables.items_to_check)} items.',
+                                     stop_tracking=False)
     elif variables.is_tracking_rogue or (not variables.is_tracking_rogue and len(variables.items_to_check) > 0):
-        send_rogue_error_webhook(f'Cloud Server connection error. Bot managers or server admins please restart Rogue '
-                                 f'tracking ({variables.command_prefix}rogue).')
+        send_rogue_error_webhook(f'ERROR #4: Cloud Server connection error. Bot managers or server admins please '
+                                 f'restart Rogue tracking ({variables.command_prefix}rogue).')
 
 
 # Command error handler

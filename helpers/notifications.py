@@ -78,14 +78,14 @@ def send_rogue_stock_webhook(product_tag, item_variations, item_link='', image_u
                 print(f'\t{type(e1)} Could not send Discord Webhook: {e1}')
                 print(f"\tFound webhook URL: {stock_webhook.url}. If that is incorrect, check your "
                       f"environment variables.")
-                send_rogue_error_webhook('Unable to trigger stock Discord notification. '
+                send_rogue_error_webhook('ERROR #8: Unable to trigger stock Discord notification. '
                                          'Please check webhook URLs and view console output for more information.')
         else:
             print(f'\t{type(e)} Could not send Discord Webhook: {e}')
             print(f"\tFound webhook URL: {stock_webhook.url}. If that is incorrect, check your "
                   f"environment variables.")
-            send_rogue_error_webhook('Unable to trigger stock Discord notification. Please check webhook URLs and view '
-                                     'console output for more information.')
+            send_rogue_error_webhook('ERROR #9: Unable to trigger stock Discord notification. Please check webhook '
+                                     'URLs and view console output for more information.')
 
 
 # Send Test Discord Webhooks for Rogue tracker to verify it is functional using urls from .env file and data arguments

@@ -44,9 +44,9 @@ def create_new_session(url, item_name=None):
             traceback.print_exc()
             original_session_retries += 1
             if original_session_retries > max_session_retries:
-                send_rogue_error_webhook(f'{type(e)} - {e} Could not create new session. Cloud Server connection '
-                                         f'error. Bot managers or server admins please restart Rogue tracking '
-                                         f'({variables.command_prefix}rogue).')
+                send_rogue_error_webhook(f'ERROR #5: {type(e)} - {e} Could not create new session. Cloud Server '
+                                         f'connection error. Bot managers or server admins please restart Rogue '
+                                         f'tracking ({variables.command_prefix}rogue).')
                 return
             else:
                 if variables.rogue_debug_mode:
@@ -131,9 +131,9 @@ def get_data_from_item(item_name):
             page_soup = soup(response.text, 'html.parser')
         except Exception as e:
             traceback.print_exc()
-            send_rogue_error_webhook(f'{type(e)} - {e} Could not connect to page when tracking {item_name}. Cloud '
-                                     f'Server connection error. Bot managers or server admins please restart Rogue '
-                                     f'tracking ({variables.command_prefix}rogue).')
+            send_rogue_error_webhook(f'ERROR #6: {type(e)} - {e} Could not connect to page when tracking {item_name}. '
+                                     f'Cloud Server connection error. Bot managers or server admins please restart '
+                                     f'Rogue tracking ({variables.command_prefix}rogue).')
             return
 
     # Stop tracking and send error notification if captcha is found
@@ -160,9 +160,9 @@ def get_data_from_item(item_name):
                         break
             except Exception as e1:
                 traceback.print_exc()
-                send_rogue_error_webhook(f'{type(e1)} - {e1} Could not connect to page when tracking {item_name}. '
-                                         f'Cloud Server connection error. Bot managers or server admins please '
-                                         f'restart Rogue tracking ({variables.command_prefix}rogue).')
+                send_rogue_error_webhook(f'ERROR #7: {type(e1)} - {e1} Could not connect to page when tracking '
+                                         f'{item_name}. Cloud Server connection error. Bot managers or server admins '
+                                         f'please restart Rogue tracking ({variables.command_prefix}rogue).')
                 return
 
     if item_type == 'multi':
