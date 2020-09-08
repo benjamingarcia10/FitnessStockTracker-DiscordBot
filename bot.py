@@ -45,8 +45,8 @@ async def on_ready():
                                  stop_tracking=False)
         try:
             variables.rogue_persist = True
-            reset_rogue_variables()
             variables.checked_items = {}
+            reset_rogue_variables()
             start_tracking_rogue()
         except Exception as e:
             send_rogue_error_webhook(f'Unable to automatically restart: {type(e)} - {e}. Bot managers or server admins '
