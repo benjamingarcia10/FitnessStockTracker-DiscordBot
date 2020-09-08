@@ -38,7 +38,7 @@ async def on_ready():
     except:
         bot_manager_id = None
     variables.bot_manager = discord.utils.find(lambda m: m.id == bot_manager_id, client.guilds[0].roles)
-    print(f'Set Bot Manager to: {variables.bot_manager.name} ({variables.bot_manager.id}')
+    print(f'Set Bot Manager to: {variables.bot_manager.name} (Role ID: {variables.bot_manager.id})')
 
     if variables.is_tracking_rogue and len(variables.items_to_check) > 0:
         send_rogue_error_webhook(f'Cloud Server connection error. Attempting to restart Rogue tracking.',
