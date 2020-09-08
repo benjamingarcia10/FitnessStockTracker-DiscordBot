@@ -13,7 +13,7 @@ from helpers.notifications import send_rogue_error_webhook
 current_session = requests.Session()
 item_retry_data = {}
 original_session_retries = 0
-max_session_retries = 10
+max_session_retries = 100
 
 
 # Create new session with cookies from www.roguefitness.com
@@ -95,7 +95,7 @@ def create_new_session(url, item_name=None):
                 }
             if item_retry_data[item_name]['retry_count'] > max_session_retries:
                 send_rogue_error_webhook(
-                    f'{type(e)} - {e} Could not create new session for {item_name} after '
+                    f'ERROR #8: {type(e)} - {e} Could not create new session for {item_name} after '
                     f'{item_retry_data[item_name]["retry_count"]} retries. Cloud Server connection error. '
                     f'Bot managers or server admins please restart Rogue tracking ({variables.command_prefix}rogue).')
                 return None
