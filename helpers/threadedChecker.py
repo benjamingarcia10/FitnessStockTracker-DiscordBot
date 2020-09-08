@@ -81,8 +81,7 @@ def check_items():
 
     if variables.rogue_debug_mode:
         for item in variables.checked_items:
-            print(f'\tCHECKED: {item}')
-        print(f'\t{variables.checked_items}\n')
+            print(f'\tCHECKED: {item} - {variables.checked_items[item]}')
 
     # Get any items that are in stock from checking items
     # Each key in in_stock_items corresponds to the item tag in items.py
