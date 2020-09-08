@@ -134,8 +134,11 @@ def send_test_rogue_webhook():
 def send_rogue_error_webhook(error_message, stop_tracking: bool = True):
     if stop_tracking:
         variables.is_tracking_rogue = False
+        embed_color = '16711680'
         # variables.items_to_check = {}
         # variables.checked_items = {}
+    else:
+        embed_color = '5111552'
     try:
         current_time = datetime.now().strftime('%m/%d/%Y %I:%M:%S %p')
         error_description = f'**Current Time:** {current_time}\n\n{error_message}'
@@ -143,9 +146,11 @@ def send_rogue_error_webhook(error_message, stop_tracking: bool = True):
         stock_webhook = DiscordWebhook(username='Rogue Stock',
                                        url=os.getenv('ROGUE_FITNESS_WEBHOOK_URL'),
                                        avatar_url='https://i.imgur.com/LbZlRjA.png')
-        stock_embed = DiscordEmbed(color='5111552',
+        stock_embed = DiscordEmbed(color=embed_color,
                                    title=f'Rogue Stock Bot Error',
                                    description=error_description)
+        if variables.bot_manager is not None:
+            stock_webhook.content = variables.bot_manager.mention
         stock_embed.set_footer(text=f'Developer: Benjamin#9229', icon_url='https://i.imgur.com/1lNJjf3.png')
         stock_webhook.add_embed(stock_embed)
         response = stock_webhook.execute()
