@@ -58,25 +58,15 @@ def create_new_session(url, item_name=None):
 
             if variables.rogue_debug_mode:
                 print(f'\tITEM SESSION ({item_name}) - {len(new_session.cookies)} Cookie(s): {new_session.cookies}')
-
-            if item_name in item_retry_data:
-                item_retry_data[item_name]['retry_count'] = 0
-                item_retry_data[item_name]['current_session'] = new_session
-            else:
-                item_retry_data[item_name] = {
-                    'retry_count': 0,
-                    'current_session': new_session
-                }
+            item_retry_data[item_name]['retry_count'] = 0
+            item_retry_data[item_name]['current_session'] = new_session
             return new_session
         except Exception as e:
             traceback.print_exc()
             if item_name in item_retry_data:
                 item_retry_data[item_name]['retry_count'] += 1
             else:
-                item_retry_data[item_name] = {
-                    'retry_count': 1,
-                    'current_session': None
-                }
+                item_retry_data[item_name]['retry_count'] = 1
             if item_retry_data[item_name]['retry_count'] > max_session_retries:
                 send_rogue_error_webhook(
                     f'{type(e)} - {e} Could not create new session for {item_name} after '
