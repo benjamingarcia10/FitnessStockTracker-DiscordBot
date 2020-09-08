@@ -42,8 +42,8 @@ def start_tracking_rogue():
 # Stop tracking rogue
 def stop_tracking_rogue():
     variables.is_tracking_rogue = False
-    variables.items_to_check = {}
-    variables.checked_items = {}
+    # variables.items_to_check = {}
+    # variables.checked_items = {}
 
 
 # Main function call to check items
@@ -122,8 +122,7 @@ def check_items():
             item_variations_string += f'\t\tLink: {variables.items_to_check[item]["link"]}\n'
             notification_string += f'Link: {variables.items_to_check[item]["link"]}'
 
-            # items_to_check[item]['image_url'][0] because extracting initial element from tuple
-            # example: ('https://www.roguefitness.com/media/catalog/product/cache/1/rogue_header_2015/472321edac810f9b2465a359d8cdc0b5/c/a/cadillac-us-kettlebell-h2_revised_v2.jpg',)
+            # items_to_check[item]['image_url'][0] because extracting initial element from tuple with only 1 element
             send_rogue_stock_webhook(item, notification_string, item_link=variables.items_to_check[item]["link"],
                                      image_url=variables.items_to_check[item]['image_url'][0])
             if variables.send_text_notification:
