@@ -39,7 +39,10 @@ async def on_ready():
     except:
         bot_manager_id = None
     variables.bot_manager = discord.utils.find(lambda m: m.id == bot_manager_id, client.guilds[0].roles)
-    print(f'Set Bot Manager to: {variables.bot_manager.name} (Role ID: {variables.bot_manager.id})')
+    if variables.bot_manager is not None:
+        print(f'Set Bot Manager to: {variables.bot_manager.name} (Role ID: {variables.bot_manager.id})')
+    else:
+        print(f'No Bot Manager Set (use {variables.command_prefix}authrole to set a role)')
 
     if variables.is_tracking_rogue and len(variables.items_to_check) > 0:
         restart_delay = 5
