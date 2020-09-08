@@ -74,7 +74,7 @@ def check_items():
     #     'in_stock': STOCK TEXT
     # },
     # ...}]
-    create_new_session('https://www.roguefitness.com/')
+    # create_new_session('https://www.roguefitness.com/')
 
     if variables.rogue_debug_mode:
         print(f'\tITEMS TO CHECK: {variables.items_to_check}')
