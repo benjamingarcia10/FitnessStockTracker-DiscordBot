@@ -142,19 +142,22 @@ def get_data_from_item(item_name):
             pass
         else:
             try:
-                item_session = create_new_session('https://www.roguefitness.com/', item_name)
-                response = item_session.get(item_link)
-                redirect_count = len(response.history)
-                page_soup = soup(response.text, 'html.parser')
+                while True:
+                    item_session = create_new_session('https://www.roguefitness.com/', item_name)
+                    response = item_session.get(item_link)
+                    redirect_count = len(response.history)
+                    page_soup = soup(response.text, 'html.parser')
 
-                if page_soup.find(id='cfRayId') is not None:
-                    print(f'\tFound Captcha When Checking {item_name}')
-                    print(f'\tLink: {item_link}')
-                    print(f'\tRequest: {item_session.headers}')
-                    print(f'\tResponse: {response.headers}')
-                    print(f'\tCookies: {item_session.cookies}')
-                    # print(page_soup)
-                    send_rogue_error_webhook(f'CAPTCHA FOUND on {item_name} - Stopping tracking')
+                    if page_soup.find(id='cfRayId') is not None:
+                        print(f'\tFound Captcha When Checking {item_name}')
+                        print(f'\tLink: {item_link}')
+                        print(f'\tRequest: {item_session.headers}')
+                        print(f'\tResponse: {response.headers}')
+                        print(f'\tCookies: {item_session.cookies}')
+                        # print(page_soup)
+                        # send_rogue_error_webhook(f'CAPTCHA FOUND on {item_name} - Stopping tracking')
+                    else:
+                        break
             except Exception as e1:
                 traceback.print_exc()
                 send_rogue_error_webhook(f'{type(e1)} - {e1} Could not connect to page when tracking {item_name}. '
