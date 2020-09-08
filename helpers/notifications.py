@@ -149,7 +149,7 @@ def send_rogue_error_webhook(error_message, stop_tracking: bool = True):
         stock_embed = DiscordEmbed(color=embed_color,
                                    title=f'Rogue Stock Bot Error',
                                    description=error_description)
-        if variables.bot_manager is not None:
+        if stop_tracking and variables.bot_manager is not None:
             stock_webhook.content = variables.bot_manager.mention
         stock_embed.set_footer(text=f'Developer: Benjamin#9229', icon_url='https://i.imgur.com/1lNJjf3.png')
         stock_webhook.add_embed(stock_embed)
