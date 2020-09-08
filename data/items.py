@@ -3,7 +3,6 @@
 # Next Plates to Add:
 # https://www.roguefitness.com/rogue-color-kg-training-2-0-plates-iwf
 # https://www.roguefitness.com/rogue-kg-training-2-0-plates
-# https://www.roguefitness.com/rogue-12-sided-urethane-grip-plates
 # https://www.roguefitness.com/gorilla-bumpers
 # https://www.roguefitness.com/rogue-technique-plates
 # https://www.roguefitness.com/rogue-wagon-wheel-pairs
@@ -29,6 +28,18 @@ def get_items_by_category(category):
 
 
 search_urls = {
+    "westside scout hyper": {
+        "type": "multi",
+        "product_name": "Westside Scout Hyper",
+        "link": "https://www.roguefitness.com/westside-scout-hyper",
+        "category": "acc",
+    },
+    "lp-2": {
+        "type": "single",
+        "product_name": "Rogue LP-2 Lat Pulldown / Low Row",
+        "link": "https://www.roguefitness.com/rogue-lp-2-lat-pulldown-low-row",
+        "category": "acc",
+    },
     "parallel landmine handle": {
         "type": "multi",
         "product_name": "Rogue Parallel Landmine Handle",
@@ -196,6 +207,18 @@ search_urls = {
         "product_name": "AU Black Concept 2 Model D Rower - PM5",
         "link": "https://www.rogueaustralia.com.au/black-concept-2-model-d-rower-pm5-au",
         "category": "au"
+    },
+    "barbell freedom 25mm": {
+        "type": "single",
+        "product_name": "Rogue 25MM Freedom Bar",
+        "link": "https://www.roguefitness.com/rogue-25-mm-freedom-bar",
+        "category": "barbell",
+    },
+    "barbell t-15": {
+        "type": "single",
+        "product_name": "Rogue T-15LB Technique Bar",
+        "link": "https://www.roguefitness.com/rogue-t-15-lb-technique-bar",
+        "category": "barbell",
     },
     "barbell op oxide": {
         "type": "single",
@@ -653,6 +676,18 @@ search_urls = {
         "link": "https://www.ironmaster.com/products/add-on-kit-to-120-lbs-quick-lock/",
         "category": "ironmaster"
     },
+    "m lat pulldown stand alone": {
+        "type": "single",
+        "product_name": "Monster Lat Pulldown/Low Row (Stand Alone)",
+        "link": "https://www.roguefitness.com/lat-pulldown-low-row-stand-alone",
+        "category": "m",
+    },
+    "m lat pulldown rack mounted": {
+        "type": "single",
+        "product_name": "Monster Lat Pulldown/Low Row (Rack Mounted)",
+        "link": "https://www.roguefitness.com/lat-pulldown-low-row-rackmounted",
+        "category": "m",
+    },
     "m spotter": {
         "type": "single",
         "product_name": "Monster Safety Spotter Arms 2.0",
@@ -922,6 +957,12 @@ search_urls = {
         "product_name": "Rogue Deadlift Platform",
         "link": "https://www.roguefitness.com/rogue-deadlift-platform",
         "category": "other"
+    },
+    "plate urethane 12-sided": {
+        "type": "multi",
+        "product_name": "Rogue 12-Sided Urethane Grip Plate",
+        "link": "https://www.roguefitness.com/rogue-12-sided-urethane-grip-plates",
+        "category": "plate",
     },
     "plate hi-temp": {
         "type": "multi",
