@@ -12,13 +12,12 @@ from helpers.notifications import send_rogue_error_webhook
 
 current_session = requests.Session()
 item_retry_data = {}
-original_session_retries = 0
 max_session_retries = 10
 
 
 # Create new session with cookies from www.roguefitness.com
 def create_new_session(url, item_name=None):
-    global current_session, item_retry_data, original_session_retries, max_session_retries
+    global current_session, item_retry_data, max_session_retries
     if item_name is None:
         try:
             current_session.close()
@@ -36,17 +35,11 @@ def create_new_session(url, item_name=None):
 
             if variables.rogue_debug_mode:
                 print(f'\t{len(current_session.cookies)} Cookie(s): {current_session.cookies}')
-            original_session_retries = 0
         except Exception as e:
             traceback.print_exc()
-            original_session_retries += 1
-            if original_session_retries > max_session_retries:
-                send_rogue_error_webhook(f'{type(e)} - {e} Could not create new session. Cloud Server connection '
-                                         f'error. Bot managers or server admins please restart Rogue tracking '
-                                         f'({variables.command_prefix}rogue).')
-                return
-            else:
-                create_new_session(url)
+            send_rogue_error_webhook(f'{type(e)} - {e} Could not create new session. Cloud Server connection error. '
+                                     f'Bot managers or server admins please restart Rogue tracking '
+                                     f'({variables.command_prefix}rogue).')
     else:
         try:
             if item_name in item_retry_data and item_retry_data[item_name]['current_session'] is not None:
