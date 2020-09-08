@@ -5,6 +5,7 @@ from datetime import datetime
 from helpers.threadedChecker import start_tracking_rogue, stop_tracking_rogue, reset_rogue_variables
 from helpers.notifications import send_test_rogue_webhook
 import variables
+import asyncio.exceptions
 
 
 class Rogue(commands.Cog):
@@ -49,7 +50,7 @@ class Rogue(commands.Cog):
         # Add all items separated by new lines to items_to_check and set embed description
         try:
             items_response = await self.client.wait_for('message', check=check, timeout=timeout_time)
-        except:
+        except asyncio.exceptions.TimeoutError as e:
             await ctx.send(timeout_msg)
             await rogue_items_to_track_message.delete()
             variables.is_tracking_rogue = False
