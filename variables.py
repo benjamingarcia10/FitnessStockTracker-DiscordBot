@@ -2,6 +2,7 @@ command_prefix = '/'
 bot_manager = None
 max_threads = 80
 check_counter = 0
+bot_restart_status = 0
 last_successful_check = None
 last_successful_check_runtime = None
 longest_run_time = None
