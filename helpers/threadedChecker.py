@@ -36,7 +36,7 @@ async def clear_stock_status():
 async def start_tracking_rogue():
     variables.is_tracking_rogue = True
     rogue_check_thread = threading.Thread(target=check_items)
-    await rogue_check_thread.start()
+    rogue_check_thread.start()
 
 
 # Stop tracking rogue
