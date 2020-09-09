@@ -98,7 +98,7 @@ class Rogue(commands.Cog):
                 await rogue_items_to_track_message.delete()
                 variables.is_tracking_rogue = False
             else:
-                embed_msg.title = 'Starting Rogue Stock Tracking'
+                embed_msg.title = f'Starting Rogue Stock Tracking ({len(variables.items_to_check)} items)'
                 start_time = datetime.now().strftime('%m/%d/%Y %I:%M:%S %p')
                 embed_msg.description = f'**Start Time:** {start_time}\n\n{embed_description}'
                 if len(embed_msg.description) >= 2048:
@@ -125,8 +125,8 @@ class Rogue(commands.Cog):
                 embed_description += f'{item_number}: {variables.items_to_check[item]["product_name"]}\n'
                 item_number += 1
 
-            embed_msg = discord.Embed(title='Stopping Rogue Stock Tracking', color=16711680,
-                                      description=embed_description)
+            embed_msg = discord.Embed(title=f'Stopping Rogue Stock Tracking ({len(variables.items_to_check)} items)',
+                                      color=16711680, description=embed_description)
             if len(embed_msg.description) >= 2048:
                 embed_msg.description = f'{embed_msg.description[0:2036]}\n**more...**'
             embed_msg.set_footer(text=f'Developer: Benjamin#9229', icon_url='https://i.imgur.com/1lNJjf3.png')
