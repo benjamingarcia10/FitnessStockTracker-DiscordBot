@@ -214,7 +214,7 @@ class Rogue(commands.Cog):
         else:
             embed_description += f'\n**Category Specific Tracking (DISABLED)**'
 
-        embed_msg = discord.Embed(title='Rogue Bot Status', color=16711680,
+        embed_msg = discord.Embed(title='Rogue Bot Status', color=5111552,
                                   description=embed_description)
         if len(embed_msg.description) >= 2048:
             embed_msg.description = f'{embed_msg.description[0:2036]}\n**more...**'
