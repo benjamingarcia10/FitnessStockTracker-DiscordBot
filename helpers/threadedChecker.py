@@ -35,14 +35,8 @@ async def clear_stock_status():
 # Start thread to track rogue
 async def start_tracking_rogue():
     variables.is_tracking_rogue = True
-    await check_items()
-
-
-async def recheck_rogue():
-    if variables.is_tracking_rogue:
-        await check_items()
-    else:
-        return
+    rogue_check_thread = threading.Thread(target=check_items)
+    await rogue_check_thread.start()
 
 
 # Stop tracking rogue
@@ -54,6 +48,9 @@ async def stop_tracking_rogue():
 
 # Main function call to check items
 async def check_items():
+    if not variables.is_tracking_rogue:
+        return
+
     global start_time, total_run_time
     start_time = datetime.now()  # Set start time to calculate code execution length
     variables.check_counter += 1
@@ -155,7 +152,7 @@ async def check_items():
     variables.last_successful_check = datetime.now().strftime("%m/%d/%Y %I:%M:%S %p")
     variables.last_successful_check_runtime = code_execution_time
 
-    await recheck_rogue()
+    await threading.Thread(target=check_items).start()
 
 
 # Return all in stock items based on passed in dict
