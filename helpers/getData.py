@@ -23,8 +23,9 @@ def create_new_session(url, item_name=None):
         try:
             try:
                 current_session.close()
-            except:
-                traceback.print_exc()
+            except Exception as e1:
+                # traceback.print_exc()
+                print(f'Session Exception when trying to close current session: {type(e1)} - {e1}')
             current_session = requests.Session()
 
             if variables.rogue_debug_mode:
@@ -40,29 +41,31 @@ def create_new_session(url, item_name=None):
             if variables.rogue_debug_mode:
                 print(f'\t{len(current_session.cookies)} Cookie(s): {current_session.cookies}')
             original_session_retries = 0
-        except Exception as e:
-            traceback.print_exc()
+        except Exception as e2:
+            # traceback.print_exc()
             original_session_retries += 1
             if original_session_retries > max_session_retries:
-                send_rogue_error_webhook(f'ERROR #5: {type(e)} - {e} Could not create new session. Cloud Server '
-                                         f'connection error. Bot managers or server admins please restart Rogue '
-                                         f'tracking ({variables.command_prefix}rogue).')
+                send_rogue_error_webhook(f'ERROR #5: {type(e2)} - {e2} Could not create new main session after '
+                                         f'{original_session_retries} retries. Cloud Server connection error. Bot '
+                                         f'managers or server admins please restart Rogue tracking '
+                                         f'({variables.command_prefix}rogue).')
                 return
             else:
-                if variables.rogue_debug_mode:
-                    print(f'Attempting retry #{original_session_retries} for main session creation.')
+                print(f'Session Exception for main session creation attempting retry '
+                      f'#{original_session_retries}/{max_session_retries}: {type(e2)} - {e2}')
                 create_new_session(url)
     else:
         try:
             try:
                 item_retry_data[item_name]['current_session'].close()
-            except KeyError as e:
+            except KeyError:
                 item_retry_data[item_name] = {
                     'retry_count': 0,
                     'current_session': None
                 }
-            except:
-                traceback.print_exc()
+            except Exception as e1:
+                # traceback.print_exc()
+                print(f'Session Exception when trying to close current item session: {type(e1)} - {e1}')
 
             new_session = requests.Session()
 
@@ -84,8 +87,9 @@ def create_new_session(url, item_name=None):
                 'current_session': new_session
             }
             return new_session
-        except Exception as e:
-            traceback.print_exc()
+        except Exception as e2:
+            # traceback.print_exc()
+            print(f'Session Exception when trying to close current session: {type(e2)} - {e2}')
             if item_name in item_retry_data:
                 item_retry_data[item_name]['retry_count'] += 1
             else:
@@ -95,14 +99,14 @@ def create_new_session(url, item_name=None):
                 }
             if item_retry_data[item_name]['retry_count'] > max_session_retries:
                 send_rogue_error_webhook(
-                    f'ERROR #8: {type(e)} - {e} Could not create new session for {item_name} after '
+                    f'ERROR #8: {type(e2)} - {e2} Could not create new session for {item_name} after '
                     f'{item_retry_data[item_name]["retry_count"]} retries. Cloud Server connection error. '
                     f'Bot managers or server admins please restart Rogue tracking ({variables.command_prefix}rogue).')
                 return None
             else:
                 if variables.rogue_debug_mode:
-                    print(f'Attempting retry #{item_retry_data[item_name]["retry_count"]} for {item_name} '
-                          f'session creation.')
+                    print(f'Attempting retry #{item_retry_data[item_name]["retry_count"]}/{max_session_retries} for '
+                          f'{item_name} session creation: {type(e2)} - {e2}')
                 return create_new_session(url, item_name)
 
 
@@ -130,7 +134,8 @@ def get_data_from_item(item_name):
             redirect_count = len(response.history)
             page_soup = soup(response.text, 'html.parser')
         except Exception as e:
-            traceback.print_exc()
+            # traceback.print_exc()
+            print(f'Connection Exception: {type(e)} - {e}')
             send_rogue_error_webhook(f'ERROR #6: {type(e)} - {e} Could not connect to page when tracking {item_name}. '
                                      f'Cloud Server connection error. Bot managers or server admins please restart '
                                      f'Rogue tracking ({variables.command_prefix}rogue).')
@@ -159,7 +164,8 @@ def get_data_from_item(item_name):
                     else:
                         break
             except Exception as e1:
-                traceback.print_exc()
+                # traceback.print_exc()
+                print(f'Captcha session creation exception: {type(e1)} - {e1}')
                 send_rogue_error_webhook(f'ERROR #7: {type(e1)} - {e1} Could not connect to page when tracking '
                                          f'{item_name}. Cloud Server connection error. Bot managers or server admins '
                                          f'please restart Rogue tracking ({variables.command_prefix}rogue).')
