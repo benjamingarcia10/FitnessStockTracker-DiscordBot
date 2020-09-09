@@ -132,6 +132,7 @@ def send_test_rogue_webhook():
 
 # Send Discord Webhook to show that Rogue tracking stopped due to error using url from .env file and data arguments
 def send_rogue_error_webhook(error_message, stop_tracking: bool = True):
+    print(error_message)
     if stop_tracking:
         variables.is_tracking_rogue = False
         embed_color = '16711680'
