@@ -13,7 +13,7 @@ from helpers.notifications import send_rogue_error_webhook
 current_session = requests.Session()
 item_retry_data = {}
 original_session_retries = 0
-max_session_retries = 100
+max_session_retries = 250
 
 
 # Create new session with cookies from www.roguefitness.com
