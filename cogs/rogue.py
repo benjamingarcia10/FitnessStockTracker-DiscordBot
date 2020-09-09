@@ -105,8 +105,8 @@ class Rogue(commands.Cog):
                     embed_msg.description = f'{embed_msg.description[0:2036]}\n**more...**'
                 embed_msg.set_footer(text=f'Developer: Benjamin#9229', icon_url='https://i.imgur.com/1lNJjf3.png')
                 await rogue_items_to_track_message.edit(embed=embed_msg)
-                reset_rogue_variables()
-                start_tracking_rogue()
+                await reset_rogue_variables()
+                await start_tracking_rogue()
 
     # Stop tracking Rogue
     @commands.command(aliases=['stop', 'stoprogue'], brief='Stop tracking Rogue items. (ADMIN)')
@@ -133,7 +133,7 @@ class Rogue(commands.Cog):
             # embed_msg.set_thumbnail(url='https://i.imgur.com/LbZlRjA.png')
             embed_msg.set_image(url='https://i.imgur.com/LbZlRjA.png')
             stop_tracking_message = await ctx.send(embed=embed_msg)
-            stop_tracking_rogue()
+            await stop_tracking_rogue()
         else:
             await ctx.send('Rogue stock is not currently being tracked.')
 

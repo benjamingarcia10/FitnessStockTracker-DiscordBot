@@ -14,7 +14,7 @@ total_run_time = None
 
 
 # Reset all variables to initial state to run new instance of tracking
-def reset_rogue_variables():
+async def reset_rogue_variables():
     global start_time, total_run_time
     variables.is_tracking_rogue = False
     variables.check_counter = 0
@@ -23,31 +23,31 @@ def reset_rogue_variables():
     variables.average_run_time = None
     total_run_time = None
     if not variables.rogue_persist:
-        clear_stock_status()
+        await clear_stock_status()
 
 
 # Clear stock_status.json for tracking
-def clear_stock_status():
+async def clear_stock_status():
     with open('./data/stock_status.json', 'w') as f:
         json.dump({}, f, indent=4)
 
 
 # Start thread to track rogue
-def start_tracking_rogue():
+async def start_tracking_rogue():
     variables.is_tracking_rogue = True
     rogue_check_thread = threading.Thread(target=check_items)
     rogue_check_thread.start()
 
 
 # Stop tracking rogue
-def stop_tracking_rogue():
+async def stop_tracking_rogue():
     variables.is_tracking_rogue = False
     # variables.items_to_check = {}
     # variables.checked_items = {}
 
 
 # Main function call to check items
-def check_items():
+async def check_items():
     if not variables.is_tracking_rogue:
         return
 
@@ -100,7 +100,7 @@ def check_items():
     #         'price': '$6.00'
     #     }
     # }
-    in_stock_items = get_in_stock(variables.checked_items)
+    in_stock_items = await get_in_stock(variables.checked_items)
 
     # If there are items in stock, play sound and print to console as well as send Discord webhook
     # If no items in stock, print no items in stock
@@ -152,11 +152,11 @@ def check_items():
     variables.last_successful_check = datetime.now().strftime("%m/%d/%Y %I:%M:%S %p")
     variables.last_successful_check_runtime = code_execution_time
 
-    threading.Thread(target=check_items).start()
+    await threading.Thread(target=check_items).start()
 
 
 # Return all in stock items based on passed in dict
-def get_in_stock(items):
+async def get_in_stock(items):
     out_of_stock_text = ['Notify Me', 'Out of Stock', 'OUT OF STOCK', 'notify me', 'out of stock']
     in_stock_items = {}
 

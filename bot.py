@@ -49,12 +49,12 @@ async def on_ready():
         send_rogue_error_webhook(f'ERROR #1: Cloud Server connection error. Attempting to restart Rogue tracking in '
                                  f'{restart_delay} seconds.', stop_tracking=False)
         try:
-            stop_tracking_rogue()
+            await stop_tracking_rogue()
             await asyncio.sleep(restart_delay)
             variables.rogue_persist = True
             variables.checked_items = {}
-            reset_rogue_variables()
-            start_tracking_rogue()
+            await reset_rogue_variables()
+            await start_tracking_rogue()
         except Exception as e:
             send_rogue_error_webhook(f'ERROR #2: Unable to automatically restart: {type(e)} - {e}. Bot managers or '
                                      f'server admins please restart Rogue tracking ({variables.command_prefix}rogue).')
