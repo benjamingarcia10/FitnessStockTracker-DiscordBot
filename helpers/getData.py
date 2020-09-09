@@ -141,8 +141,8 @@ def get_data_from_item(item_name):
         if item_type == 'bone' or item_type == 'grab bag':
             pass
         else:
-            while True:
-                try:
+            try:
+                while True:
                     item_session = create_new_session('https://www.roguefitness.com/', item_name)
                     response = item_session.get(item_link)
                     redirect_count = len(response.history)
@@ -156,14 +156,14 @@ def get_data_from_item(item_name):
                         print(f'\tCookies: {item_session.cookies}')
                         # print(page_soup)
                         # send_rogue_error_webhook(f'CAPTCHA FOUND on {item_name} - Stopping tracking')
+                    else:
                         break
-                except Exception as e1:
-                    print(f'ERROR #7 {type(e1)} - {e1}')
-                    traceback.print_exc()
-                    # send_rogue_error_webhook(f'ERROR #7: {type(e1)} - {e1} Could not connect to page when tracking '
-                    #                          f'{item_name}. Cloud Server connection error. Bot managers or server admins '
-                    #                          f'please restart Rogue tracking ({variables.command_prefix}rogue).')
-                    # return
+            except Exception as e1:
+                traceback.print_exc()
+                send_rogue_error_webhook(f'ERROR #7: {type(e1)} - {e1} Could not connect to page when tracking '
+                                         f'{item_name}. Cloud Server connection error. Bot managers or server admins '
+                                         f'please restart Rogue tracking ({variables.command_prefix}rogue).')
+                return
 
     if item_type == 'multi':
         grouped_items = page_soup.find_all(class_='grouped-item')
