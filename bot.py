@@ -72,6 +72,10 @@ async def on_ready():
     # elif variables.is_tracking_rogue or (not variables.is_tracking_rogue and len(variables.items_to_check) > 0):
     #     send_rogue_error_webhook(f'ERROR #4: Cloud Server connection error. Bot managers or server admins please '
     #                              f'restart Rogue tracking ({variables.command_prefix}rogue).')
+    if variables.is_tracking_rogue:
+        send_rogue_error_webhook(f'ERROR #1: Cloud Server connection error. Bot reconnected and Rogue tracking has '
+                                 f'automatically been restarted. Verify checks with {variables.command_prefix}status '
+                                 f'or by viewing console logs.', stop_tracking=False)
 
 
 # Command error handler

@@ -38,8 +38,7 @@ def start_tracking_rogue():
         return
     else:
         variables.is_tracking_rogue = True
-        variables.bot_restart_status += 1
-        rogue_check_thread = threading.Thread(target=check_items, args=(variables.bot_restart_status,))
+        rogue_check_thread = threading.Thread(target=check_items)
         rogue_check_thread.start()
 
 
@@ -51,8 +50,8 @@ def stop_tracking_rogue():
 
 
 # Main function call to check items
-def check_items(restart_status):
-    while variables.is_tracking_rogue and restart_status == variables.bot_restart_status:
+def check_items():
+    while variables.is_tracking_rogue:
         global start_time, total_run_time
         start_time = datetime.now()  # Set start time to calculate code execution length
         variables.check_counter += 1
