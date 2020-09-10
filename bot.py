@@ -83,7 +83,7 @@ async def on_ready():
         send_rogue_error_webhook(f'{type(e)} - {e}: Unable to start Rogue tracking integrity. Please check console '
                                  f'logs and restart Rogue tracking with {variables.command_prefix}rogue.')
 
-max_length_per_check = 120
+max_length_per_check = 180
 
 
 @tasks.loop(seconds=60)
