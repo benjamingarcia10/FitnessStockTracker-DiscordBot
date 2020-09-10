@@ -13,6 +13,7 @@ is_tracking_rogue = False
 rogue_notify = False
 rogue_debug_mode = False
 rogue_persist = False
+rogue_integrity_check = True
 items_to_check = {}
 checked_items = {}
 rogue_category_data = {}

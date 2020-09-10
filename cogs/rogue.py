@@ -195,6 +195,7 @@ class Rogue(commands.Cog):
 - Tagging everyone on stock notifications? {variables.rogue_notify}
 - Rogue Debug Mode enabled? {variables.rogue_debug_mode}
 - Rogue Persist Mode enabled? {variables.rogue_persist}
+- Rogue Tracking Integrity Check? {variables.rogue_integrity_check}
 
 - Rogue Check Counter: {variables.check_counter}
 - Last Successful Check: {variables.last_successful_check} with runtime of {variables.last_successful_check_runtime}

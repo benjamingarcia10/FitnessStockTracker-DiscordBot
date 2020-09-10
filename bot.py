@@ -77,12 +77,6 @@ async def on_ready():
         send_rogue_error_webhook(f'ERROR #1: Cloud Server connection error. Bot reconnected and Rogue tracking has '
                                  f'automatically been restarted. Verify checks with {variables.command_prefix}status '
                                  f'or by viewing console logs.', stop_tracking=False)
-    try:
-        verify_rogue_tracking_integrity.cancel()
-        verify_rogue_tracking_integrity.start()
-    except Exception as e:
-        send_rogue_error_webhook(f'{type(e)} - {e}: Unable to start Rogue tracking integrity. Please check console '
-                                 f'logs and restart Rogue tracking with {variables.command_prefix}rogue.')
 
 max_length_per_check = 180
 
@@ -211,4 +205,11 @@ for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):
         client.load_extension(f'cogs.{filename[:-3]}')
 
+try:
+    verify_rogue_tracking_integrity.start()
+    variables.rogue_integrity_check = True
+except Exception as e:
+    variables.rogue_integrity_check = False
+    send_rogue_error_webhook(f'{type(e)} - {e}: Unable to start Rogue tracking integrity. Please check console logs '
+                             f'and restart Rogue tracking with {variables.command_prefix}rogue.')
 client.run(TOKEN)
