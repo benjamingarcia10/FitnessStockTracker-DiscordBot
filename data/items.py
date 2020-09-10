@@ -12,7 +12,7 @@
 # https://www.roguefitness.com/rogue-kg-fractional-plates
 
 categories = ['acc', 'au', 'barbell', 'bench', 'boneyard', 'cardio', 'cond', 'inf', 'ironmaster', 'm', 'ml',
-              'other', 'plate', 'rack', 'spec_bar', 'squat stand', 'storage', 'uk']
+              'other', 'plate', 'rack', 'spec_bar', 'squat_stand', 'storage', 'uk']
 
 
 # Return all items from search_urls that match passed in category value
@@ -1274,37 +1274,37 @@ search_urls = {
         "type": "multi",
         "product_name": "SML-2 Rogue 90\" Monster Lite Squat Stand",
         "link": "https://www.roguefitness.com/sml-2-rogue-90-monster-lite-squat-stand",
-        "category": "squat stand"
+        "category": "squat_stand"
     },
     "squat sml-3": {
         "type": "multi",
         "product_name": "SML-3 Rogue 108\" Monster Lite Squat Stand",
         "link": "https://www.roguefitness.com/sml-3-rogue-108-monster-lite-squat-stand",
-        "category": "squat stand"
+        "category": "squat_stand"
     },
     "squat s-1": {
         "type": "multi",
         "product_name": "Rogue S-1 Squat Stand 2.0",
         "link": "https://www.roguefitness.com/rogue-s-1-squat-stand-2-0",
-        "category": "squat stand"
+        "category": "squat_stand"
     },
     "squat s-2": {
         "type": "multi",
         "product_name": "Rogue S-2 Squat Stand 2.0",
         "link": "https://www.roguefitness.com/rogue-s2-squat-stand-2-0",
-        "category": "squat stand"
+        "category": "squat_stand"
     },
     "squat s-4": {
         "type": "multi",
         "product_name": "Rogue S-4 Squat Stand 2.0",
         "link": "https://www.roguefitness.com/rogue-s-4-squat-stand-2",
-        "category": "squat stand"
+        "category": "squat_stand"
     },
     "squat echo": {
         "type": "multi",
         "product_name": "Rogue Echo Squat Stand 2.0",
         "link": "https://www.roguefitness.com/rogue-echo-squat-stand-2-0",
-        "category": "squat stand"
+        "category": "squat_stand"
     },
     "plate tree": {
         "type": "multi",
