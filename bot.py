@@ -78,6 +78,7 @@ async def on_ready():
                                  f'automatically been restarted. Verify checks with {variables.command_prefix}status '
                                  f'or by viewing console logs.', stop_tracking=False)
     try:
+        verify_rogue_tracking_integrity.cancel()
         verify_rogue_tracking_integrity.start()
     except Exception as e:
         send_rogue_error_webhook(f'{type(e)} - {e}: Unable to start Rogue tracking integrity. Please check console '
