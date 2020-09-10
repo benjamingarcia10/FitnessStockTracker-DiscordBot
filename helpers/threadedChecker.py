@@ -147,10 +147,14 @@ def check_items():
         else:
             variables.average_run_time = total_run_time / variables.check_counter
 
+        completed_time = datetime.now()
+
+        print(f'\tCompleted: {completed_time.strftime("%m/%d/%Y %I:%M:%S %p")}')
         print(f'\tCode Execution Time: {code_execution_time}')
         print(f'\tLongest Run Time: {variables.longest_run_time}')
         print(f'\tAverage Run Time: {variables.average_run_time}\n')
-        variables.last_successful_check = datetime.now().strftime("%m/%d/%Y %I:%M:%S %p")
+        variables.last_successful_check_datetime = completed_time
+        variables.last_successful_check = completed_time.strftime("%m/%d/%Y %I:%M:%S %p")
         variables.last_successful_check_runtime = code_execution_time
 
     # threading.Thread(target=check_items).start()

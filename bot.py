@@ -1,7 +1,8 @@
 import os
 from dotenv import load_dotenv
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
+from datetime import datetime
 import variables
 from data.items import categories
 from helpers.auth import is_authorized
@@ -76,6 +77,26 @@ async def on_ready():
         send_rogue_error_webhook(f'ERROR #1: Cloud Server connection error. Bot reconnected and Rogue tracking has '
                                  f'automatically been restarted. Verify checks with {variables.command_prefix}status '
                                  f'or by viewing console logs.', stop_tracking=False)
+    try:
+        verify_rogue_tracking_integrity.start()
+    except Exception as e:
+        send_rogue_error_webhook(f'{type(e)} - {e}: Unable to start Rogue tracking integrity. Please check console '
+                                 f'logs and restart Rogue tracking with {variables.command_prefix}rogue.')
+
+max_length_per_check = 120
+
+
+@tasks.loop(seconds=60)
+async def verify_rogue_tracking_integrity():
+    if not variables.is_tracking_rogue:
+        return
+    else:
+        if variables.last_successful_check_datetime is not None:
+            time_difference = datetime.now() - variables.last_successful_check_datetime
+            if time_difference.total_seconds() > max_length_per_check:
+                send_rogue_error_webhook(f'ERROR #0: Cloud Server connection error. Rogue check script has frozen '
+                                         f'with {time_difference.total_seconds()} seconds since last successful check. '
+                                         f'Please restart Rogue tracking with {variables.command_prefix}rogue.')
 
 
 # Command error handler
