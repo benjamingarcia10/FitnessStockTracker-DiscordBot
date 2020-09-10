@@ -93,6 +93,7 @@ async def verify_rogue_tracking_integrity():
     else:
         if variables.last_successful_check_datetime is not None:
             time_difference = datetime.now() - variables.last_successful_check_datetime
+            print(f'\tTime Difference since last successful check: {time_difference.total_seconds()}')
             if time_difference.total_seconds() > max_length_per_check:
                 send_rogue_error_webhook(f'ERROR #0: Cloud Server connection error. Rogue check script has frozen '
                                          f'with {time_difference.total_seconds()} seconds since last successful check. '
