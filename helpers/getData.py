@@ -146,8 +146,14 @@ def get_data_from_item(item_name):
         if item_type == 'bone' or item_type == 'grab bag':
             pass
         else:
+            captcha_retry_limit = 20
+            current_retry_status = 1
             try:
                 while True:
+                    if current_retry_status > captcha_retry_limit:
+                        send_rogue_error_webhook(f'CAPTCHA FOUND on {item_name} after {current_retry_status} retries '
+                                                 f'- Stopping tracking')
+                        return
                     item_session = create_new_session('https://www.roguefitness.com/', item_name)
                     response = item_session.get(item_link)
                     redirect_count = len(response.history)
@@ -159,6 +165,7 @@ def get_data_from_item(item_name):
                         print(f'\tRequest: {item_session.headers}')
                         print(f'\tResponse: {response.headers}')
                         print(f'\tCookies: {item_session.cookies}')
+                        current_retry_status += 1
                         # print(page_soup)
                         # send_rogue_error_webhook(f'CAPTCHA FOUND on {item_name} - Stopping tracking')
                     else:
