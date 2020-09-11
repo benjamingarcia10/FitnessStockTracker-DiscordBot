@@ -64,7 +64,7 @@ def create_new_session(url, item_name=None):
                     'current_session': None
                 }
             except Exception as e1:
-                # traceback.print_exc()
+                traceback.print_exc()
                 print(f'Session Exception when trying to close current item session: {type(e1)} - {e1}')
 
             new_session = requests.Session()
@@ -134,7 +134,7 @@ def get_data_from_item(item_name):
             redirect_count = len(response.history)
             page_soup = soup(response.text, 'html.parser')
         except Exception as e:
-            # traceback.print_exc()
+            traceback.print_exc()
             print(f'Connection Exception: {type(e)} - {e}')
             send_rogue_error_webhook(f'ERROR #6: {type(e)} - {e} Could not connect to page when tracking {item_name}. '
                                      f'Cloud Server connection error. Bot managers or server admins please restart '
@@ -171,7 +171,7 @@ def get_data_from_item(item_name):
                     else:
                         break
             except Exception as e1:
-                # traceback.print_exc()
+                traceback.print_exc()
                 print(f'Captcha session creation exception: {type(e1)} - {e1}')
                 send_rogue_error_webhook(f'ERROR #7: {type(e1)} - {e1} Could not connect to page when tracking '
                                          f'{item_name}. Cloud Server connection error. Bot managers or server admins '
