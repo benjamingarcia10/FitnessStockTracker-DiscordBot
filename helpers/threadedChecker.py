@@ -2,6 +2,7 @@ from helpers.getData import get_data_from_item, create_new_session
 import threading
 from datetime import datetime
 from helpers.notifications import send_rogue_stock_webhook, send_text_notification
+from helpers.redditNotify import notify_stock_reddit_submission
 import json
 import concurrent.futures
 from playsound import playsound
@@ -128,6 +129,8 @@ def check_items():
                 # items_to_check[item]['image_url'][0] because extracting initial element from tuple with only 1 element
                 send_rogue_stock_webhook(item, notification_string, item_link=variables.items_to_check[item]["link"],
                                          image_url=variables.items_to_check[item]['image_url'][0])
+                if variables.notify_reddit:
+                    notify_stock_reddit_submission(notification_string)
                 if variables.send_text_notification:
                     send_text_notification(item, notification_string)
                 print(f'\tItem(s) in stock matching: "{item}"')
