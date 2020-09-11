@@ -353,7 +353,7 @@ search_urls = {
         "category": "barbell"
     },
     "barbell rogue 2.0": {
-        "type": "multi",
+        "type": "single",
         "product_name": "The Rogue Bar 2.0",
         "link": "https://www.roguefitness.com/the-rogue-bar-2-0",
         "category": "barbell"
