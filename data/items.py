@@ -1,7 +1,6 @@
 # Item url dictionary
 
 # Next Plates to Add:
-# https://www.roguefitness.com/gorilla-bumpers
 # https://www.roguefitness.com/rogue-wagon-wheel-pairs
 
 # Next Boneyard Links:
@@ -968,6 +967,12 @@ search_urls = {
         "type": "multi",
         "product_name": "Rogue Bumper Plates by Hi-Temp",
         "link": "https://www.roguefitness.com/rogue-hi-temp-bumper-plates",
+        "category": "plate"
+    },
+    "plate gorilla": {
+        "type": "single",
+        "product_name": "Rogue 65 LB Gorilla Bumpers (Pair)",
+        "link": "https://www.roguefitness.com/gorilla-bumpers",
         "category": "plate"
     },
     "plate hg2": {
