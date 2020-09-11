@@ -22,7 +22,6 @@ def notify_stock_reddit_submission(description):
         if stock_thread is None:
             print(f'Stock thread not found')
             return
-        print(stock_thread)
-        # stock_thread.reply(description)
+        stock_thread.reply(description)
     except Exception as e1:
         print(f'{type(e1)} - {e1}: Unable to post Reddit reply')
