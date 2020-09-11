@@ -108,7 +108,10 @@ def check_items():
         # Also prints code execution time
         if len(in_stock_items) != 0:
             if variables.play_notification_sound:
-                playsound('alert.mp3')
+                try:
+                    playsound('alert.mp3')
+                except Exception as e:
+                    print(f'{type(e)} - {e} Unable to play alert.')
             for item in in_stock_items:
                 item_variations_string = ''
                 notification_string = ''

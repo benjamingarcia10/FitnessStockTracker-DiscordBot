@@ -176,4 +176,8 @@ def send_text_notification(product_tag, item_variations):
                                                  dst=os.getenv('PHONE_NUMBER_TO_NOTIFY'), text=description)
     except plivo.exceptions.ValidationError as e:
         traceback.print_exc()
-        print('Both numbers should be in E.164 format, for example +15671234567.')
+        print('\tBoth numbers should be in E.164 format, for example +15671234567.')
+    except Exception as e1:
+        traceback.print_exc()
+        print(f'\t{type(e1)} - {e1} Unable to send text message notification. Please verify that all variables are '
+              f'configured properly.')
