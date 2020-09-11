@@ -124,7 +124,13 @@ def check_items():
                                            f'{in_stock_items.get(item).get(item_variations)["price"]}\n' \
                                            f'In Stock: ✅\n\n'
                 item_variations_string += f'\t\tLink: {variables.items_to_check[item]["link"]}\n'
+                try:
+                    canada_link = variables.items_to_check[item]["link"].replace('roguefitness.com', 'roguecanada.ca', 1)
+                except:
+                    canada_link = ''
                 notification_string += f'Link: {variables.items_to_check[item]["link"]}'
+                if canada_link != '':
+                    notification_string += f'\n\nCA Link: {canada_link}'
 
                 # items_to_check[item]['image_url'][0] because extracting initial element from tuple with only 1 element
                 send_rogue_stock_webhook(item, notification_string, item_link=variables.items_to_check[item]["link"],
