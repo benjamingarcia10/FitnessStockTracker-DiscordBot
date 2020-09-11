@@ -1,15 +1,15 @@
 # Item url dictionary
 
 # Next Plates to Add:
-# https://www.roguefitness.com/rogue-color-kg-training-2-0-plates-iwf
-# https://www.roguefitness.com/rogue-kg-training-2-0-plates
 # https://www.roguefitness.com/gorilla-bumpers
-# https://www.roguefitness.com/rogue-technique-plates
 # https://www.roguefitness.com/rogue-wagon-wheel-pairs
-# https://www.roguefitness.com/rogue-friction-grip-kg-change-plates-iwf
-# https://www.roguefitness.com/rogue-add-on-change-plate-pair
-# https://www.roguefitness.com/york-legacy-iron-plates
-# https://www.roguefitness.com/rogue-kg-fractional-plates
+
+# Next Boneyard Links:
+# https://www.roguefitness.com/rogue-socket-pull-up-boneyard-bars
+# https://www.roguefitness.com/rogue-mil-echo-bumper-plates-black-closeout
+# https://www.roguefitness.com/boneyard-rogue-rackable-curl-bar
+# https://www.roguefitness.com/rogue-black-training-lb-color-stripe-plates-closeout
+# https://www.roguefitness.com/rogue-mil-echo-bumper-plates-black-closeout?=winNOw
 
 categories = ['acc', 'au', 'barbell', 'bench', 'boneyard', 'cardio', 'cond', 'inf', 'ironmaster', 'm', 'ml',
               'other', 'plate', 'rack', 'spec_bar', 'squat_stand', 'storage', 'uk']
@@ -1024,6 +1024,18 @@ search_urls = {
         "link": "https://www.roguefitness.com/rogue-black-training-kg-striped-plates",
         "category": "plate"
     },
+    "plate training kg": {
+        "type": "multi",
+        "product_name": "Rogue KG Training 2.0 Plates",
+        "link": "https://www.roguefitness.com/rogue-kg-training-2-0-plates",
+        "category": "plate"
+    },
+    "plate color training kg": {
+        "type": "multi",
+        "product_name": "Rogue Color KG Training 2.0 Plates (IWF)",
+        "link": "https://www.roguefitness.com/rogue-color-kg-training-2-0-plates-iwf",
+        "category": "plate"
+    },
     "plate echo v2": {
         "type": "multi",
         "product_name": "Rogue Echo Bumper Plates V2",
@@ -1066,6 +1078,12 @@ search_urls = {
         "link": "https://www.roguefitness.com/rogue-calibrated-lb-steel-plates",
         "category": "plate"
     },
+    "plate technique": {
+        "type": "multi",
+        "product_name": "Rogue Technique Plates",
+        "link": "https://www.roguefitness.com/rogue-technique-plates",
+        "category": "plate"
+    },
     "plate change": {
         "type": "multi",
         "product_name": "Rogue LB Change Plates",
@@ -1076,6 +1094,18 @@ search_urls = {
         "type": "multi",
         "product_name": "Rogue KG Change Plates (IWF)",
         "link": "https://www.roguefitness.com/rogue-kg-change-plates",
+        "category": "plate"
+    },
+    "plate add on change": {
+        "type": "multi",
+        "product_name": "Rogue Add-On Change Plate Pair",
+        "link": "https://www.roguefitness.com/rogue-add-on-change-plate-pair",
+        "category": "plate"
+    },
+    "plate friction change": {
+        "type": "multi",
+        "product_name": "Rogue Friction Grip KG Change Plates (IWF)",
+        "link": "https://www.roguefitness.com/rogue-friction-grip-kg-change-plates-iwf",
         "category": "plate"
     },
     "plate mil spec": {
@@ -1130,6 +1160,12 @@ search_urls = {
         "type": "multi",
         "product_name": "Rogue LB Fractional Plates",
         "link": "https://www.roguefitness.com/rogue-lb-fractional-plates",
+        "category": "plate"
+    },
+    "plate fractional kg": {
+        "type": "multi",
+        "product_name": "Rogue KG Fractional Plates",
+        "link": "https://www.roguefitness.com/rogue-kg-fractional-plates",
         "category": "plate"
     },
     "plate york": {
