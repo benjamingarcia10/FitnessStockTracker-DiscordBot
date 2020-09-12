@@ -65,6 +65,12 @@ def send_rogue_stock_webhook(product_tag, item_variations, item_link='', image_u
             stock_embed.set_image(url=image_url)
         stock_webhook.add_embed(stock_embed)
         response = stock_webhook.execute()
+        while True:
+            if response.status_code == 429:
+                # print(response.json())
+                response = stock_webhook.execute()
+            else:
+                break
     except Exception as e:
         if custom_webhook_url:
             print(f'\t{type(e)} Could not send Discord Webhook: {e}')
@@ -74,6 +80,12 @@ def send_rogue_stock_webhook(product_tag, item_variations, item_link='', image_u
             try:
                 stock_webhook.url = os.getenv('ROGUE_FITNESS_WEBHOOK_URL')
                 response = stock_webhook.execute()
+                while True:
+                    if response.status_code == 429:
+                        # print(response.json())
+                        response = stock_webhook.execute()
+                    else:
+                        break
             except Exception as e1:
                 print(f'\t{type(e1)} Could not send Discord Webhook: {e1}')
                 print(f"\tFound webhook URL: {stock_webhook.url}. If that is incorrect, check your "
