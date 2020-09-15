@@ -177,6 +177,17 @@ class Rogue(commands.Cog):
             await ctx.send('Rogue Persist Mode turned on. Bot will not notify items that were previously '
                            'notified if they are still in stock upon next startup.')
 
+    # Toggle Reddit notifications of Rogue stock
+    @commands.command(aliases=['reddit', 'notifyreddit'], brief='Toggle Rogue Reddit notifications. (ADMIN)')
+    async def roguereddit(self, ctx):
+        await ctx.message.delete()
+        if variables.notify_reddit:
+            variables.notify_reddit = False
+            await ctx.send('Rogue Reddit Notifications turned off. Bot will not notify Reddit thread.')
+        else:
+            variables.notify_reddit = True
+            await ctx.send('Rogue Reddit Notifications turned on. Bot will notify Reddit thread.')
+
     # Get status of Rogue tracker
     @commands.command(aliases=['status', 'statusrogue'], brief='View current Rogue bot status.')
     async def roguestatus(self, ctx):
@@ -193,6 +204,7 @@ class Rogue(commands.Cog):
 - Send text on stock notification? {variables.send_text_notification}
 - Currently tracking Rogue? {variables.is_tracking_rogue} - {len(variables.items_to_check)} item(s)
 - Tagging everyone on stock notifications? {variables.rogue_notify}
+- Notifying Reddit of stock notifications? {variables.notify_reddit}
 - Rogue Debug Mode enabled? {variables.rogue_debug_mode}
 - Rogue Persist Mode enabled? {variables.rogue_persist}
 - Rogue Tracking Integrity Check? {variables.rogue_integrity_check}

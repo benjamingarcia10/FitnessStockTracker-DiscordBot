@@ -136,7 +136,9 @@ def check_items():
                 send_rogue_stock_webhook(item, notification_string, item_link=variables.items_to_check[item]["link"],
                                          image_url=variables.items_to_check[item]['image_url'][0])
                 if variables.notify_reddit:
-                    notify_stock_reddit_submission(notification_string)
+                    support_description = f'[Rogue Stock Bot by u/bennykgarcia - Did this help? Support the project on my website.](http://benjamingarcia10.github.io/)'
+                    reddit_description = f'{notification_string}\n\n{support_description}'
+                    notify_stock_reddit_submission(reddit_description)
                 if variables.send_text_notification:
                     send_text_notification(item, notification_string)
                 print(f'\tItem(s) in stock matching: "{item}"')
