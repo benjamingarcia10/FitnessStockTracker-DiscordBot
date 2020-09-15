@@ -14,7 +14,7 @@ def notify_stock_reddit_submission(description):
                              username=os.getenv('REDDIT_USERNAME'),
                              password=os.getenv('REDDIT_PASSWORD'))
 
-        subreddit = reddit.subreddit('PythonBotTesting')
+        subreddit = reddit.subreddit('homegym')
 
         for submission in subreddit.hot(limit=5):
             if 'stock and shipping' in submission.title.lower().strip() and submission.stickied:
