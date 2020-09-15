@@ -159,6 +159,18 @@ search_urls = {
         "link": "https://www.roguefitness.com/york-olympic-a-frame-plate-tree",
         "category": "acc"
     },
+    "au curl bar": {
+        "type": "single",
+        "product_name": "AU Rogue Curl Bar",
+        "link": "https://www.rogueaustralia.com.au/rogue-curl-bar-au",
+        "category": "au"
+    },
+    "au plate echo color": {
+        "type": "multi",
+        "product_name": "AU Rogue Color Echo Bumper Plates",
+        "link": "https://www.rogueaustralia.com.au/rogue-color-echo-bumper-plate-au",
+        "category": "au"
+    },
     "au bench ab2": {
         "type": "multi",
         "product_name": "AU AB-2 Adjustable Bench",
@@ -206,6 +218,12 @@ search_urls = {
         "product_name": "AU Black Concept 2 Model D Rower - PM5",
         "link": "https://www.rogueaustralia.com.au/black-concept-2-model-d-rower-pm5-au",
         "category": "au"
+    },
+    "barbell womens br 2.0": {
+        "type": "single",
+        "product_name": "Rogue 25MM Womens B&R Bar 2.0",
+        "link": "https://www.roguefitness.com/rogue-25mm-womens-b-r-bar",
+        "category": "barbell",
     },
     "barbell freedom 25mm": {
         "type": "single",
@@ -567,6 +585,12 @@ search_urls = {
         "link": "https://www.roguefitness.com/concept-2-skierg-2",
         "category": "cardio"
     },
+    "onnit steel clubs": {
+        "type": "custom2",
+        "product_name": "ONNIT Steel Clubs",
+        "link": "https://www.roguefitness.com/onnit-steel-clubs",
+        "category": "cond"
+    },
     "db 15": {
         "type": "db15",
         "product_name": "Rogue DB-15 Loadable Dumbbell",
@@ -595,6 +619,12 @@ search_urls = {
         "type": "multi",
         "product_name": "Rogue Kettlebell - E Coat",
         "link": "https://www.roguefitness.com/rogue-kettlebell-e-coat",
+        "category": "cond"
+    },
+    "kettlebells rubber": {
+        "type": "multi",
+        "product_name": "Rogue Rubber Coated Kettlebells",
+        "link": "https://www.roguefitness.com/rogue-rubber-coated-kettlebells",
         "category": "cond"
     },
     "dumbbells": {
@@ -674,6 +704,12 @@ search_urls = {
         "product_name": "Quick-Lock Dumbbell \u2013 120 lb Add on Kit ",
         "link": "https://www.ironmaster.com/products/add-on-kit-to-120-lbs-quick-lock/",
         "category": "ironmaster"
+    },
+    "m crossmember": {
+        "type": "multi",
+        "product_name": "Rogue Monster Crossmembers",
+        "link": "https://www.roguefitness.com/rogue-monster-crossmembers",
+        "category": "m",
     },
     "m lat pulldown stand alone": {
         "type": "single",
@@ -818,6 +854,12 @@ search_urls = {
         "product_name": "Monster Knurled Knob",
         "link": "https://www.roguefitness.com/monster-knurled-knob",
         "category": "m"
+    },
+    "ml stabilizer": {
+        "type": "custom2",
+        "product_name": "Monster Lite Stabilizer Kit",
+        "link": "https://www.roguefitness.com/monster-lite-stabilizer-kit",
+        "category": "ml"
     },
     "ml spotter": {
         "type": "single",
