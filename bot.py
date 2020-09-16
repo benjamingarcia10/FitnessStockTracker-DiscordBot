@@ -91,8 +91,10 @@ async def verify_rogue_tracking_integrity():
             print(f'\tTime Difference since last successful check: {time_difference.total_seconds()}')
             if time_difference.total_seconds() > max_length_per_check:
                 send_rogue_error_webhook(f'ERROR #0: Cloud Server connection error. Rogue check script has frozen '
-                                         f'with {time_difference.total_seconds()} seconds since last successful check. '
-                                         f'Please restart Rogue tracking with {variables.command_prefix}rogue.')
+                                         f'with {time_difference.total_seconds()} seconds since last successful check '
+                                         f'at {variables.last_successful_check}. Please restart Rogue tracking with '
+                                         f'{variables.command_prefix}rogue.')
+                variables.last_successful_check_datetime = None
 
 
 # Command error handler
