@@ -1,21 +1,26 @@
 # FitnessStockTracker DiscordBot
 ### Why?
-I'm a college student powerlifter who as many people during COVID-19 was
-unable to access the gym. As a result, I decided to create a home gym and to do
-that I needed some gym equipment. However, many sites were out of stock, especially
-Rogue, my favorite fitness company. As a result, I decided to create this bot
-to update myself whenever an equipment is back in stock. I encountered a community
+I'm a college student who as many people during COVID-19 was unable to access the gym.
+As a result, I decided I wanted to create my own home gym to stay healthy. But, to do
+that, I needed some gym equipment. However, many sites were out of stock, especially
+Rogue, one of the best fitness companies out there. As a result, I decided to create this bot
+to update myself whenever certain items come back in stock. I encountered a community
 on reddit r/homegym where other users faced the same problem and I decided this would
-be a great tool to help others just like me.
-
-### [View Original Project](https://github.com/jonniechow/RogueStockBot/)
-Check out the original version of this tracker from jonniechow that worked as a Facebook Messenger bot.
+be a great tool to help others just like me. I have turned it into a Discord bot that notifies the
+official r/homegym Discord server and subreddit.
 
 ### What?
+* Uses multithreading to allow for faster checking (anywhere from 0.5 to 30 seconds depending on amount of items being tracked)
 * Search for your favorite Rogue Fitness equipment
 * Get notified via Discord Webhook whenever items are back in stock
 * No limit on number of items you can check
 * Checks items as often as you'd like so
+
+###[Support the Project](https://www.buymeacoffee.com/benjamingarcia)
+This project took a lot of time and effort to create especially after some fitness sites implemented anti bot features.
+I am almost hosting it in the official r/homegym Discord server, so I am paying server costs to host it 24/7/365.
+Your support helps pay these costs as well as allowing me to keep it updated so you can get your equipment at retail price!
+If this helped you get what you needed, consider [supporting the project HERE!](https://www.buymeacoffee.com/benjamingarcia) I would really appreciate it.
 
 # How to Use
 0. Install [Python3](https://www.python.org/downloads/) and be sure to install pip and add Python to PATH as well using the Python installer.
@@ -55,3 +60,6 @@ Check out the original version of this tracker from jonniechow that worked as a 
 	- ``/roguenotify`` (Default: Off) This toggles Rogue notifications which tags @everyone when an item stock notification is sent via the Discord webhook.
 	- ``/roguedebug`` (Default: Off) This toggles Rogue debug mode which adds additional printout in the console.
 	- ``/roguepersist`` (Default: Off) This toggles Rogue persistent logging which means if you were to start checking Rogue and stop it, it will maintain the status of the items previously so when you restart it, it will not notify items that were already notified as in stock.
+
+### [View Original Project](https://github.com/jonniechow/RogueStockBot/)
+Check out the original version of this tracker from jonniechow that worked as a Facebook Messenger bot.
