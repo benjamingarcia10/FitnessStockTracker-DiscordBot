@@ -182,6 +182,8 @@ def get_in_stock(items):
     with open('./data/stock_status.json') as f:
         stock_status = json.load(f)
 
+    new_stock_status_dump = {}
+
     for item in items:
         item_data = items.get(item)
         item_variations_in_stock = {}
@@ -190,17 +192,17 @@ def get_in_stock(items):
                 previous_stock_status = stock_status[f'{item} - {item_variations["name"]}']
             except:
                 previous_stock_status = 0
-                stock_status[f'{item} - {item_variations["name"]}'] = previous_stock_status
+                # stock_status[f'{item} - {item_variations["name"]}'] = previous_stock_status
 
             if item_variations['in_stock'].strip() in out_of_stock_text:
                 new_stock_status = 0
-                stock_status[f'{item} - {item_variations["name"]}'] = new_stock_status
+                new_stock_status_dump[f'{item} - {item_variations["name"]}'] = new_stock_status
                 continue
             elif item_variations['name'].strip() == 'NOT FOUND':
                 continue
             else:
                 new_stock_status = 1
-                stock_status[f'{item} - {item_variations["name"]}'] = new_stock_status
+                new_stock_status_dump[f'{item} - {item_variations["name"]}'] = new_stock_status
                 if previous_stock_status != new_stock_status:
                     item_variations_in_stock[item_variations['name']] = {
                         'price': item_variations['price'],
@@ -209,6 +211,6 @@ def get_in_stock(items):
             in_stock_items[item] = item_variations_in_stock
 
     with open('./data/stock_status.json', 'w') as f:
-        json.dump(stock_status, f, indent=4)
+        json.dump(new_stock_status_dump, f, indent=4)
 
     return in_stock_items
