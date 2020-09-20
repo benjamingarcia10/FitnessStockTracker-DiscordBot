@@ -10,6 +10,7 @@
 # https://www.roguefitness.com/rogue-black-training-lb-color-stripe-plates-closeout
 # https://www.roguefitness.com/rogue-mil-echo-bumper-plates-black-closeout?=winNOw
 # https://www.roguefitness.com/rogue-socket-pull-up-boneyard-bars
+# https://www.roguefitness.com/rogue-boneyard-loadable-dumbbells
 
 categories = ['acc', 'au', 'barbell', 'bench', 'boneyard', 'cardio', 'cond', 'inf', 'ironmaster', 'm', 'ml',
               'other', 'plate', 'rack', 'spec_bar', 'squat_stand', 'storage', 'uk']
