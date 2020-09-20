@@ -12,6 +12,11 @@
 # https://www.roguefitness.com/rogue-socket-pull-up-boneyard-bars
 # https://www.roguefitness.com/rogue-boneyard-loadable-dumbbells
 
+# Amazon PB:
+# https://www.amazon.com/POWERBLOCK-Compact-Weight-Stand-Black/dp/B01A9981M0
+# https://www.amazon.com/POWERBLOCK-Sport-55-Dumbbell-Set/dp/B00A21NRNO/
+# https://www.amazon.com/POWERBLOCK-Sport-5-0-Adjustable-Dumbbell/dp/B003CFAXFC/
+
 categories = ['acc', 'au', 'barbell', 'bench', 'boneyard', 'cardio', 'cond', 'inf', 'ironmaster', 'm', 'ml',
               'other', 'plate', 'rack', 'spec_bar', 'squat_stand', 'storage', 'uk']
 
