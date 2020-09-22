@@ -1,5 +1,10 @@
 # Item url dictionary
 
+# Next Barbells to Add:
+# https://www.roguefitness.com/rogue-pyrros-bar-25mm
+# https://www.roguefitness.com/rogue-athlete-bella-bar-cerakote-toomey
+# https://www.roguefitness.com/rogue-athlete-bella-bar-cerakote-davidsdottir
+
 # Next Plates to Add:
 # https://www.roguefitness.com/rogue-wagon-wheel-pairs
 
@@ -11,6 +16,12 @@
 # https://www.roguefitness.com/rogue-mil-echo-bumper-plates-black-closeout?=winNOw
 # https://www.roguefitness.com/rogue-socket-pull-up-boneyard-bars
 # https://www.roguefitness.com/rogue-boneyard-loadable-dumbbells
+
+# MISC TO ADD:
+# https://www.roguefitness.com/rogue-donkey
+# https://www.roguefitness.com/monster-rhino-belt-squat-stand-alone-mg-black
+# https://www.roguefitness.com/rogue-echo-rings
+# https://www.roguefitness.com/monster-lite-rml-390-fullw-fold-back-wall-mount-power-rack
 
 # Amazon PB:
 # https://www.amazon.com/POWERBLOCK-Compact-Weight-Stand-Black/dp/B01A9981M0
@@ -38,6 +49,12 @@ search_urls = {
         "type": "multi",
         "product_name": "Westside Scout Hyper",
         "link": "https://www.roguefitness.com/westside-scout-hyper",
+        "category": "acc",
+    },
+    "hg axle collar": {
+        "type": "multi",
+        "product_name": "Rogue HG 2.0 Axle Collars",
+        "link": "https://www.roguefitness.com/rogue-hg-axle-collars",
         "category": "acc",
     },
     "lp-2": {
