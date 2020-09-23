@@ -38,6 +38,7 @@ def start_tracking_rogue():
     if variables.is_tracking_rogue:
         return
     else:
+        variables.last_successful_check_datetime = None
         variables.is_tracking_rogue = True
         rogue_check_thread = threading.Thread(target=check_items)
         rogue_check_thread.start()
