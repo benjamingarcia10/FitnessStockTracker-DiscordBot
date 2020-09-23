@@ -5,6 +5,7 @@ from datetime import datetime
 import traceback
 import plivo
 import variables
+from helpers.auth import developer_tag
 
 load_dotenv(override=True)
 
@@ -17,7 +18,7 @@ def send_rogue_stock_webhook(product_tag, item_variations, item_link='', image_u
         support_description = f'Did this help you? Support the Project Here: https://www.buymeacoffee.com/benjamingarcia'
         description = f'{stock_description}\n\n{support_description}'
 
-        stock_webhook = DiscordWebhook(username='Rogue Stock',
+        stock_webhook = DiscordWebhook(username='BenBot - Rogue Stock',
                                        url=os.getenv('ROGUE_FITNESS_WEBHOOK_URL'),
                                        avatar_url='https://i.imgur.com/LbZlRjA.png')
 
@@ -57,7 +58,7 @@ def send_rogue_stock_webhook(product_tag, item_variations, item_link='', image_u
         if len(stock_embed.description) >= 2048:
             stock_embed.description = f'{stock_embed.description[0:2036]}\n**more...**'
 
-        stock_embed.set_footer(text=f'Developer: Benjamin#9229', icon_url='https://i.imgur.com/1lNJjf3.png')
+        stock_embed.set_footer(text=f'Developer: {developer_tag}', icon_url='https://i.imgur.com/1lNJjf3.png')
         if image_url == '' or image_url == 'NOT FOUND':
             pass
         else:
@@ -106,13 +107,13 @@ def send_test_rogue_webhook():
         current_time = datetime.now().strftime('%m/%d/%Y %I:%M:%S %p')
         test_description = f'**Current Time:** {current_time}'
 
-        stock_webhook = DiscordWebhook(username='Rogue Stock',
+        stock_webhook = DiscordWebhook(username='BenBot - Rogue Stock',
                                        url=os.getenv('ROGUE_FITNESS_WEBHOOK_URL'),
                                        avatar_url='https://i.imgur.com/LbZlRjA.png')
         stock_embed = DiscordEmbed(color='5111552',
                                    title=f'Item(s) In Stock Matching Search: "TEST WEBHOOK"',
                                    description=test_description)
-        stock_embed.set_footer(text=f'Developer: Benjamin#9229', icon_url='https://i.imgur.com/1lNJjf3.png')
+        stock_embed.set_footer(text=f'Developer: {developer_tag}', icon_url='https://i.imgur.com/1lNJjf3.png')
         stock_webhook.add_embed(stock_embed)
         response = stock_webhook.execute()
     except Exception as e:
@@ -127,13 +128,13 @@ def send_test_rogue_webhook():
                 test_description = f'**Current Time:** {current_time}\n\nNotify Role Set To: ' \
                                    f'{variables.rogue_category_data[category]["notify_role"]}'
 
-                stock_webhook = DiscordWebhook(username='Rogue Stock',
+                stock_webhook = DiscordWebhook(username='BenBot - Rogue Stock',
                                                url=variables.rogue_category_data[category]['webhook_url'],
                                                avatar_url='https://i.imgur.com/LbZlRjA.png')
                 stock_embed = DiscordEmbed(color='5111552',
                                            title=f'Test Webhook for Item Category: {category}',
                                            description=test_description)
-                stock_embed.set_footer(text=f'Developer: Benjamin#9229', icon_url='https://i.imgur.com/1lNJjf3.png')
+                stock_embed.set_footer(text=f'Developer: {developer_tag}', icon_url='https://i.imgur.com/1lNJjf3.png')
                 stock_webhook.add_embed(stock_embed)
                 response = stock_webhook.execute()
             except Exception as e:
@@ -156,7 +157,7 @@ def send_rogue_error_webhook(error_message, stop_tracking: bool = True):
         current_time = datetime.now().strftime('%m/%d/%Y %I:%M:%S %p')
         error_description = f'**Current Time:** {current_time}\n\n{error_message}'
 
-        stock_webhook = DiscordWebhook(username='Rogue Stock',
+        stock_webhook = DiscordWebhook(username='BenBot - Rogue Stock',
                                        url=os.getenv('ROGUE_FITNESS_WEBHOOK_URL'),
                                        avatar_url='https://i.imgur.com/LbZlRjA.png')
         stock_embed = DiscordEmbed(color=embed_color,
@@ -164,7 +165,7 @@ def send_rogue_error_webhook(error_message, stop_tracking: bool = True):
                                    description=error_description)
         if stop_tracking and variables.bot_manager is not None:
             stock_webhook.content = variables.bot_manager.mention
-        stock_embed.set_footer(text=f'Developer: Benjamin#9229', icon_url='https://i.imgur.com/1lNJjf3.png')
+        stock_embed.set_footer(text=f'Developer: {developer_tag}', icon_url='https://i.imgur.com/1lNJjf3.png')
         stock_webhook.add_embed(stock_embed)
         response = stock_webhook.execute()
     except Exception as e:

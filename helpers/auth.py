@@ -2,6 +2,7 @@ import variables
 from discord.ext import commands
 
 developer_id = 433083891109330945
+developer_tag = "Benjamin#9229"
 allowed_commands = ['help', 'donate', 'roguestatus']
 
 

@@ -1,7 +1,7 @@
 from discord.ext import commands
 import discord
 import asyncio
-from helpers.auth import developer_id
+from helpers.auth import developer_id, developer_tag
 
 
 class Tools(commands.Cog):
@@ -26,8 +26,8 @@ class Tools(commands.Cog):
         donation_url = 'https://www.buymeacoffee.com/benjamingarcia'
         donation_info = f"If the bot helped you get your items, consider supporting the project "\
                         f"to keep the bot updated and pay for monthly server costs to host the bot 24/7/365. :pray:"
-        developer_tag = f'<@{developer_id}>'
-        feature_info = f'If you have any feature requests or suggestions, please DM me {developer_tag}'
+        developer_mention = f'<@{developer_id}>'
+        feature_info = f'If you have any feature requests or suggestions, please DM me {developer_mention}'
         embed_msg = discord.Embed(title='Support Rogue Bot Here!', color=5111552,
                                   url=donation_url)
         embed_msg.add_field(name='Donation Info', value=donation_info, inline=True)
@@ -35,7 +35,7 @@ class Tools(commands.Cog):
         embed_msg.add_field(name='Bot Suggestions', value=feature_info, inline=False)
 
         # embed_msg.set_thumbnail(url='https://i.imgur.com/LbZlRjA.png')
-        embed_msg.set_footer(text=f'Developer: Benjamin#9229', icon_url='https://i.imgur.com/1lNJjf3.png')
+        embed_msg.set_footer(text=f'Developer: {developer_tag}', icon_url='https://i.imgur.com/1lNJjf3.png')
         embed_msg.set_image(url='https://i.imgur.com/o0IXrJO.jpg')
         donation_message = await ctx.send(embed=embed_msg)
 
