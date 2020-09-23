@@ -1,10 +1,5 @@
 # Item url dictionary
 
-# Next Barbells to Add:
-# https://www.roguefitness.com/rogue-pyrros-bar-25mm
-# https://www.roguefitness.com/rogue-athlete-bella-bar-cerakote-toomey
-# https://www.roguefitness.com/rogue-athlete-bella-bar-cerakote-davidsdottir
-
 # Next Plates to Add:
 # https://www.roguefitness.com/rogue-wagon-wheel-pairs
 
@@ -243,6 +238,18 @@ search_urls = {
         "link": "https://www.rogueaustralia.com.au/black-concept-2-model-d-rower-pm5-au",
         "category": "au"
     },
+    "barbell davidsdottir": {
+        "type": "multi",
+        "product_name": "Rogue Athlete Cerakote Bella Bar - Davidsdottir Edition",
+        "link": "https://www.roguefitness.com/rogue-athlete-bella-bar-cerakote-davidsdottir",
+        "category": "barbell",
+    },
+    "barbell pyrros": {
+        "type": "single",
+        "product_name": "Rogue Pyrros Bar - 25MM",
+        "link": "https://www.roguefitness.com/rogue-pyrros-bar-25mm",
+        "category": "barbell",
+    },
     "barbell womens br 2.0": {
         "type": "single",
         "product_name": "Rogue 25MM Womens B&R Bar 2.0",
@@ -437,7 +444,7 @@ search_urls = {
     },
     "barbell toomey": {
         "type": "multi",
-        "product_name": "The Bella Bar - Cerakote - Tia-Clair Toomey Edition",
+        "product_name": "Rogue Athlete Cerakote Bella Bar - Toomey Edition",
         "link": "https://www.roguefitness.com/rogue-athlete-bella-bar-cerakote-toomey",
         "category": "barbell"
     },
