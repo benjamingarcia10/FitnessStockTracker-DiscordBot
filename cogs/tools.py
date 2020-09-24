@@ -34,11 +34,11 @@ class Tools(commands.Cog):
         embed_msg.add_field(name='Donation Link', value=donation_url, inline=True)
         embed_msg.add_field(name='Bot Suggestions', value=feature_info, inline=False)
 
-        # embed_msg.set_thumbnail(url='https://i.imgur.com/LbZlRjA.png')
         embed_msg.set_footer(text=f'Developer: {developer_tag}', icon_url='https://i.imgur.com/1lNJjf3.png')
         embed_msg.set_image(url='https://i.imgur.com/o0IXrJO.jpg')
         donation_message = await ctx.send(embed=embed_msg)
 
+    # Send bot donation command without attached role if member/role does not exist
     @donate.error
     async def role_error(self, ctx, error):
         if isinstance(error, discord.ext.commands.BadArgument):
