@@ -39,22 +39,25 @@ class Rogue(commands.Cog):
                             f'like to track an entire category, on a new line, type "category:" followed by the ' \
                             f'category name you want to track. Available categories: {categories}'
         embed_msg = discord.Embed(title='Rogue Stock Tracker', color=5111552, description=embed_description)
-        # embed_msg.set_thumbnail(url='https://i.imgur.com/LbZlRjA.png')
         embed_msg.set_footer(text=f'Developer: Benjamin#9229', icon_url='https://i.imgur.com/1lNJjf3.png')
         embed_msg.set_image(url='https://i.imgur.com/LbZlRjA.png')
         rogue_items_to_track_message = await ctx.send(embed=embed_msg)
 
+        # Only respond to next item message sent by original command caller
         def check(message):
             return message.author == command_author and message.content.strip()[0] != variables.command_prefix
 
         # Add all items separated by new lines to items_to_check and set embed description
         try:
+            # Retrieve response message utilizing custom check for author
             items_response = await self.client.wait_for('message', check=check, timeout=timeout_time)
         except asyncio.exceptions.TimeoutError as e:
+            # Send timeout message and remove original embed message if timeout reached
             await ctx.send(timeout_msg)
             await rogue_items_to_track_message.delete()
             variables.is_tracking_rogue = False
         else:
+            # Build embed message to display all items entered
             embed_description = ''
             item_number = 1
             for item in items_response.content.lower().strip().split('\n'):
@@ -98,14 +101,19 @@ class Rogue(commands.Cog):
                 await rogue_items_to_track_message.delete()
                 variables.is_tracking_rogue = False
             else:
+                # Modify embed to indicate Rogue tracking is starting and set message to all items being tracked
                 embed_msg.title = f'Starting Rogue Stock Tracking ({len(variables.items_to_check)} items)'
                 start_time = datetime.now().strftime('%m/%d/%Y %I:%M:%S %p')
                 embed_msg.description = f'**Start Time:** {start_time}\n\n{embed_description}'
+                # Restructure embed message if description exceeds Discord webhook message allowed length
                 if len(embed_msg.description) >= 2048:
                     embed_msg.description = f'{embed_msg.description[0:2036]}\n**more...**'
                 embed_msg.set_footer(text=f'Developer: Benjamin#9229', icon_url='https://i.imgur.com/1lNJjf3.png')
                 await rogue_items_to_track_message.edit(embed=embed_msg)
+
+                # Reset Rogue variables before starting tracking
                 reset_rogue_variables()
+                # Start tracking Rogue
                 start_tracking_rogue()
 
     # Stop tracking Rogue
@@ -117,9 +125,9 @@ class Rogue(commands.Cog):
         # If so, send stop confirmation and stop Rogue tracking. Otherwise, indicate Rogue is not being tracked.
         if variables.is_tracking_rogue:
             stop_time = datetime.now().strftime('%m/%d/%Y %I:%M:%S %p')
-
             embed_description = f'**Stop Time:** {stop_time}\n\n**Stopped Tracking:**\n'
 
+            # Build message of all items that it was previously checking
             item_number = 1
             for item in variables.items_to_check:
                 embed_description += f'{item_number}: {variables.items_to_check[item]["product_name"]}\n'
@@ -127,10 +135,10 @@ class Rogue(commands.Cog):
 
             embed_msg = discord.Embed(title=f'Stopping Rogue Stock Tracking ({len(variables.items_to_check)} items)',
                                       color=16711680, description=embed_description)
+            # Restructure embed message if description exceeds Discord webhook message allowed length
             if len(embed_msg.description) >= 2048:
                 embed_msg.description = f'{embed_msg.description[0:2036]}\n**more...**'
             embed_msg.set_footer(text=f'Developer: Benjamin#9229', icon_url='https://i.imgur.com/1lNJjf3.png')
-            # embed_msg.set_thumbnail(url='https://i.imgur.com/LbZlRjA.png')
             embed_msg.set_image(url='https://i.imgur.com/LbZlRjA.png')
             stop_tracking_message = await ctx.send(embed=embed_msg)
             stop_tracking_rogue()
