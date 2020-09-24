@@ -201,8 +201,8 @@ class Rogue(commands.Cog):
     async def roguestatus(self, ctx):
         await ctx.message.delete()
 
+        # Build status description
         current_time = datetime.now().strftime('%m/%d/%Y %I:%M:%S %p')
-
         embed_description = f'''
 **Current Time:** {current_time}
 
@@ -222,6 +222,7 @@ class Rogue(commands.Cog):
 - Longest Run Time: {variables.longest_run_time}
 - Average Run Time: {variables.average_run_time}
 '''
+        # Retrieve categoyr tracking data (role-id and webhooks set in .env)
         category_tracking_description = ''
         for category in variables.rogue_category_data:
             category_data = variables.rogue_category_data[category]
@@ -230,6 +231,7 @@ class Rogue(commands.Cog):
                 if category_data['webhook_url'] is not None:
                     category_tracking_description += f'- Webhook Set: ✅\n\n'
 
+        # Add category tracking data indicating enabled/disabled and which are set if enabled
         if len(category_tracking_description) > 0:
             embed_description += f'\n**Category Specific Tracking (ENABLED):**\n{category_tracking_description}'
         else:
@@ -237,11 +239,11 @@ class Rogue(commands.Cog):
 
         embed_msg = discord.Embed(title='Rogue Bot Status', color=5111552,
                                   description=embed_description)
+        # Restructure embed message if description exceeds Discord webhook message allowed length
         if len(embed_msg.description) >= 2048:
             embed_msg.description = f'{embed_msg.description[0:2036]}\n**more...**'
         embed_msg.set_footer(text=f'Developer: Benjamin#9229', icon_url='https://i.imgur.com/1lNJjf3.png')
         embed_msg.set_thumbnail(url='https://i.imgur.com/LbZlRjA.png')
-        # embed_msg.set_image(url='https://i.imgur.com/LbZlRjA.png')
         status_message = await ctx.send(embed=embed_msg)
 
 
