@@ -63,8 +63,8 @@ def check_items():
 
         # Check all items and store them in checked_items
         # Each key in checked_items corresponds to the item tag in items.py
-        # The value of the keys in checked_items correspond to a list of dictionaries of data of all items matching the key
-        # Key example: "plate hi-temp"
+        # The value of each key corresponds to a list of dictionaries of data of all items matching the key
+        # Key example: 'plate hi-temp'
         # Value format:
         # [{
         #     'name': FULL ITEM NAME,
@@ -90,7 +90,7 @@ def check_items():
         # Each key in in_stock_items corresponds to the item tag in items.py
         # The value of the keys in in_stock_items correspond to another dictionary with the full product name as the key
         #       and data of that specific item variation as the value
-        # Key example: "bike echo"
+        # Key example: 'bike echo'
         # Value format:
         # {
         #     'Rogue Echo Bike': {
@@ -172,35 +172,41 @@ def check_items():
         variables.last_successful_check = completed_time.strftime("%m/%d/%Y %I:%M:%S %p")
         variables.last_successful_check_runtime = code_execution_time
 
-    # threading.Thread(target=check_items).start()
-
 
 # Return all in stock items based on passed in dict
 def get_in_stock(items):
     out_of_stock_text = ['Notify Me', 'Out of Stock', 'OUT OF STOCK', 'notify me', 'out of stock']
     in_stock_items = {}
 
+    # Load previous stock status data stored in stock_status.json
     with open('./data/stock_status.json') as f:
         stock_status = json.load(f)
 
+    # New stock status dict to be dumped
     new_stock_status_dump = {}
 
+    # Iterate through item
     for item in items:
         item_data = items.get(item)
         item_variations_in_stock = {}
+        # Iterate through item variation (multiple variations per item ex. colors, size, weight, etc)
         for item_variations in item_data:
             try:
                 previous_stock_status = stock_status[f'{item} - {item_variations["name"]}']
             except:
                 previous_stock_status = 0
-                # stock_status[f'{item} - {item_variations["name"]}'] = previous_stock_status
 
+            # If in_stock key has any values in the out_of_stock_text list, mark it's new stock status as 0
             if item_variations['in_stock'].strip() in out_of_stock_text:
                 new_stock_status = 0
                 new_stock_status_dump[f'{item} - {item_variations["name"]}'] = new_stock_status
                 continue
+            # If item name has 'NOT FOUND', don't do anything with it and don't add back to list
             elif item_variations['name'].strip() == 'NOT FOUND':
                 continue
+            # Otherwise, item is in stock
+            # Mark new stock status as 1, add it to new status dump
+            # Add to in_stock_items if new status (in stock) is different from previous status (out of stock)
             else:
                 new_stock_status = 1
                 new_stock_status_dump[f'{item} - {item_variations["name"]}'] = new_stock_status
@@ -211,6 +217,7 @@ def get_in_stock(items):
         if len(item_variations_in_stock) != 0:
             in_stock_items[item] = item_variations_in_stock
 
+    # Dump new stock status to json file
     with open('./data/stock_status.json', 'w') as f:
         json.dump(new_stock_status_dump, f, indent=4)
 
