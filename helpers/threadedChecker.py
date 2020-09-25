@@ -23,6 +23,7 @@ def reset_rogue_variables():
     variables.longest_run_time = None
     variables.average_run_time = None
     total_run_time = None
+    # Reset stock status data only if Rogue persist mode is disabled
     if not variables.rogue_persist:
         clear_stock_status()
 
@@ -33,7 +34,7 @@ def clear_stock_status():
         json.dump({}, f, indent=4)
 
 
-# Start thread to track rogue
+# Start thread to track Rogue
 def start_tracking_rogue():
     if variables.is_tracking_rogue:
         return
@@ -44,7 +45,7 @@ def start_tracking_rogue():
         rogue_check_thread.start()
 
 
-# Stop tracking rogue
+# Stop tracking Rogue
 def stop_tracking_rogue():
     variables.is_tracking_rogue = False
     # variables.items_to_check = {}
@@ -57,6 +58,8 @@ def check_items():
         global start_time, total_run_time
         start_time = datetime.now()  # Set start time to calculate code execution length
         variables.check_counter += 1
+
+        # Calculate how many threads to run based on length of items_to_check and max threads set in variables
         threads = min(variables.max_threads, len(variables.items_to_check))
         print(f'Check #{variables.check_counter} ({threads} Threads, {multiprocessing.cpu_count()} Cores): '
               f'{datetime.now().strftime("%m/%d/%Y %I:%M:%S %p")}')
@@ -82,6 +85,7 @@ def check_items():
             executor.map(get_data_from_item, variables.items_to_check.keys())
             # executor.map(get_data_from_item, variables.items_to_check.keys(), variables.items_to_check.values())
 
+        # Additional console output if Rogue debug mode is enabled
         if variables.rogue_debug_mode:
             for item in variables.checked_items:
                 print(f'\tCHECKED: {item} - {variables.checked_items[item]}')
