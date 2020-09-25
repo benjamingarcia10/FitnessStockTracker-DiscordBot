@@ -1,6 +1,6 @@
 command_prefix = '/'
 bot_manager = None
-max_threads = 80
+max_threads = 100
 check_counter = 0
 last_successful_check_datetime = None
 last_successful_check = None
