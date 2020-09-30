@@ -148,8 +148,8 @@ def get_data_from_item(item_name):
         else:
             captcha_retry_limit = 20
             current_retry_status = 1
-            try:
-                while True:
+            while True:
+                try:
                     if current_retry_status > captcha_retry_limit:
                         send_rogue_error_webhook(f'CAPTCHA FOUND on {item_name} after {current_retry_status} retries '
                                                  f'- Stopping tracking')
@@ -170,13 +170,21 @@ def get_data_from_item(item_name):
                         # send_rogue_error_webhook(f'CAPTCHA FOUND on {item_name} - Stopping tracking')
                     else:
                         break
-            except Exception as e1:
-                traceback.print_exc()
-                print(f'Captcha session creation exception: {type(e1)} - {e1}')
-                send_rogue_error_webhook(f'ERROR #7: {type(e1)} - {e1} Could not connect to page when tracking '
-                                         f'{item_name}. Cloud Server connection error. Bot managers or server admins '
-                                         f'please restart Rogue tracking ({variables.command_prefix}rogue).')
-                return
+                except requests.exceptions.ConnectionError:
+                    send_rogue_error_webhook(f'ERROR #8: Connection error when tracking {item_name}. Retrying...',
+                                             stop_tracking=False)
+                    continue
+                except requests.exceptions.ChunkedEncodingError:
+                    send_rogue_error_webhook(f'ERROR #9: Chunked encoding error when tracking {item_name}. Retrying...',
+                                             stop_tracking=False)
+                    continue
+                except Exception as e1:
+                    traceback.print_exc()
+                    print(f'Captcha session creation exception: {type(e1)} - {e1}')
+                    send_rogue_error_webhook(f'ERROR #7: {type(e1)} - {e1} Could not connect to page when tracking '
+                                             f'{item_name}. Cloud Server connection error. Bot managers or server admins '
+                                             f'please restart Rogue tracking ({variables.command_prefix}rogue).')
+                    return
 
     if item_type == 'multi':
         grouped_items = page_soup.find_all(class_='grouped-item')
