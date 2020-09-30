@@ -184,10 +184,7 @@ except Exception as e:
     send_rogue_error_webhook(f'{type(e)} - {e}: Unable to start Rogue tracking integrity. Please check console logs '
                              f'and restart Rogue tracking with {variables.command_prefix}rogue.')
 
-
 # Start bot
-client.run(TOKEN)
-
 # Assign notify role ids and webhooks for all categories based on .env file
 # Set .env file variables to:
 # <CATEGORY>-role-id=<ROLE ID TO TAG FOR THIS ITEM> (If unassigned, it will tag @everyone when notifies are on)
@@ -215,3 +212,5 @@ if variables.bot_manager is not None:
     print(f'Set Bot Manager to: {variables.bot_manager.name} (Role ID: {variables.bot_manager.id})')
 else:
     print(f'No Bot Manager Set (use {variables.command_prefix}authrole to set a role)')
+
+client.run(TOKEN)
