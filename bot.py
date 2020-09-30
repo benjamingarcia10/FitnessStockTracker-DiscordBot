@@ -43,29 +43,31 @@ async def on_ready():
     # Set .env file variables to:
     # <CATEGORY>-role-id=<ROLE ID TO TAG FOR THIS ITEM> (If unassigned, it will tag @everyone when notifies are on)
     # <CATEGORY>-webhook=<WEBHOOK URL TO POST STOCK UPDATE TO> (If unassigned, it will post to ROGUE_FITNESS_WEBHOOK_URL env variable
-    for category in categories:
-        try:
-            role_id = int(os.getenv(f'{category}-role-id'))
-        except:
-            role_id = None
-        variables.rogue_category_data[category] = {
-            'notify_role': discord.utils.find(lambda m: m.id == role_id, client.guilds[0].roles),
-            'webhook_url': os.getenv(f'{category}-webhook')
-        }
-    print(f'Category Tracking: {variables.rogue_category_data}')
+    if len(variables.rogue_category_data) <= 0:
+        for category in categories:
+            try:
+                role_id = int(os.getenv(f'{category}-role-id'))
+            except:
+                role_id = None
+            variables.rogue_category_data[category] = {
+                'notify_role': discord.utils.find(lambda m: m.id == role_id, client.guilds[0].roles),
+                'webhook_url': os.getenv(f'{category}-webhook')
+            }
+        print(f'Category Tracking: {variables.rogue_category_data}')
 
     # Assign bot manager id based on .env file
     # Set .env file variable to:
     # bot-manager-id=<ROLE ID FOR BOT MANAGER TO TAG ON ERRORS> (If unassigned, will not tag anyone)
-    try:
-        bot_manager_id = int(os.getenv('bot-manager-id'))
-    except:
-        bot_manager_id = None
-    variables.bot_manager = discord.utils.find(lambda m: m.id == bot_manager_id, client.guilds[0].roles)
-    if variables.bot_manager is not None:
-        print(f'Set Bot Manager to: {variables.bot_manager.name} (Role ID: {variables.bot_manager.id})')
-    else:
-        print(f'No Bot Manager Set (use {variables.command_prefix}authrole to set a role)')
+    if variables.bot_manager is None:
+        try:
+            bot_manager_id = int(os.getenv('bot-manager-id'))
+        except:
+            bot_manager_id = None
+        variables.bot_manager = discord.utils.find(lambda m: m.id == bot_manager_id, client.guilds[0].roles)
+        if variables.bot_manager is not None:
+            print(f'Set Bot Manager to: {variables.bot_manager.name} (Role ID: {variables.bot_manager.id})')
+        else:
+            print(f'No Bot Manager Set (use {variables.command_prefix}authrole to set a role)')
 
     # If bot lost connection, send status update to inform bot tracking has restarted
     if variables.is_tracking_rogue:
