@@ -39,6 +39,34 @@ async def on_ready():
                                                            name=f'Fitness Stock | {variables.command_prefix}help'))
     print(f'{client.user} has connected to Discord and is ready!')
 
+    # Assign notify role ids and webhooks for all categories based on .env file
+    # Set .env file variables to:
+    # <CATEGORY>-role-id=<ROLE ID TO TAG FOR THIS ITEM> (If unassigned, it will tag @everyone when notifies are on)
+    # <CATEGORY>-webhook=<WEBHOOK URL TO POST STOCK UPDATE TO> (If unassigned, it will post to ROGUE_FITNESS_WEBHOOK_URL env variable
+    for category in categories:
+        try:
+            role_id = int(os.getenv(f'{category}-role-id'))
+        except:
+            role_id = None
+        variables.rogue_category_data[category] = {
+            'notify_role': discord.utils.find(lambda m: m.id == role_id, client.guilds[0].roles),
+            'webhook_url': os.getenv(f'{category}-webhook')
+        }
+    print(f'Category Tracking: {variables.rogue_category_data}')
+
+    # Assign bot manager id based on .env file
+    # Set .env file variable to:
+    # bot-manager-id=<ROLE ID FOR BOT MANAGER TO TAG ON ERRORS> (If unassigned, will not tag anyone)
+    try:
+        bot_manager_id = int(os.getenv('bot-manager-id'))
+    except:
+        bot_manager_id = None
+    variables.bot_manager = discord.utils.find(lambda m: m.id == bot_manager_id, client.guilds[0].roles)
+    if variables.bot_manager is not None:
+        print(f'Set Bot Manager to: {variables.bot_manager.name} (Role ID: {variables.bot_manager.id})')
+    else:
+        print(f'No Bot Manager Set (use {variables.command_prefix}authrole to set a role)')
+
     # If bot lost connection, send status update to inform bot tracking has restarted
     if variables.is_tracking_rogue:
         send_rogue_error_webhook(f'ERROR #1: Cloud Server connection error. Bot reconnected and Rogue tracking has '
@@ -185,32 +213,4 @@ except Exception as e:
                              f'and restart Rogue tracking with {variables.command_prefix}rogue.')
 
 # Start bot
-# Assign notify role ids and webhooks for all categories based on .env file
-# Set .env file variables to:
-# <CATEGORY>-role-id=<ROLE ID TO TAG FOR THIS ITEM> (If unassigned, it will tag @everyone when notifies are on)
-# <CATEGORY>-webhook=<WEBHOOK URL TO POST STOCK UPDATE TO> (If unassigned, it will post to ROGUE_FITNESS_WEBHOOK_URL env variable
-for category in categories:
-    try:
-        role_id = int(os.getenv(f'{category}-role-id'))
-    except:
-        role_id = None
-    variables.rogue_category_data[category] = {
-        'notify_role': discord.utils.find(lambda m: m.id == role_id, client.guilds[0].roles),
-        'webhook_url': os.getenv(f'{category}-webhook')
-    }
-print(f'Category Tracking: {variables.rogue_category_data}')
-
-# Assign bot manager id based on .env file
-# Set .env file variable to:
-# bot-manager-id=<ROLE ID FOR BOT MANAGER TO TAG ON ERRORS> (If unassigned, will not tag anyone)
-try:
-    bot_manager_id = int(os.getenv('bot-manager-id'))
-except:
-    bot_manager_id = None
-variables.bot_manager = discord.utils.find(lambda m: m.id == bot_manager_id, client.guilds[0].roles)
-if variables.bot_manager is not None:
-    print(f'Set Bot Manager to: {variables.bot_manager.name} (Role ID: {variables.bot_manager.id})')
-else:
-    print(f'No Bot Manager Set (use {variables.command_prefix}authrole to set a role)')
-
 client.run(TOKEN)
