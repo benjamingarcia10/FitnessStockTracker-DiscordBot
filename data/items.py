@@ -1030,6 +1030,12 @@ search_urls = {
         "link": "https://www.roguefitness.com/rogue-deadlift-platform",
         "category": "other"
     },
+    "plate deep dish": {
+        "type": "multi",
+        "product_name": "Rogue Deep Dish Plates",
+        "link": "https://www.roguefitness.com/rogue-deep-dish-plates",
+        "category": "plate",
+    },
     "plate urethane 12-sided": {
         "type": "multi",
         "product_name": "Rogue 12-Sided Urethane Grip Plate",
