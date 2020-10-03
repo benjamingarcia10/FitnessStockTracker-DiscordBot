@@ -3,6 +3,15 @@
 # Next Plates to Add:
 # https://www.roguefitness.com/rogue-wagon-wheel-pairs
 
+# Next Barbells to Add:
+# https://www.roguefitness.com/rogue-pyrros-bar-28mm-stainless-steel
+# https://www.roguefitness.com/rogue-10kg-junior-bar
+# https://www.roguefitness.com/rogue-womens-25mm-training-bar
+# https://www.roguefitness.com/28-mm-rogue-eu-oly-wl-bar-with-center-knurl-rogue-hg-clear-shaft-chrome-sleeve
+# https://www.roguefitness.com/the-bella-rogue-womens-bar-cerakote-pink
+# https://www.roguefitness.com/the-ohio-bar-cerakote-pink
+# https://www.roguefitness.com/stainless-shaft-cerakote-sleeve-barbells
+
 # Next Boneyard Links:
 # https://www.roguefitness.com/rogue-socket-pull-up-boneyard-bars
 # https://www.roguefitness.com/rogue-mil-echo-bumper-plates-black-closeout
@@ -11,8 +20,10 @@
 # https://www.roguefitness.com/rogue-mil-echo-bumper-plates-black-closeout?=winNOw
 # https://www.roguefitness.com/rogue-socket-pull-up-boneyard-bars
 # https://www.roguefitness.com/rogue-boneyard-loadable-dumbbells
+# https://www.roguefitness.com/boneyard-rogue-kg-junior-bar
 
 # MISC TO ADD:
+# https://www.roguefitness.com/rogue-ranger-panties
 # https://www.roguefitness.com/rogue-donkey
 # https://www.roguefitness.com/monster-rhino-belt-squat-stand-alone-mg-black
 # https://www.roguefitness.com/rogue-echo-rings
@@ -237,6 +248,12 @@ search_urls = {
         "product_name": "AU Black Concept 2 Model D Rower - PM5",
         "link": "https://www.rogueaustralia.com.au/black-concept-2-model-d-rower-pm5-au",
         "category": "au"
+    },
+    "barbell iwf cerakote": {
+        "type": "single",
+        "product_name": "Rogue 28MM IWF Olympic Weightlifting Bar - Cerakote",
+        "link": "https://www.roguefitness.com/rogue-28mm-iwf-oly-bar-cerakote",
+        "category": "barbell",
     },
     "barbell davidsdottir": {
         "type": "multi",
@@ -735,6 +752,12 @@ search_urls = {
         "product_name": "Quick-Lock Dumbbell \u2013 120 lb Add on Kit ",
         "link": "https://www.ironmaster.com/products/add-on-kit-to-120-lbs-quick-lock/",
         "category": "ironmaster"
+    },
+    "m 4-bar hanger": {
+        "type": "single",
+        "product_name": "Monster Rack Mount 4-Bar Hanger",
+        "link": "https://www.roguefitness.com/monster-rack-mount-4-bar-hanger",
+        "category": "m",
     },
     "m crossmember": {
         "type": "multi",
