@@ -93,6 +93,12 @@ search_urls = {
         "link": "https://www.roguefitness.com/rogue-lt-1-50-cal-trolley-lever-arms-kit",
         "category": "acc"
     },
+    "oso collar": {
+        "type": "custom2",
+        "product_name": "OSO Barbell Collars",
+        "link": "https://www.roguefitness.com/oso-barbell-collars",
+        "category": "acc"
+    },
     "usa alum collars": {
         "type": "custom2",
         "product_name": "Rogue USA Aluminum Collars",
@@ -753,6 +759,18 @@ search_urls = {
         "link": "https://www.ironmaster.com/products/add-on-kit-to-120-lbs-quick-lock/",
         "category": "ironmaster"
     },
+    "m plate storage": {
+        "type": "multi",
+        "product_name": "Monster Plate Storage Channel",
+        "link": "https://www.roguefitness.com/monster-plate-storage-channel",
+        "category": "m",
+    },
+    "m straps": {
+        "type": "multi",
+        "product_name": "Rogue Monster Safety Strap System 2.0",
+        "link": "https://www.roguefitness.com/rogue-monster-safety-strap-2-0-systems",
+        "category": "m",
+    },
     "m 4-bar hanger": {
         "type": "single",
         "product_name": "Monster Rack Mount 4-Bar Hanger",
@@ -908,6 +926,12 @@ search_urls = {
         "product_name": "Monster Knurled Knob",
         "link": "https://www.roguefitness.com/monster-knurled-knob",
         "category": "m"
+    },
+    "ml short storage": {
+        "type": "multi",
+        "product_name": "Monster Lite Short Plate Storage Post Pair",
+        "link": "https://www.roguefitness.com/monster-lite-short-plate-storage-post-pair",
+        "category": "ml"
     },
     "ml stabilizer": {
         "type": "custom2",
