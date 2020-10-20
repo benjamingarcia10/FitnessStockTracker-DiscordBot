@@ -16,7 +16,7 @@ official r/homegym Discord server and subreddit.
 * No limit on number of items you can check
 * Checks items as often as you'd like so
 
-###[Support the Project](https://www.buymeacoffee.com/benjamingarcia)
+### [Support the Project](https://www.buymeacoffee.com/benjamingarcia)
 This project took a lot of time and effort to create especially after some fitness sites implemented anti bot features.
 I am almost hosting it in the official r/homegym Discord server, so I am paying server costs to host it 24/7/365.
 Your support helps pay these costs as well as allowing me to keep it updated so you can get your equipment at retail price!
