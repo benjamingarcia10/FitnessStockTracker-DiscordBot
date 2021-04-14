@@ -28,7 +28,7 @@ client = commands.Bot(command_prefix=variables.command_prefix)
 client.add_check(is_authorized)
 
 # Set max length per check (If check time exceeds this time, it will send an error and stop tracking)
-max_length_per_check = 180
+max_length_per_check = 300
 
 
 # When bot is loaded and ready
